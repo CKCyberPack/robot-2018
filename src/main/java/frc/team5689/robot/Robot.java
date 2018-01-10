@@ -21,7 +21,7 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void autonomousInit() {
-        gameData = DriverStation.getInstance().getGameSpecificMessage();//Gets the sides of the switches and scales.
+        gameData = DriverStation.getInstance().getGameSpecificMessage();//Gets the sides of the switches and scales//
     }
 
     @Override
