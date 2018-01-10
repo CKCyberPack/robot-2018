@@ -32,7 +32,9 @@ public class Robot extends IterativeRobot {
 
 
     @Override
-    public void disabledPeriodic() { }
+    public void disabledPeriodic() {
+        gameData = DriverStation.getInstance().getGameSpecificMessage();//Gets the sides of the switches and scales.
+    }
     
     @Override
     public void autonomousPeriodic() { }
