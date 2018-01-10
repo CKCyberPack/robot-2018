@@ -19,7 +19,7 @@ public class Robot extends IterativeRobot {
 
     //Variables
     private boolean overrideSafety = false;
-    private boolean ledOn = false;
+    private boolean ledOn = false;//LED
 
 
 
