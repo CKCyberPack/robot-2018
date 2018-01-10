@@ -6,15 +6,29 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.XboxController;
 
 public class Robot extends IterativeRobot {
-    String gameData;
+
+    //Auto variables
+    private final static String START_LEFT = "left";//Left side of the field
+    private final static String START_RIGHT = "right";//Right side of the field
+    private final static String START_MIDDLE = "mid";//Middle starting position
+    private static String gameData;
+
+    //Components
     private XboxController ckController;
     private PowerDistributionPanel ckPDP;
+
+    //Variables
+    private boolean overrideSafety = false;
+    private boolean ledOn = false;
 
 
 
 
     @Override
-    public void robotInit() { }
+    public void robotInit() {
+        ckController = new XboxController(0);
+        ckPDP = new PowerDistributionPanel();
+    }
 
     @Override
     public void disabledInit() { }
@@ -22,6 +36,7 @@ public class Robot extends IterativeRobot {
     @Override
     public void autonomousInit() {
         gameData = DriverStation.getInstance().getGameSpecificMessage();//Gets the sides of the switches and scales.
+
     }
 
     @Override
