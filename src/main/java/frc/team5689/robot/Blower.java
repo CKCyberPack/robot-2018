@@ -29,11 +29,14 @@ public class Blower {
     public void Position(){
         switch(shooterPosition){
             case 1:
-
+                highPiston.set(false);
+                lowPiston.set(false);
             case 2:
-
+                lowPiston.set(true);
+                highPiston.set(false);
             case 3:
-
+                highPiston.set(true);
+                lowPiston.set(true);
         }
     }
 
