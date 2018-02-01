@@ -12,5 +12,17 @@ public class RobotMap {
     public static int pwmRightBackDrive = 3;
 
 
+
+    public static int shooterLeft = 0;
+    public static int shooterRight = 1;
+    public static int preshootLeft = 0;
+    public static int preshootRight = 1;
+
+    public static int pcmShooterHigh = 0;
+    public static int pcmShooterLow = 1;
+    public static int pcmShooterFire = 2;
+
+
     //Robot Dependent Variables
+
 }
