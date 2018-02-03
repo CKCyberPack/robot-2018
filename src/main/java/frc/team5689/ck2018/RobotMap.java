@@ -6,17 +6,17 @@ package frc.team5689.ck2018;
 public class RobotMap {
 
     //PWM outputs
-    public static int pwmLeftFrontDrive = 0;
-    public static int pwmRightFrontDrive = 1;
-    public static int pwmLeftBackDrive = 2;
-    public static int pwmRightBackDrive = 3;
+    public static int pwmRearLeftDrive = 0;
+    public static int pwmRearRightDrive = 1;
+    public static int pwmFrontLeftDrive = 2;
+    public static int pwmFrontRightDrive = 3;
 
 
 
-    public static int shooterLeft = 0;
-    public static int shooterRight = 1;
-    public static int preshootLeft = 0;
-    public static int preshootRight = 1;
+    public static int shooterLeft = 21;
+    public static int shooterRight = 22;
+    public static int preshootLeft = 25;
+    public static int preshootRight = 26;
 
     public static int pcmShooterHigh = 0;
     public static int pcmShooterLow = 1;
@@ -24,5 +24,13 @@ public class RobotMap {
 
 
     //Robot Dependent Variables
+    public static double driveDeadzone = 0.2;
+
+
+
+    //SmartDashboard
+    public static String robotMode = "Robot Mode";
+    public static String driveMode = "Drive Mode";
+    public static  String gameData = "Game Data";
 
 }
