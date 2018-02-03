@@ -42,8 +42,8 @@ public class Blower {
         smt.configPeakOutputReverse(-0.5, 10);
         smt.config_kF(0, 0.01, 10);
         smt.config_kP(0, 0.05, 10);
-        smt.config_kI(0, 0.0001, 10);
-        smt.config_kD(0, 0, 10);
+        smt.config_kI(0, 0.0005, 10);
+        smt.config_kD(0, 0.0001, 10);
 
 
         //.putData("Test Motor", shootMotorTest.get);
