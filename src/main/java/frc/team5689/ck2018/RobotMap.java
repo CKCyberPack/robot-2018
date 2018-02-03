@@ -6,10 +6,10 @@ package frc.team5689.ck2018;
 public class RobotMap {
 
     //PWM outputs
-    public static int pwmRearLeftDrive = 0;
-    public static int pwmRearRightDrive = 1;
-    public static int pwmFrontLeftDrive = 2;
-    public static int pwmFrontRightDrive = 3;
+    public static int pwmRearLeftDrive = 11;
+    public static int pwmRearRightDrive = 12;
+    public static int pwmFrontLeftDrive = 15;
+    public static int pwmFrontRightDrive = 16;
 
 
 
@@ -31,6 +31,6 @@ public class RobotMap {
     //SmartDashboard
     public static String robotMode = "Robot Mode";
     public static String driveMode = "Drive Mode";
-    public static  String gameData = "Game Data";
+    public static String gameData = "Game Data";
 
 }
