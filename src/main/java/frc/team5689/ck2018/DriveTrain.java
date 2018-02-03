@@ -65,9 +65,9 @@ public class DriveTrain {
         }
         ckDrive.driveCartesian(strafe, forward, rotation);
         rearL.set(ControlMode.PercentOutput,rearLeftMotor.getSpeed());
-        rearR.set(ControlMode.PercentOutput,rearRightMotor.getSpeed());
+        rearR.set(ControlMode.PercentOutput,-rearRightMotor.getSpeed());
         frontL.set(ControlMode.PercentOutput,frontLeftMotor.getSpeed());
-        frontR.set(ControlMode.PercentOutput,frontRightMotor.getSpeed());
+        frontR.set(ControlMode.PercentOutput,-frontRightMotor.getSpeed());
     }
 
     public void teleDrivePolar(double mag, double angle, double zRot) {
