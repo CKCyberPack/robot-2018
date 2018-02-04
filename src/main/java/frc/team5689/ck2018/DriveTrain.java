@@ -1,41 +1,28 @@
 package frc.team5689.ck2018;
 
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 
-import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveTrain {
-    private VictorSP rearRightMotor;
-    private VictorSP rearLeftMotor;
-    private VictorSP frontRightMotor;
-    private VictorSP frontLeftMotor;
-
-    VictorSPX rearL;
-    VictorSPX rearR;
-    VictorSPX frontL;
-    VictorSPX frontR;
+    private DriveVictorSPX rearRightMotor;
+    private DriveVictorSPX rearLeftMotor;
+    private DriveVictorSPX frontRightMotor;
+    private DriveVictorSPX frontLeftMotor;
 
     private MecanumDrive ckDrive;
     private BuiltInAccelerometer ckAccel;
-    ADXRS450_Gyro ckGyro;
+    private ADXRS450_Gyro ckGyro;
 
 
-    public DriveTrain() {
-        rearLeftMotor = new VictorSP(RobotMap.pwmRearLeftDrive);
-        rearRightMotor = new VictorSP(RobotMap.pwmRearRightDrive);
-        frontLeftMotor = new VictorSP(RobotMap.pwmFrontLeftDrive);
-        frontRightMotor = new VictorSP(RobotMap.pwmFrontRightDrive);
-
-        rearL = new VictorSPX(RobotMap.pwmRearLeftDrive);
-        rearR= new VictorSPX(RobotMap.pwmRearRightDrive);
-        frontL= new VictorSPX(RobotMap.pwmFrontLeftDrive);
-        frontR= new VictorSPX(RobotMap.pwmFrontRightDrive);
+    DriveTrain() {
+        rearLeftMotor = new DriveVictorSPX(RobotMap.canRearLeft);
+        rearRightMotor = new DriveVictorSPX(RobotMap.canRearRight);
+        frontLeftMotor = new DriveVictorSPX(RobotMap.canFrontLeft);
+        frontRightMotor = new DriveVictorSPX(RobotMap.canFrontRight);
 
         rearRightMotor.setInverted(true);
         frontRightMotor.setInverted(true);
@@ -64,10 +51,6 @@ public class DriveTrain {
             strafe = 0;
         }
         ckDrive.driveCartesian(strafe, forward, rotation);
-        rearL.set(ControlMode.PercentOutput,rearLeftMotor.getSpeed());
-        rearR.set(ControlMode.PercentOutput,-rearRightMotor.getSpeed());
-        frontL.set(ControlMode.PercentOutput,frontLeftMotor.getSpeed());
-        frontR.set(ControlMode.PercentOutput,-frontRightMotor.getSpeed());
     }
 
     public void teleDrivePolar(double mag, double angle, double zRot) {

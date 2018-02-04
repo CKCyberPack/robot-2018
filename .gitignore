@@ -5,3 +5,4 @@ hs_err_pid*
 /robot-2018.iws
 /.gradle/
 /.idea/
+/gradlew

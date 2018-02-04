@@ -6,10 +6,10 @@ package frc.team5689.ck2018;
 public class RobotMap {
 
     //PWM outputs
-    public static int pwmRearLeftDrive = 11;
-    public static int pwmRearRightDrive = 12;
-    public static int pwmFrontLeftDrive = 15;
-    public static int pwmFrontRightDrive = 16;
+    public static int canRearLeft = 11;
+    public static int canRearRight = 12;
+    public static int canFrontLeft = 15;
+    public static int canFrontRight = 16;
 
 
 
@@ -24,7 +24,7 @@ public class RobotMap {
 
 
     //Robot Dependent Variables
-    public static double driveDeadzone = 0.2;
+    public static double driveDeadzone = 0.1;
 
 
 
