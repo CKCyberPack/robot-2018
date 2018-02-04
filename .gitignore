@@ -4,5 +4,4 @@ hs_err_pid*
 /*.iws
 /.*/
 /build/
-/gradlew
 
