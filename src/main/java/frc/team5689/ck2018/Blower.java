@@ -15,9 +15,10 @@ public class Blower {
     private TalonSRX shootMotor3;
     private TalonSRX shootMotor4;
     private DoubleSolenoid launcherPiston;
-    /*    private Solenoid highPiston;
-        private Solenoid lowPiston;*/
+    private Solenoid highPiston;
+    private Solenoid lowPiston;
     private int shooterPosition;
+    private Thread shootThread;
 
     public TalonSRX smt;
 
@@ -63,7 +64,39 @@ public class Blower {
         }
     }*/
 
-    public void FireSequence() {
+    public void ShootHigh () {
+        highPiston.set(true);
+        lowPiston.set(true);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Shoot();
+    }
 
+    public void ShootLow () {
+        lowPiston.set(true);
+        highPiston.set(false);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Shoot();
+    }
+
+    private void Shoot() {
+        shootThread = new Thread();
+        try {
+            shootMotor1.set(ControlMode.PercentOutput,1);
+            shootMotor2.set(ControlMode.PercentOutput,1);
+            shootMotor3.set(ControlMode.PercentOutput,1);
+            shootMotor4.set(ControlMode.PercentOutput,1);
+            Thread.sleep(1000);
+            launcherPiston.set(RobotMap.pistonLaunch);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
