@@ -50,10 +50,7 @@ public class DriveTrain {
         if (Math.abs(strafe) < RobotMap.driveDeadzone) {
             strafe = 0;
         }
+        //TODO - Remove the power and set the deadband in the initialization instead
         ckDrive.driveCartesian(Math.pow(strafe,2), Math.pow(forward, 2), Math.pow(rotation, 2));
-    }
-
-    public void teleDrivePolar(double mag, double angle, double zRot) {
-        ckDrive.drivePolar(mag, angle, zRot);
     }
 }

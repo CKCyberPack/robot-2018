@@ -79,6 +79,7 @@ public class Robot extends IterativeRobot {
                 ckDrive.teleDriveCartesian(-ckController.getY(GenericHID.Hand.kRight), ckController.getX(GenericHID.Hand.kRight), ckController.getX(GenericHID.Hand.kLeft));
                 break;
             case 1:
+                //TODO - Replace this with Right Y - Left X - Right X - Don't forget negative
                 SmartDashboard.putString(RobotMap.driveMode, "Left Y - Right X - Trigger");
                 ckDrive.teleDriveCartesian(-ckController.getY(GenericHID.Hand.kLeft), ckController.getX(GenericHID.Hand.kRight), ckController.getTriggerAxis(GenericHID.Hand.kRight) - ckController.getTriggerAxis(GenericHID.Hand.kLeft));
                 break;
