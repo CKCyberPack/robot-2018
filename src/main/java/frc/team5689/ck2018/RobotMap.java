@@ -1,5 +1,8 @@
 package frc.team5689.ck2018;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import sun.awt.SunHints;
+
 /////////////////////////////////////////////////////////
 //** Magic Numbers Class ** I think
 /////////////////////////////////////////////////////////
@@ -31,6 +34,8 @@ public class RobotMap {
     //Intake
     public static int pcmSuckerLeft = 0;
     public static int pcmSuckerRight =1;
+    public static DoubleSolenoid.Value pistonLaunch = DoubleSolenoid.Value.kForward;
+    public static DoubleSolenoid.Value pistonLoad = DoubleSolenoid.Value.kReverse;
 
 
     //Robot Dependent Variables
