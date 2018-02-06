@@ -19,10 +19,10 @@ public class DriveTrain {
 
 
     DriveTrain() {
-        rearLeftMotor = new DriveVictorSPX(RobotMap.canRearLeft);
-        rearRightMotor = new DriveVictorSPX(RobotMap.canRearRight);
-        frontLeftMotor = new DriveVictorSPX(RobotMap.canFrontLeft);
-        frontRightMotor = new DriveVictorSPX(RobotMap.canFrontRight);
+        rearLeftMotor = new DriveVictorSPX(RMap.canRearLeft);
+        rearRightMotor = new DriveVictorSPX(RMap.canRearRight);
+        frontLeftMotor = new DriveVictorSPX(RMap.canFrontLeft);
+        frontRightMotor = new DriveVictorSPX(RMap.canFrontRight);
 
         rearRightMotor.setInverted(true);
         frontRightMotor.setInverted(true);
@@ -41,13 +41,13 @@ public class DriveTrain {
     }
 
     public void teleDriveCartesian(double forward, double rotation, double strafe) {
-        if (Math.abs(forward) < RobotMap.driveDeadzone) {
+        if (Math.abs(forward) < RMap.driveDeadzone) {
             forward = 0;
         }
-        if (Math.abs(rotation) < RobotMap.driveDeadzone) {
+        if (Math.abs(rotation) < RMap.driveDeadzone) {
             rotation = 0;
         }
-        if (Math.abs(strafe) < RobotMap.driveDeadzone) {
+        if (Math.abs(strafe) < RMap.driveDeadzone) {
             strafe = 0;
         }
         //TODO - Remove the power and set the deadband in the initialization instead
