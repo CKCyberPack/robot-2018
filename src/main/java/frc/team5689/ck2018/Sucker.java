@@ -1,7 +1,6 @@
 package frc.team5689.ck2018;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.Solenoid;
 import frc.team5689.ck2018.RobotMap;
 
