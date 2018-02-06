@@ -26,7 +26,7 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void robotInit() {
-        SmartDashboard.putString(RobotMap.robotMode, "Start Up");
+        SmartDashboard.putString(RMap.robotMode, "Start Up");
         ckController = new XboxController(0);
         ckPDP = new PowerDistributionPanel();
         ckDrive = new DriveTrain();
@@ -36,26 +36,26 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void disabledInit() {
-        SmartDashboard.putString(RobotMap.robotMode, "Disabled");
+        SmartDashboard.putString(RMap.robotMode, "Disabled");
     }
 
     @Override
     public void autonomousInit() {
-        SmartDashboard.putString(RobotMap.robotMode, "Auto");
+        SmartDashboard.putString(RMap.robotMode, "Auto");
 
 
     }
 
     @Override
     public void teleopInit() {
-        SmartDashboard.putString(RobotMap.robotMode, "Teleop");
+        SmartDashboard.putString(RMap.robotMode, "Teleop");
     }
 
 
     @Override
     public void robotPeriodic() {
         gameData = DriverStation.getInstance().getGameSpecificMessage();//Gets the sides of the switches and scales.
-        SmartDashboard.putString(RobotMap.gameData, gameData);
+        SmartDashboard.putString(RMap.gameData, gameData);
     }
 
     @Override
@@ -75,11 +75,12 @@ public class Robot extends IterativeRobot {
         System.out.println(driveRobot);
         switch (driveRobot) {
             case 0:
-                SmartDashboard.putString(RobotMap.driveMode, "Right Y - Right X - Left X");
+                SmartDashboard.putString(RMap.driveMode, "Right Y - Right X - Left X");
                 ckDrive.teleDriveCartesian(-ckController.getY(GenericHID.Hand.kRight), ckController.getX(GenericHID.Hand.kRight), ckController.getX(GenericHID.Hand.kLeft));
                 break;
             case 1:
-                SmartDashboard.putString(RobotMap.driveMode, "Left Y - Right X - Trigger");
+                //TODO - Replace this with Right Y - Left X - Right X - Don't forget negative
+                SmartDashboard.putString(RMap.driveMode, "Left Y - Right X - Trigger");
                 ckDrive.teleDriveCartesian(-ckController.getY(GenericHID.Hand.kLeft), ckController.getX(GenericHID.Hand.kRight), ckController.getTriggerAxis(GenericHID.Hand.kRight) - ckController.getTriggerAxis(GenericHID.Hand.kLeft));
                 break;
             default:
@@ -96,7 +97,7 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void testInit() {
-        SmartDashboard.putString(RobotMap.robotMode, "Test");
+        SmartDashboard.putString(RMap.robotMode, "Test");
         ckBlower.smt.set(ControlMode.PercentOutput, 0);
     }
 
@@ -105,6 +106,10 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("POS",   ckBlower.smt.getSelectedSensorPosition(0));
         SmartDashboard.putNumber("VEL",    ckBlower.smt.getSelectedSensorVelocity(0));
         SmartDashboard.putNumber("POW", ckBlower.smt.getMotorOutputPercent());
+        ckBlower.smt.config_kF(0, SmartDashboard.getNumber("kF",0.01), 10);
+        ckBlower.smt.config_kP(0, SmartDashboard.getNumber("kP",0.05), 10);
+        ckBlower.smt.config_kI(0, SmartDashboard.getNumber("kI",0.0005), 10);
+        ckBlower.smt.config_kD(0, SmartDashboard.getNumber("kD",0.0001), 10);
 
         if (ckController.getAButtonPressed()){
             ckBlower.smt.set(ControlMode.PercentOutput, -0.1);
