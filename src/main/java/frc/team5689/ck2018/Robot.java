@@ -105,6 +105,10 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("POS",   ckBlower.smt.getSelectedSensorPosition(0));
         SmartDashboard.putNumber("VEL",    ckBlower.smt.getSelectedSensorVelocity(0));
         SmartDashboard.putNumber("POW", ckBlower.smt.getMotorOutputPercent());
+        ckBlower.smt.config_kF(0, SmartDashboard.getNumber("kF",0.01), 10);
+        ckBlower.smt.config_kP(0, SmartDashboard.getNumber("kP",0.05), 10);
+        ckBlower.smt.config_kI(0, SmartDashboard.getNumber("kI",0.0005), 10);
+        ckBlower.smt.config_kD(0, SmartDashboard.getNumber("kD",0.0001), 10);
 
         if (ckController.getAButtonPressed()){
             ckBlower.smt.set(ControlMode.PercentOutput, -0.1);
