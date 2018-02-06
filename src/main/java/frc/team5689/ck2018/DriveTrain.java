@@ -50,7 +50,7 @@ public class DriveTrain {
         if (Math.abs(strafe) < RobotMap.driveDeadzone) {
             strafe = 0;
         }
-        ckDrive.driveCartesian(strafe, forward, rotation);
+        ckDrive.driveCartesian(Math.pow(strafe,2), Math.pow(forward, 2), Math.pow(rotation, 2));
     }
 
     public void teleDrivePolar(double mag, double angle, double zRot) {
