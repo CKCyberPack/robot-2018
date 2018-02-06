@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveTrain {
+
     private DriveVictorSPX rearRightMotor;
     private DriveVictorSPX rearLeftMotor;
     private DriveVictorSPX frontRightMotor;
@@ -17,8 +18,8 @@ public class DriveTrain {
     private BuiltInAccelerometer ckAccel;
     private ADXRS450_Gyro ckGyro;
 
-
     DriveTrain() {
+
         rearLeftMotor = new DriveVictorSPX(RMap.canRearLeft);
         rearRightMotor = new DriveVictorSPX(RMap.canRearRight);
         frontLeftMotor = new DriveVictorSPX(RMap.canFrontLeft);
@@ -28,6 +29,7 @@ public class DriveTrain {
         frontRightMotor.setInverted(true);
 
         ckDrive = new MecanumDrive(frontLeftMotor,rearLeftMotor,frontRightMotor,rearRightMotor);
+        ckDrive.setDeadband(RMap.driveDeadzone);
         ckDrive.setSafetyEnabled(false);
 
         ckGyro = new ADXRS450_Gyro();
@@ -41,16 +43,8 @@ public class DriveTrain {
     }
 
     public void teleDriveCartesian(double forward, double rotation, double strafe) {
-        if (Math.abs(forward) < RMap.driveDeadzone) {
-            forward = 0;
-        }
-        if (Math.abs(rotation) < RMap.driveDeadzone) {
-            rotation = 0;
-        }
-        if (Math.abs(strafe) < RMap.driveDeadzone) {
-            strafe = 0;
-        }
-        //TODO - Remove the power and set the deadband in the initialization instead
-        ckDrive.driveCartesian(Math.pow(strafe,2), Math.pow(forward, 2), Math.pow(rotation, 2));
+
+        ckDrive.driveCartesian(strafe, forward, rotation, 0);
+
     }
 }
