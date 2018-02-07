@@ -36,6 +36,13 @@ public class Robot extends IterativeRobot {
         ckDrive = new DriveTrain();
         ckBlower = new Blower();
 
+
+    }
+
+    @Override
+    public void robotPeriodic() {
+        gameData = DriverStation.getInstance().getGameSpecificMessage();//Gets the sides of the switches and scales.
+        SmartDashboard.putString(RMap.gameData, gameData);
     }
 
     @Override
@@ -43,43 +50,31 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putString(RMap.robotMode, "Disabled");
     }
 
+
+    @Override
+    public void disabledPeriodic() {}
+
     @Override
     public void autonomousInit() {
         SmartDashboard.putString(RMap.robotMode, "Auto");
+        //Load Auto Commands
+    }
 
 
+    @Override
+    public void autonomousPeriodic() {
+        //Schedler.getInstance().run()
     }
 
     @Override
     public void teleopInit() {
         SmartDashboard.putString(RMap.robotMode, "Teleop");
         //Cancel Auto Commans command.cancel()
-        //Create Main Drive Commands
-
-    }
-
-
-    @Override
-    public void robotPeriodic() {
-
-        gameData = DriverStation.getInstance().getGameSpecificMessage();//Gets the sides of the switches and scales.
-        SmartDashboard.putString(RMap.gameData, gameData);
-
-    }
-
-    @Override
-    public void disabledPeriodic() {
-
-        gameData = DriverStation.getInstance().getGameSpecificMessage();//Gets the sides of the switches and scales.
-
-    }
-
-    @Override
-    public void autonomousPeriodic() {
     }
 
     @Override
     public void teleopPeriodic() {
+        //Schedler.getInstance().run()
 
         System.out.println(driveRobot);
         switch (driveRobot) {
