@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.Solenoid;
 
 //Blower Class
 public class Blower {
-
     private VictorSPX shootMotor1;
     private VictorSPX shootMotor2;
     private TalonSRX shootMotor3;
@@ -60,50 +59,38 @@ public class Blower {
     }*/
 
     public void ShootHigh () {
-
         highPiston.set(true);
         lowPiston.set(true);
-
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
         Shoot();
     }
 
     public void ShootLow () {
-
         lowPiston.set(true);
         highPiston.set(false);
-
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
         Shoot();
     }
 
     private void Shoot() {
-
         shootThread = new Thread();
-
         try {
-
             shootMotor1.set(ControlMode.PercentOutput,1);
             shootMotor2.set(ControlMode.PercentOutput,1);
             shootMotor3.set(ControlMode.PercentOutput,1);
             shootMotor4.set(ControlMode.PercentOutput,1);
             Thread.sleep(1000);
             launcherPiston.set(RMap.pistonLaunch);
-
         } catch (InterruptedException e) {
-
             e.printStackTrace();
-
         }
     }
 }
