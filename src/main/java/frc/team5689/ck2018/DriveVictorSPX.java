@@ -10,7 +10,7 @@ public class DriveVictorSPX extends VictorSPX implements SpeedController {
      *
      * @param deviceNumber [0,62]
      */
-    DriveVictorSPX(int deviceNumber) {
+    public DriveVictorSPX(int deviceNumber) {
         super(deviceNumber);
     }
 

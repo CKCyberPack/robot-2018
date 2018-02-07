@@ -3,11 +3,17 @@ package frc.team5689.ck2018;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.team5689.ck2018.Subsystems.BMotor;
+import frc.team5689.ck2018.Subsystems.BPiston;
+import frc.team5689.ck2018.Subsystems.DriveTrain;
 import frc.team5689.ck2018.Subsystems.ExampleSubsystem;
 
 public class Robot extends IterativeRobot {
     //Subsystems
     public static ExampleSubsystem exampleSubsystem;
+    public static DriveTrain ckDrive;
+    public static BMotor ckBMotor;
+    public static BPiston ckBPiston;
 
 
     //Auto variables
@@ -15,9 +21,8 @@ public class Robot extends IterativeRobot {
     private final static String START_RIGHT = "right";//Right side of the field
     private final static String START_MIDDLE = "mid";//Middle starting position
     private String gameData;
-    private DriveTrain ckDrive;
     private int driveRobot = 0;
-    private Blower ckBlower;
+
 
     //Components
     private XboxController ckController;
@@ -33,10 +38,9 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putString(RMap.robotMode, "Start Up");
         ckController = new XboxController(0);
         ckPDP = new PowerDistributionPanel();
-        ckDrive = new DriveTrain();
-        ckBlower = new Blower();
-
-
+        ckDrive = DriveTrain.getInstance();
+        ckBMotor = BMotor.getInstance();
+        ckBPiston = BPiston.getInstance();
     }
 
     @Override
@@ -102,38 +106,38 @@ public class Robot extends IterativeRobot {
     @Override
     public void testInit() {
         SmartDashboard.putString(RMap.robotMode, "Test");
-        ckBlower.smt.set(ControlMode.PercentOutput, 0);
+        ckBMotor.smt.set(ControlMode.PercentOutput, 0);
     }
 
     @Override
     public void testPeriodic() {
-        SmartDashboard.putNumber("POS",   ckBlower.smt.getSelectedSensorPosition(0));
-        SmartDashboard.putNumber("VEL",    ckBlower.smt.getSelectedSensorVelocity(0));
-        SmartDashboard.putNumber("POW", ckBlower.smt.getMotorOutputPercent());
-        ckBlower.smt.config_kF(0, SmartDashboard.getNumber("kF",0.01), 10);
-        ckBlower.smt.config_kP(0, SmartDashboard.getNumber("kP",0.05), 10);
-        ckBlower.smt.config_kI(0, SmartDashboard.getNumber("kI",0.0005), 10);
-        ckBlower.smt.config_kD(0, SmartDashboard.getNumber("kD",0.0001), 10);
+        SmartDashboard.putNumber("POS",   ckBMotor.smt.getSelectedSensorPosition(0));
+        SmartDashboard.putNumber("VEL",    ckBMotor.smt.getSelectedSensorVelocity(0));
+        SmartDashboard.putNumber("POW", ckBMotor.smt.getMotorOutputPercent());
+        ckBMotor.smt.config_kF(0, SmartDashboard.getNumber("kF",0.01), 10);
+        ckBMotor.smt.config_kP(0, SmartDashboard.getNumber("kP",0.05), 10);
+        ckBMotor.smt.config_kI(0, SmartDashboard.getNumber("kI",0.0005), 10);
+        ckBMotor.smt.config_kD(0, SmartDashboard.getNumber("kD",0.0001), 10);
 
         if (ckController.getAButtonPressed()){
-            ckBlower.smt.set(ControlMode.PercentOutput, -0.1);
+            ckBMotor.smt.set(ControlMode.PercentOutput, -0.1);
         }
 
         if (ckController.getYButtonPressed()){
-            ckBlower.smt.set(ControlMode.PercentOutput, 0);
+            ckBMotor.smt.set(ControlMode.PercentOutput, 0);
         }
 
         if (ckController.getStartButtonPressed()){
-            ckBlower.smt.setSelectedSensorPosition(0,0,10);
+            ckBMotor.smt.setSelectedSensorPosition(0,0,10);
         }
 
         if (ckController.getXButtonPressed()){
-            ckBlower.smt.set(ControlMode.Position, 0);
+            ckBMotor.smt.set(ControlMode.Position, 0);
         }
 
         if (ckController.getBButtonPressed()){
-            //ckBlower.shootMotorTest.chan
-            ckBlower.smt.set(ControlMode.Velocity , 2000);
+            //ckBMotor.shootMotorTest.chan
+            ckBMotor.smt.set(ControlMode.Velocity , 2000);
         }
 
     }
