@@ -41,11 +41,11 @@ public class DriveTrain extends Subsystem {
         frontLeftMotor = new DriveVictorSPX(RMap.canFrontLeft);
         frontRightMotor = new DriveVictorSPX(RMap.canFrontRight);
 
-        rearRightMotor.setInverted(true);
+        rearRightMotor.setInverted(true);           // reorient the motors
         frontRightMotor.setInverted(true);
 
         ckDrive = new MecanumDrive(frontLeftMotor,rearLeftMotor,frontRightMotor,rearRightMotor);
-        ckDrive.setDeadband(RMap.driveDeadzone);
+        ckDrive.setDeadband(RMap.driveDeadzone);    // calibrate control sticks
         ckDrive.setSafetyEnabled(false);
 
         ckGyro = new ADXRS450_Gyro();

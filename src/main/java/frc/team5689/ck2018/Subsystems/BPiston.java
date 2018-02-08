@@ -59,7 +59,7 @@ public enum Position
         launcherPiston.set(RMap.pistonLoad);
     }
 
-    public void setPosition(Position pos){
+    public void setPosition(Position pos){      // sets shooting angle
         switch(pos){
             case Flat:
                 lowPiston.set(false);

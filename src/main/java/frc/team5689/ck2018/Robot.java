@@ -80,9 +80,12 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
         //Schedler.getInstance().run()
 
+        /////////////////
+        // Drive Modes //
+        /////////////////
         System.out.println(driveRobot);
         switch (driveRobot) {
-            case 0:
+            case 0:                                     //forward - rotate  - strafe
                 SmartDashboard.putString(RMap.driveMode, "Right Y - Right X - Left X");
                 ckDrive.teleDriveCartesian(-ckController.getY(GenericHID.Hand.kRight), ckController.getX(GenericHID.Hand.kRight), ckController.getX(GenericHID.Hand.kLeft));
                 break;
@@ -113,28 +116,28 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("POS",   ckBMotor.smt.getSelectedSensorPosition(0));
         SmartDashboard.putNumber("VEL",    ckBMotor.smt.getSelectedSensorVelocity(0));
         SmartDashboard.putNumber("POW", ckBMotor.smt.getMotorOutputPercent());
-        ckBMotor.smt.config_kF(0, SmartDashboard.getNumber("kF",0.01), 10);
-        ckBMotor.smt.config_kP(0, SmartDashboard.getNumber("kP",0.05), 10);
-        ckBMotor.smt.config_kI(0, SmartDashboard.getNumber("kI",0.0005), 10);
-        ckBMotor.smt.config_kD(0, SmartDashboard.getNumber("kD",0.0001), 10);
+        ckBMotor.smt.config_kF(0, SmartDashboard.getNumber("kF",0.01), 10);     // overcome friction
+        ckBMotor.smt.config_kP(0, SmartDashboard.getNumber("kP",0.05), 10);     // Proportional
+        ckBMotor.smt.config_kI(0, SmartDashboard.getNumber("kI",0.0005), 10);   // Integral
+        ckBMotor.smt.config_kD(0, SmartDashboard.getNumber("kD",0.0001), 10);   // Derivative
 
-        if (ckController.getAButtonPressed()){
+        if (ckController.getAButtonPressed()){                  // reverse direction
             ckBMotor.smt.set(ControlMode.PercentOutput, -0.1);
         }
 
-        if (ckController.getYButtonPressed()){
+        if (ckController.getYButtonPressed()){                  // stop
             ckBMotor.smt.set(ControlMode.PercentOutput, 0);
         }
 
-        if (ckController.getStartButtonPressed()){
+        if (ckController.getStartButtonPressed()){              // set encoder position
             ckBMotor.smt.setSelectedSensorPosition(0,0,10);
         }
 
-        if (ckController.getXButtonPressed()){
+        if (ckController.getXButtonPressed()){                  // reset back to encoder position 0 (spin backwards)
             ckBMotor.smt.set(ControlMode.Position, 0);
         }
 
-        if (ckController.getBButtonPressed()){
+        if (ckController.getBButtonPressed()){                  // sets speed to 2000rpm
             //ckBMotor.shootMotorTest.chan
             ckBMotor.smt.set(ControlMode.Velocity , 2000);
         }
