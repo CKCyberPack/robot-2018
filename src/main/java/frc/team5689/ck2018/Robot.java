@@ -3,10 +3,7 @@ package frc.team5689.ck2018;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.team5689.ck2018.Subsystems.BMotor;
-import frc.team5689.ck2018.Subsystems.BPiston;
-import frc.team5689.ck2018.Subsystems.DriveTrain;
-import frc.team5689.ck2018.Subsystems.ExampleSubsystem;
+import frc.team5689.ck2018.Subsystems.*;
 
 public class Robot extends IterativeRobot {
     //Subsystems
@@ -14,6 +11,8 @@ public class Robot extends IterativeRobot {
     public static DriveTrain ckDrive;
     public static BMotor ckBMotor;
     public static BPiston ckBPiston;
+    public static InArm ckInArm;
+    public static InMotor ckInMotor;
 
 
     //Auto variables
@@ -41,6 +40,8 @@ public class Robot extends IterativeRobot {
         ckDrive = DriveTrain.getInstance();
         ckBMotor = BMotor.getInstance();
         ckBPiston = BPiston.getInstance();
+        ckInArm = InArm.getInstance();
+        ckInMotor = InMotor.getInstance();
     }
 
     @Override
