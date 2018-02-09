@@ -24,7 +24,7 @@ public class TargetLowCommand extends Command {
      * This method is called periodically (about every 20ms)
      */
     protected void execute() {
-        BPiston.getInstance().setPosition(Low);
+        BPiston.getInstance().setPosition(Low);//Low target command
     }
 
     /*
