@@ -71,6 +71,10 @@ public class BMotor extends Subsystem {
 
     }
 
+    public void setRPM(double RPM){
+        shootMotor3.set(ControlMode.Velocity, RPM);
+        shootMotor4.set(ControlMode.Velocity, RPM);
+    }
 
 
 }
