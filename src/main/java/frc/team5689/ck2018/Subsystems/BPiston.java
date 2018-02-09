@@ -16,6 +16,7 @@ public class BPiston extends Subsystem {
     private DoubleSolenoid launcherPiston;
     private Solenoid highPiston;
     private Solenoid lowPiston;
+    public Position currentPos;
 //    private int shooterPosition;
 public enum Position
 {
@@ -37,9 +38,9 @@ public enum Position
     private BPiston()  //private so no duplicate Subsystem is created
     {
         //initializes variables such as SpeedControllers, Pneumatics, etc.
-/*        highPiston = new Solenoid(RMap.pcmShooterHigh);
-        lowPiston = new Solenoid(RMap.pcmShooterLow);*/
-
+        highPiston = new Solenoid(RMap.pcmShooterHigh);
+        lowPiston = new Solenoid(RMap.pcmShooterLow);
+        launcherPiston = new DoubleSolenoid(RMap.pcmShooterFireA,RMap.pcmShooterFireB);
     }
 
     /**
@@ -74,41 +75,6 @@ public enum Position
                 highPiston.set(true);
                 break;
         }
+        currentPos = pos;
     }
-//    public void ShootHigh () {
-//        highPiston.set(true);
-//        lowPiston.set(true);
-//        try {
-//            Thread.sleep(1000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//        Shoot();
-//    }
-//
-//    public void ShootLow () {
-//        lowPiston.set(true);
-//        highPiston.set(false);
-//        try {
-//            Thread.sleep(1000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//        Shoot();
-//    }
-//
-//    private void Shoot() {
-//        shootThread = new Thread();
-//        try {
-//            shootMotor1.set(ControlMode.PercentOutput,1);
-//            shootMotor2.set(ControlMode.PercentOutput,1);
-//            shootMotor3.set(ControlMode.PercentOutput,1);
-//            shootMotor4.set(ControlMode.PercentOutput,1);
-//            Thread.sleep(1000);
-//            launcherPiston.set(RMap.pistonLaunch);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
 }

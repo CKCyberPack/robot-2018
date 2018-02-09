@@ -36,10 +36,10 @@ public class DriveTrain extends Subsystem {
     private DriveTrain()  //private so no duplicate Subsystem is created
     {
         //initializes variables such as SpeedControllers, Pneumatics, etc.
-        rearLeftMotor = new DriveVictorSPX(RMap.canRearLeft);
-        rearRightMotor = new DriveVictorSPX(RMap.canRearRight);
-        frontLeftMotor = new DriveVictorSPX(RMap.canFrontLeft);
-        frontRightMotor = new DriveVictorSPX(RMap.canFrontRight);
+        rearLeftMotor = new DriveVictorSPX(RMap.driveRearLeft);
+        rearRightMotor = new DriveVictorSPX(RMap.driveRearRight);
+        frontLeftMotor = new DriveVictorSPX(RMap.driveFrontLeft);
+        frontRightMotor = new DriveVictorSPX(RMap.driveFrontRight);
 
         rearRightMotor.setInverted(true);           // reorient the motors
         frontRightMotor.setInverted(true);

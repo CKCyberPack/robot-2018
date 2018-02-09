@@ -63,16 +63,12 @@ public class BMotor extends Subsystem {
     protected void initDefaultCommand() {
 
     }
+    public void setspeed(double speed){
+        shootMotor1.set(ControlMode.PercentOutput, speed);
+        shootMotor2.set(ControlMode.PercentOutput, speed);
+        shootMotor3.set(ControlMode.PercentOutput, speed);
+        shootMotor4.set(ControlMode.PercentOutput, speed);
 
-    public void highshoot(){
-        //TODO Setup motor
-    }
-
-    public void lowshoot(){
-        //TODO Setup motor
-    }
-    public void flatshoot(){
-        //TODO Setup motor
     }
 
 
