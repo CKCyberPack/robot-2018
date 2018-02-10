@@ -53,4 +53,8 @@ public class InMotor extends Subsystem {
         inMotorR.set(ControlMode.PercentOutput, speed);
         inMotorL.set(ControlMode.PercentOutput, speed);
     }
+
+    public void stopIntake(){
+
+    }
 }
