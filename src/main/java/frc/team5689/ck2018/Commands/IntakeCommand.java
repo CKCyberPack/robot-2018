@@ -1,6 +1,7 @@
 package frc.team5689.ck2018.Commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.team5689.ck2018.RMap;
 import frc.team5689.ck2018.Robot;
 import frc.team5689.ck2018.Subsystems.InMotor;
 
@@ -22,8 +23,7 @@ public class IntakeCommand extends Command {
      * This method is called periodically (about every 20ms)
      */
     protected void execute() {
-        InMotor.getInstance().setspeed(1);
-
+        InMotor.getInstance().setspeed(RMap.intakeSpeed);//Replace with RMap variable
     }
 
     /*

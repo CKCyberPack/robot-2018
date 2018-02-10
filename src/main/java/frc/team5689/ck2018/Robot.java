@@ -109,7 +109,7 @@ public class Robot extends IterativeRobot {
     @Override
     public void testInit() {
         SmartDashboard.putString(RMap.robotMode, "Test");
-        ckBMotor.smt.set(ControlMode.PercentOutput, 0);
+        ckInArm.smt.set(ControlMode.PercentOutput, 0);
     }
 
     @Override
@@ -123,24 +123,24 @@ public class Robot extends IterativeRobot {
         ckBMotor.smt.config_kD(0, SmartDashboard.getNumber("kD",0.0001), 10);   // Derivative
 
         if (ckController.getAButtonPressed()){                  // reverse direction
-            ckBMotor.smt.set(ControlMode.PercentOutput, -0.1);
+            ckInArm.smt.set(ControlMode.PercentOutput, -0.1);
         }
 
         if (ckController.getYButtonPressed()){                  // stop
-            ckBMotor.smt.set(ControlMode.PercentOutput, 0);
+            ckInArm.smt.set(ControlMode.PercentOutput, 0);
         }
 
         if (ckController.getStartButtonPressed()){              // set encoder position
-            ckBMotor.smt.setSelectedSensorPosition(0,0,10);
+            ckInArm.smt.setSelectedSensorPosition(0,0,10);
         }
 
         if (ckController.getXButtonPressed()){                  // reset back to encoder position 0 (spin backwards)
-            ckBMotor.smt.set(ControlMode.Position, 0);
+            ckInArm.smt.set(ControlMode.Position, 0);
         }
 
         if (ckController.getBButtonPressed()){                  // sets speed to 2000rpm
             //ckBMotor.shootMotorTest.chan
-            ckBMotor.smt.set(ControlMode.Velocity , 2000);
+            ckInArm.smt.set(ControlMode.Velocity , 2000);
         }
 
     }

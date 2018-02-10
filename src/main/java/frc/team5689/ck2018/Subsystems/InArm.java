@@ -12,6 +12,7 @@ public class InArm extends Subsystem {
     //Declare Motors Here
     private TalonSRX inMotorAngleL;
     private TalonSRX inMotorAngleR;
+    public TalonSRX smt;
 
 
 
@@ -32,11 +33,20 @@ public class InArm extends Subsystem {
         //Initialize Motors
         inMotorAngleL= new TalonSRX(RMap.intakeAngleLeft);
         inMotorAngleR = new TalonSRX(RMap.intakeAngleRight);
+        smt = new TalonSRX(RMap.shooterLeft);
 
         inMotorAngleL.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
         inMotorAngleL.setSensorPhase(true);
         inMotorAngleR.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
         inMotorAngleR.setSensorPhase(true);
+
+        //SMT - For testing
+        smt.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
+        smt.setSensorPhase(true);
+        smt.configNominalOutputForward(0, 10);
+        smt.configNominalOutputReverse(0, 10);
+        smt.configPeakOutputForward(0.5, 10);
+        smt.configPeakOutputReverse(-0.5, 10);
         //TODO Set PID Values
     }
 

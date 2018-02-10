@@ -29,6 +29,9 @@ public class RMap {
     public static int intakeAngleLeft = 41;
     public static int intakeAngleRight = 42;
 
+    //Intake angles
+    public static int intakeAngle = 45;
+
 
     //PCM
     public static DoubleSolenoid.Value pistonLaunch = DoubleSolenoid.Value.kForward;
@@ -39,6 +42,10 @@ public class RMap {
     public static int pcmShooterLow = 1;
     public static int pcmShooterFireA = 2;
     public static int pcmShooterFireB = 3;
+    //Shooter speeds
+    public static double shootSpeed = 1;//0 is 0 % and 1 is 100%
+    //Intake speeds
+    public  static double intakeSpeed = 1;
 
 
     //Robot Dependent Variables

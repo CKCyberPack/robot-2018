@@ -1,6 +1,7 @@
 package frc.team5689.ck2018.Commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.team5689.ck2018.RMap;
 import frc.team5689.ck2018.Robot;
 import frc.team5689.ck2018.Subsystems.InArm;
 import frc.team5689.ck2018.Subsystems.InMotor;
@@ -23,7 +24,7 @@ public class SetAngleCommand extends Command {
      * This method is called periodically (about every 20ms)
      */
     protected void execute() {
-        InArm.getInstance().setAngle(40);
+        InArm.getInstance().setAngle(RMap.intakeAngle);
     }
 
     /*
