@@ -1,6 +1,7 @@
 package frc.team5689.ck2018;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import sun.awt.SunHints;
 
 /////////////////////////////////////////////////////////
@@ -8,6 +9,10 @@ import sun.awt.SunHints;
 /////////////////////////////////////////////////////////
 public class RMap {
 
+
+    //GLOBAL
+    public static int timeout = 10;//10ms
+    public static int pididx = 0;
     //CAN outputs
     //-------------//
     //Drive
@@ -29,8 +34,16 @@ public class RMap {
     public static int intakeAngleLeft = 41;
     public static int intakeAngleRight = 42;
 
+    public static double armKP = 10;//SmartDashboard.getNumber("kP", 0);
+    public static double armKI = 0;
+    public static double armKD = 0;
+    public static double armKF = 0;
+
+    public static double armPOW = 0.5;
+
+
     //Intake angles
-    public static int intakeAngle = 45;
+    public static int intakeAngle = 2300;
 
 
     //PCM
@@ -50,7 +63,7 @@ public class RMap {
 
     //Robot Dependent Variables
     //----------------------------//
-    public static double driveDeadzone = 0.1;
+    public static double driveDeadzone = 0.15;
 
 
 

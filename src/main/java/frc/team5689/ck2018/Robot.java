@@ -2,7 +2,10 @@ package frc.team5689.ck2018;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.team5689.ck2018.Commands.SetAngleCommand;
 import frc.team5689.ck2018.Subsystems.*;
 
 public class Robot extends IterativeRobot {
@@ -13,6 +16,9 @@ public class Robot extends IterativeRobot {
     public static BPiston ckBPiston;
     public static InArm ckInArm;
     public static InMotor ckInMotor;
+
+    //Commands
+    private Command intakeCommand;
 
 
     //Auto variables
@@ -57,7 +63,8 @@ public class Robot extends IterativeRobot {
 
 
     @Override
-    public void disabledPeriodic() {}
+    public void disabledPeriodic() {
+    }
 
     @Override
     public void autonomousInit() {
@@ -84,7 +91,7 @@ public class Robot extends IterativeRobot {
         /////////////////
         // Drive Modes //
         /////////////////
-        System.out.println(driveRobot);
+        //System.out.println(driveRobot);
         switch (driveRobot) {
             case 0:                                     //forward - rotate  - strafe
                 SmartDashboard.putString(RMap.driveMode, "Right Y - Right X - Left X");
@@ -109,39 +116,53 @@ public class Robot extends IterativeRobot {
     @Override
     public void testInit() {
         SmartDashboard.putString(RMap.robotMode, "Test");
-        ckInArm.smt.set(ControlMode.PercentOutput, 0);
+
+        //Putting the values
+        //TODO Delete
+        SmartDashboard.putNumber("kF", RMap.armKF);
+        SmartDashboard.putNumber("kP", RMap.armKP);
+        SmartDashboard.putNumber("kI", RMap.armKI);
+        SmartDashboard.putNumber("kD", RMap.armKD);
+
+        intakeCommand = new SetAngleCommand();
     }
 
     @Override
+
     public void testPeriodic() {
-        SmartDashboard.putNumber("POS",   ckBMotor.smt.getSelectedSensorPosition(0));
-        SmartDashboard.putNumber("VEL",    ckBMotor.smt.getSelectedSensorVelocity(0));
-        SmartDashboard.putNumber("POW", ckBMotor.smt.getMotorOutputPercent());
-        ckBMotor.smt.config_kF(0, SmartDashboard.getNumber("kF",0.01), 10);     // overcome friction
-        ckBMotor.smt.config_kP(0, SmartDashboard.getNumber("kP",0.05), 10);     // Proportional
-        ckBMotor.smt.config_kI(0, SmartDashboard.getNumber("kI",0.0005), 10);   // Integral
-        ckBMotor.smt.config_kD(0, SmartDashboard.getNumber("kD",0.0001), 10);   // Derivative
+        Scheduler.getInstance().run();
 
-        if (ckController.getAButtonPressed()){                  // reverse direction
-            ckInArm.smt.set(ControlMode.PercentOutput, -0.1);
+        if (ckController.getAButton()) {
+
+            ckInArm.setAngle(0);
+//            if (intakeCommand != null)
+//                intakeCommand.cancel();
         }
 
-        if (ckController.getYButtonPressed()){                  // stop
-            ckInArm.smt.set(ControlMode.PercentOutput, 0);
+        if (ckController.getBButton()) {
+            ckInArm.setAngle(RMap.intakeAngle);
+            System.out.print("Starting");
+//            intakeCommand.start();
         }
 
-        if (ckController.getStartButtonPressed()){              // set encoder position
-            ckInArm.smt.setSelectedSensorPosition(0,0,10);
+        if (ckController.getStartButtonPressed())
+            ckInArm.resetangle();
+
+
+        if (ckController.getXButtonPressed()) {                  // reset back to encoder position 0 (spin backwards)
+//            ckInArm.smt.set(ControlMode.Position, 0);
+            ckInArm.setAngle(RMap.intakeAngle -300);
+        }
+        if (ckController.getYButtonPressed()) {                  // stop
+//            ckInArm.smt.set(ControlMode.PercentOutput, 0);
+            ckInArm.stopMotor();
         }
 
-        if (ckController.getXButtonPressed()){                  // reset back to encoder position 0 (spin backwards)
-            ckInArm.smt.set(ControlMode.Position, 0);
-        }
 
-        if (ckController.getBButtonPressed()){                  // sets speed to 2000rpm
-            //ckBMotor.shootMotorTest.chan
-            ckInArm.smt.set(ControlMode.Velocity , 2000);
-        }
+//        if (ckController.getBButtonPressed()){                  // sets speed to 2000rpm
+//            //ckBMotor.shootMotorTest.chan
+//            ckInArm.smt.set(ControlMode.Velocity , 2000);
+//        }
 
     }
 

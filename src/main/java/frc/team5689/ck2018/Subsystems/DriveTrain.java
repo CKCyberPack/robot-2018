@@ -41,8 +41,8 @@ public class DriveTrain extends Subsystem {
         frontLeftMotor = new DriveVictorSPX(RMap.driveFrontLeft);
         frontRightMotor = new DriveVictorSPX(RMap.driveFrontRight);
 
-        rearRightMotor.setInverted(true);           // reorient the motors
-        frontRightMotor.setInverted(true);
+//        rearRightMotor.setInverted(true);           // reorient the motors
+//        frontRightMotor.setInverted(true);
 
         ckDrive = new MecanumDrive(frontLeftMotor,rearLeftMotor,frontRightMotor,rearRightMotor);
         ckDrive.setDeadband(RMap.driveDeadzone);    // calibrate control sticks
