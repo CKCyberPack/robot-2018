@@ -131,38 +131,21 @@ public class Robot extends IterativeRobot {
 
     public void testPeriodic() {
         Scheduler.getInstance().run();
-
         if (ckController.getAButton()) {
-
             ckInArm.setAngle(0);
-//            if (intakeCommand != null)
-//                intakeCommand.cancel();
         }
-
         if (ckController.getBButton()) {
             ckInArm.setAngle(RMap.intakeAngle);
             System.out.print("Starting");
-//            intakeCommand.start();
         }
-
         if (ckController.getStartButtonPressed())
             ckInArm.resetangle();
-
-
         if (ckController.getXButtonPressed()) {                  // reset back to encoder position 0 (spin backwards)
-//            ckInArm.smt.set(ControlMode.Position, 0);
             ckInArm.setAngle(RMap.intakeAngle -300);
         }
         if (ckController.getYButtonPressed()) {                  // stop
-//            ckInArm.smt.set(ControlMode.PercentOutput, 0);
             ckInArm.stopMotor();
         }
-
-
-//        if (ckController.getBButtonPressed()){                  // sets speed to 2000rpm
-//            //ckBMotor.shootMotorTest.chan
-//            ckInArm.smt.set(ControlMode.Velocity , 2000);
-//        }
 
     }
 
