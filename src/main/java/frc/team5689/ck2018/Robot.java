@@ -146,7 +146,7 @@ public class Robot extends IterativeRobot {
             ckBPiston.setPosition(BPiston.Position.High);
         }
         if (ckController.getAButtonPressed()){                              // moving in
-            ckInArm.setLArmAngle(3200);         // find actual angle
+            ckInArm.setLArmAngle(3200);         //TODO - Find Actual Angle
             ckInArm.resetangle();
         }
 //        if (ckController.getAButton()) {
