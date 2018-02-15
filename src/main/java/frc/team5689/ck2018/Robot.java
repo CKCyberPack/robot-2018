@@ -131,21 +131,39 @@ public class Robot extends IterativeRobot {
 
     public void testPeriodic() {
         Scheduler.getInstance().run();
-        if (ckController.getAButton()) {
-            ckInArm.setAngle(0);
+        if (ckController.getTriggerAxis(GenericHID.Hand.kRight) > 0){       // shoot
+            ckBMotor.setspeed(1);
+            ckBPiston.shoot();
+            ckBPiston.setPosition(BPiston.Position.Flat);
         }
-        if (ckController.getBButton()) {
-            ckInArm.setAngle(RMap.intakeAngle);
-            System.out.print("Starting");
+        if (ckController.getTriggerAxis(GenericHID.Hand.kLeft) > 0){        // intake
+            ckInMotor.setspeed(0.5);
         }
-        if (ckController.getStartButtonPressed())
+        if (ckController.getBumperPressed(GenericHID.Hand.kRight)){         // pos 1
+            ckBPiston.setPosition(BPiston.Position.Low);
+        }
+        if (ckController.getBumperPressed(GenericHID.Hand.kLeft)){          // pos 2
+            ckBPiston.setPosition(BPiston.Position.High);
+        }
+        if (ckController.getAButtonPressed()){                              // moving in
+            ckInArm.setLArmAngle(3200);         // find actual angle
             ckInArm.resetangle();
-        if (ckController.getXButtonPressed()) {                  // reset back to encoder position 0 (spin backwards)
-            ckInArm.setAngle(RMap.intakeAngle -300);
         }
-        if (ckController.getYButtonPressed()) {                  // stop
-            ckInArm.stopMotor();
-        }
+//        if (ckController.getAButton()) {
+//            ckInArm.setAngle(0);
+//        }
+//        if (ckController.getBButton()) {
+//            ckInArm.setAngle(RMap.intakeAngle);
+//            System.out.print("Starting");
+//        }
+//        if (ckController.getStartButtonPressed())
+//            ckInArm.resetangle();
+//        if (ckController.getXButtonPressed()) {                  // reset back to encoder position 0 (spin backwards)
+//            ckInArm.setAngle(RMap.intakeAngle -300);
+//        }
+//        if (ckController.getYButtonPressed()) {                  // stop
+//            ckInArm.stopMotor();
+//        }
 
     }
 

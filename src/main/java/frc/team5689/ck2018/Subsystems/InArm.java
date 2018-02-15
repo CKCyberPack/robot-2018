@@ -68,18 +68,21 @@ public class InArm extends Subsystem {
      */
     @Override
     protected void initDefaultCommand() { }
-    public void setAngle(double angle){
+    public void setAngle(double angle){         // only one arm plz
         inMotorAngleL.set(ControlMode.Position, angle);//TODO Negate angle?
         inMotorAngleR.set(ControlMode.Position, angle);
         SmartDashboard.putNumber("POS", inMotorAngleR.getSelectedSensorPosition(0));
         SmartDashboard.putNumber("POW", inMotorAngleR.getMotorOutputPercent());
+    }
 
+    public void setLArmAngle(double angle){         // only one arm plz
+        inMotorAngleL.set(ControlMode.Position, angle);//TODO Negate angle?
+        SmartDashboard.putNumber("POS", inMotorAngleR.getSelectedSensorPosition(0));
     }
 
     public void stopMotor(){
         inMotorAngleL.set(ControlMode.Disabled, 0);
         inMotorAngleR.set(ControlMode.Disabled, 0);
-
     }
 
     public void resetangle(){

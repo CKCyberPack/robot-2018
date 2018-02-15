@@ -60,4 +60,5 @@ public class InMotor extends Subsystem {
         inMotorR.set(ControlMode.PercentOutput, 0);
         inMotorL.set(ControlMode.PercentOutput, 0);
     }
+
 }
