@@ -83,11 +83,14 @@ public class Robot extends IterativeRobot {
     public void teleopInit() {
         SmartDashboard.putString(RMap.robotMode, "Teleop");
         //Cancel Auto Commans command.cancel()
+
+        ckController.a.whenPressed(new SetAngleCommand());
+        ckController.b.whenPressed(new StopAngleCommand());
     }
 
     @Override
     public void teleopPeriodic() {
-        //Schedler.getInstance().run()
+        Scheduler.getInstance().run();
 
         /////////////////
         // Drive Modes //
@@ -96,17 +99,17 @@ public class Robot extends IterativeRobot {
         switch (driveRobot) {
             case 0:                                     //forward - rotate  - strafe
                 SmartDashboard.putString(RMap.driveMode, "Right Y - Right X - Left X");
-                ckDrive.teleDriveCartesian(-ckController.getY(GenericHID.Hand.kRight), ckController.getX(GenericHID.Hand.kRight), ckController.getX(GenericHID.Hand.kLeft));
+          //      ckDrive.teleDriveCartesian(-ckController.getY(GenericHID.Hand.kRight), ckController.getX(GenericHID.Hand.kRight), ckController.getX(GenericHID.Hand.kLeft));
                 break;
             case 1:
                 SmartDashboard.putString(RMap.driveMode, "Right Y - Left X - Right X");
-                ckDrive.teleDriveCartesian(-ckController.getY(GenericHID.Hand.kRight), ckController.getX(GenericHID.Hand.kLeft), ckController.getX(GenericHID.Hand.kRight));
+             //   ckDrive.teleDriveCartesian(-ckController.getY(GenericHID.Hand.kRight), ckController.getX(GenericHID.Hand.kLeft), ckController.getX(GenericHID.Hand.kRight));
                 break;
             default:
                 System.out.println("ERROR - No more drive modes");
 
         }
-        if (ckController.getAButtonPressed()) {
+        if (ckController.getBackButtonPressed()) {//Switches between drive moves
             driveRobot++;
             if (driveRobot >= 2) {
                 driveRobot = 0;
@@ -127,14 +130,12 @@ public class Robot extends IterativeRobot {
 
         //intakeCommand = new SetAngleCommand();
 
-        ckController.a.whenPressed(new SetAngleCommand());
-        ckController.b.whenPressed(new StopAngleCommand());
     }
 
     @Override
 
     public void testPeriodic() {
-        Scheduler.getInstance().run();
+        //Scheduler.getInstance().run(); //Scheduler won't run in test
 
 
 
