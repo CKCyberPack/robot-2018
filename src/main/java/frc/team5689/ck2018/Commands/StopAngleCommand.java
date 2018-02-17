@@ -1,26 +1,15 @@
 package frc.team5689.ck2018.Commands;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team5689.ck2018.RMap;
 import frc.team5689.ck2018.Robot;
-import frc.team5689.ck2018.Subsystems.InArm;
-import frc.team5689.ck2018.Subsystems.InMotor;
 
-public class SetAngleCommand extends Command {
+public class StopAngleCommand extends Command {
 
-    public SetAngleCommand() {
+    public StopAngleCommand() {
         super();
         //List Subsystems required to run this command
         requires(Robot.ckInArm);
-        System.out.println("Set Angle Command");
-    }
-
-    @Override
-    public synchronized void start() {
-        System.out.println("Start Set Angle Command");
-        super.start();
     }
 
     /*
@@ -28,22 +17,23 @@ public class SetAngleCommand extends Command {
      *	is executed for the first time and every subsequent time it is started .
      */
     protected void initialize() {
-        System.out.println("INIT IS BROKEN?");
+        System.out.println("INIT");
     }
 
     /*
      * This method is called periodically (about every 20ms)
      */
     protected void execute() {
-        System.out.println("EXEC IS BROKEN?");
-        Robot.ckInArm.setAngle(RMap.intakeAngle);
+        System.out.println("EXEC");
+        Robot.ckInArm.stopMotor();
     }
 
     /*
      * Make this return true when this Command no longer needs to run execute()
      */
     protected boolean isFinished() {
-        return false;
+        System.out.print("Stop done");
+        return true;
     }
 
     /*

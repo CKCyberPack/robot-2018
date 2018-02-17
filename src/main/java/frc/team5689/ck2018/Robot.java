@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team5689.ck2018.Commands.SetAngleCommand;
+import frc.team5689.ck2018.Commands.StopAngleCommand;
 import frc.team5689.ck2018.Subsystems.*;
 
 public class Robot extends IterativeRobot {
@@ -30,7 +31,7 @@ public class Robot extends IterativeRobot {
 
 
     //Components
-    private XboxController ckController;
+    private OI ckController;
     private PowerDistributionPanel ckPDP;
 
     //Variables
@@ -41,13 +42,13 @@ public class Robot extends IterativeRobot {
     @Override
     public void robotInit() {
         SmartDashboard.putString(RMap.robotMode, "Start Up");
-        ckController = new XboxController(0);
-        ckPDP = new PowerDistributionPanel();
-        ckDrive = DriveTrain.getInstance();
-        ckBMotor = BMotor.getInstance();
-        ckBPiston = BPiston.getInstance();
+        ckController = new OI (0);
+        //ckPDP = new PowerDistributionPanel();
+        //ckDrive = DriveTrain.getInstance();
+        //ckBMotor = BMotor.getInstance();
+        //ckBPiston = BPiston.getInstance();
         ckInArm = InArm.getInstance();
-        ckInMotor = InMotor.getInstance();
+        //ckInMotor = InMotor.getInstance();
     }
 
     @Override
@@ -124,31 +125,58 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("kI", RMap.armKI);
         SmartDashboard.putNumber("kD", RMap.armKD);
 
-        intakeCommand = new SetAngleCommand();
+        //intakeCommand = new SetAngleCommand();
+
+        ckController.a.whenPressed(new SetAngleCommand());
+        ckController.b.whenPressed(new StopAngleCommand());
     }
 
     @Override
 
     public void testPeriodic() {
         Scheduler.getInstance().run();
-        if (ckController.getTriggerAxis(GenericHID.Hand.kRight) > 0){       // shoot
-            ckBMotor.setspeed(1);
-            ckBPiston.shoot();
-            ckBPiston.setPosition(BPiston.Position.Flat);
-        }
-        if (ckController.getTriggerAxis(GenericHID.Hand.kLeft) > 0){        // intake
-            ckInMotor.setspeed(0.5);
-        }
-        if (ckController.getBumperPressed(GenericHID.Hand.kRight)){         // pos 1
-            ckBPiston.setPosition(BPiston.Position.Low);
-        }
-        if (ckController.getBumperPressed(GenericHID.Hand.kLeft)){          // pos 2
-            ckBPiston.setPosition(BPiston.Position.High);
-        }
-        if (ckController.getAButtonPressed()){                              // moving in
-            ckInArm.setLArmAngle(3200);         //TODO - Find Actual Angle
-            ckInArm.resetangle();
-        }
+
+
+
+
+
+
+
+
+
+
+
+//        if (ckController.getTriggerAxis(GenericHID.Hand.kRight) > 0){       // shoot
+//
+//            Thread x = new Thread(() -> {{//Might work?
+//               // ckBMotor.setspeed(1);
+//                try {
+//                    ckBMotor.setspeed(1);
+//                    Thread.sleep(1000);
+//                    ckBPiston.shoot();
+//                    Thread.sleep(1000);
+//                    ckBPiston.setPosition(BPiston.Position.Flat);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//            });
+//            x.start();
+//
+//        }
+//        if (ckController.getTriggerAxis(GenericHID.Hand.kLeft) > 0){        // intake
+//            ckInMotor.setspeed(RMap.intakeSpeed);
+//        }
+//        if (ckController.getBumperPressed(GenericHID.Hand.kRight)){         // pos 1
+//            ckBPiston.setPosition(BPiston.Position.Low);
+//        }
+//        if (ckController.getBumperPressed(GenericHID.Hand.kLeft)){          // pos 2
+//            ckBPiston.setPosition(BPiston.Position.High);
+//        }
+//        if (ckController.getAButtonPressed()){                              // moving in
+//            ckInArm.setLArmAngle(3200);         //TODO - Find Actual Angle
+//            ckInArm.resetangle();
+//        }
 //        if (ckController.getAButton()) {
 //            ckInArm.setAngle(0);
 //        }

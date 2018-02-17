@@ -66,10 +66,10 @@ public class BMotor extends Subsystem {
     public void setspeed(double speed){
         //shootMotor1.set(ControlMode.PercentOutput, speed);
         //shootMotor2.set(ControlMode.PercentOutput, speed);
-        shootMotor1.set(ControlMode.PercentOutput, shootMotor3.getMotorOutputPercent());
-        shootMotor2.set(ControlMode.PercentOutput, shootMotor4.getMotorOutputPercent());
         shootMotor3.set(ControlMode.PercentOutput, speed);
         shootMotor4.set(ControlMode.PercentOutput, speed);
+        shootMotor1.set(ControlMode.PercentOutput, shootMotor3.getMotorOutputPercent());
+        shootMotor2.set(ControlMode.PercentOutput, shootMotor4.getMotorOutputPercent());
 
     }
 
@@ -81,5 +81,11 @@ public class BMotor extends Subsystem {
         shootMotor2.set(ControlMode.Velocity, shootMotor4.getMotorOutputPercent());
     }
 
+    public void stopMotor() {
+        shootMotor3.set(ControlMode.Disabled, 0);
+        shootMotor4.set(ControlMode.Disabled, 0);
+        shootMotor1.set(ControlMode.Disabled, 0);
+        shootMotor2.set(ControlMode.Disabled, 0);
+    }
 
 }

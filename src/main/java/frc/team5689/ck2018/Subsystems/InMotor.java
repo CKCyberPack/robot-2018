@@ -13,8 +13,8 @@ public class InMotor extends Subsystem {
     //Declare Motors Here
     private VictorSPX inMotorL;
     private VictorSPX inMotorR;
-    private VictorSPX inMotorArmL;
-    private VictorSPX inMotorArmR;
+//    private VictorSPX inMotorArmL;
+    //private VictorSPX inMotorArmR;
 
 
 
@@ -33,8 +33,8 @@ public class InMotor extends Subsystem {
     {
         //initializes variables such as SpeedControllers, Pneumatics, etc.
         //Initialize Motors
-        inMotorArmL= new VictorSPX(RMap.intakeArmLeft);
-        inMotorArmR = new VictorSPX(RMap.intakeArmRight);
+//        inMotorArmL= new VictorSPX(RMap.intakeArmLeft);
+//        inMotorArmR = new VictorSPX(RMap.intakeArmRight);
         inMotorL = new VictorSPX(RMap.intakeAngleLeft);
         inMotorR= new VictorSPX(RMap.intakeAngleRight);
     }
@@ -48,17 +48,17 @@ public class InMotor extends Subsystem {
     @Override
     protected void initDefaultCommand() { }
     public void setspeed(double speed){
-        inMotorArmL.set(ControlMode.PercentOutput, speed);
-        inMotorArmR.set(ControlMode.PercentOutput, speed);
+//        inMotorArmL.set(ControlMode.PercentOutput, speed);
+//        inMotorArmR.set(ControlMode.PercentOutput, speed);
         inMotorR.set(ControlMode.PercentOutput, speed);
         inMotorL.set(ControlMode.PercentOutput, speed);
     }
 
     public void stopIntake(){
-        inMotorArmL.set(ControlMode.PercentOutput, 0);
-        inMotorArmR.set(ControlMode.PercentOutput, 0);
-        inMotorR.set(ControlMode.PercentOutput, 0);
-        inMotorL.set(ControlMode.PercentOutput, 0);
+//        inMotorArmL.set(ControlMode.PercentOutput, 0);
+//        inMotorArmR.set(ControlMode.PercentOutput, 0);
+        inMotorR.set(ControlMode.Disabled, 0);
+        inMotorL.set(ControlMode.Disabled, 0);
     }
 
 }
