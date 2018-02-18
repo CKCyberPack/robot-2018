@@ -2,7 +2,6 @@ package frc.team5689.ck2018.Commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.team5689.ck2018.RMap;
-import frc.team5689.ck2018.Robot;
 import frc.team5689.ck2018.Subsystems.BPiston;
 
 import static frc.team5689.ck2018.Subsystems.BPiston.Position.Flat;
@@ -35,7 +34,7 @@ public class TargetFlatCommand extends Command {
     protected void execute() {
         BPiston.getInstance().setPosition(Flat);
 
-        if (System.currentTimeMillis() - timer >= RMap.shootPistonTimer){
+        if (System.currentTimeMillis() - timer >= RMap.timerAim) {
             finished = true;
         }
     }

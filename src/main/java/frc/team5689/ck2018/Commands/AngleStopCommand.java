@@ -1,8 +1,6 @@
 package frc.team5689.ck2018.Commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.team5689.ck2018.RMap;
-import frc.team5689.ck2018.Robot;
 import frc.team5689.ck2018.Subsystems.InArm;
 
 public class AngleStopCommand extends Command {

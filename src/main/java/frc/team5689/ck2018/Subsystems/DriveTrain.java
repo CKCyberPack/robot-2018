@@ -34,13 +34,13 @@ public class DriveTrain extends Subsystem {
     private DriveTrain()  //private so no duplicate Subsystem is created
     {
         //initializes variables such as SpeedControllers, Pneumatics, etc.
-        rearLeftMotor = new DriveVictorSPX(RMap.driveRearLeftPort);
-        rearRightMotor = new DriveVictorSPX(RMap.driveRearRightPort);
-        frontLeftMotor = new DriveVictorSPX(RMap.driveFrontLeftPort);
-        frontRightMotor = new DriveVictorSPX(RMap.driveFrontRightPort);
+        rearLeftMotor = new DriveVictorSPX(RMap.canDriveRearLeft);
+        rearRightMotor = new DriveVictorSPX(RMap.canDriveRearRight);
+        frontLeftMotor = new DriveVictorSPX(RMap.canDriveFrontLeft);
+        frontRightMotor = new DriveVictorSPX(RMap.canDriveFrontRight);
 
         ckDrive = new MecanumDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
-        ckDrive.setDeadband(RMap.driveDeadzone);    // calibrate control sticks
+        ckDrive.setDeadband(RMap.DEADZONE);    // calibrate control sticks
         ckDrive.setSafetyEnabled(false);
 
         ckGyro = new ADXRS450_Gyro();

@@ -12,7 +12,7 @@ public class InMotor extends Subsystem {
     private VictorSPX inMotorR;
 
     //----- Make Singleton -----
-    public static InMotor instance;
+    private static InMotor instance;
 
     public static InMotor getInstance() {
         if (instance == null) {
@@ -24,8 +24,8 @@ public class InMotor extends Subsystem {
     private InMotor()  //private so no duplicate Subsystem is created
     {
         //Initialize Motors
-        inMotorL = new VictorSPX(RMap.intakeLeftPort);
-        inMotorR = new VictorSPX(RMap.intakeRightPort);
+        inMotorL = new VictorSPX(RMap.canIntakeLeft);
+        inMotorR = new VictorSPX(RMap.canIntakeRight);
 
         inMotorL.setInverted(true);
     }

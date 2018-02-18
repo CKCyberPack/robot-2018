@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.team5689.ck2018.RMap;
 import frc.team5689.ck2018.Subsystems.BPiston;
 
-import static frc.team5689.ck2018.Subsystems.BPiston.Position.Flat;
 import static frc.team5689.ck2018.Subsystems.BPiston.Position.Low;
 
 public class TargetLowCommand extends Command {
@@ -35,7 +34,7 @@ public class TargetLowCommand extends Command {
     protected void execute() {
         BPiston.getInstance().setPosition(Low);
 
-        if (System.currentTimeMillis() - timer >= RMap.shootPistonTimer){
+        if (System.currentTimeMillis() - timer >= RMap.timerAim) {
             finished = true;
         }
     }

@@ -13,6 +13,7 @@ public class PreShootSpeedCommand extends Command {
     private BPiston.Position curPosition;
     private double maxSpeed;
 
+    @SuppressWarnings("WeakerAccess")
     public PreShootSpeedCommand() {
         //List Subsystems required to run this command
         requires(BMotor.getInstance());
@@ -46,7 +47,7 @@ public class PreShootSpeedCommand extends Command {
         }
         BMotor.getInstance().setSpeed(maxSpeed);
 
-        if (System.currentTimeMillis() - timer >= RMap.preShootTimer) {
+        if (System.currentTimeMillis() - timer >= RMap.timerPreShoot) {
             finished = true;
         }
     }
@@ -55,11 +56,7 @@ public class PreShootSpeedCommand extends Command {
      * Make this return true when this Command no longer needs to run execute()
      */
     protected boolean isFinished() {
-        if (finished == true) {
-            return true;
-        } else {
-            return false;
-        }
+        return finished;
     }
 
     /*

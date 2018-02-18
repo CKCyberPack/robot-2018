@@ -46,7 +46,7 @@ public class PreShootRPMCommand extends Command {
         }
         BMotor.getInstance().setRPM(maxRPM);
 
-        if (System.currentTimeMillis() - timer >= RMap.preShootTimer) {
+        if (System.currentTimeMillis() - timer >= RMap.timerPreShoot) {
             finished = true;
         }
     }
@@ -55,17 +55,8 @@ public class PreShootRPMCommand extends Command {
      * Make this return true when this Command no longer needs to run execute()
      */
     protected boolean isFinished() {
-        if (finished == true){
-            return true;
-        }
-        else {
-            //Check if RPM is already close, If so we can shoot now
-            if (BMotor.getInstance().getRPM() > (maxRPM - 100)) {
-                return true;
-            } else {
-                return false;
-            }
-       }
+        //Finish if timer is up OR RPM is within set-point
+        return finished || BMotor.getInstance().getRPM() > (maxRPM - 100);
     }
 
     /*

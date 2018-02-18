@@ -1,15 +1,9 @@
 package frc.team5689.ck2018.Subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.team5689.ck2018.Commands.AngleSetCommand;
 import frc.team5689.ck2018.Commands.TargetFlatCommand;
 import frc.team5689.ck2018.Commands.TargetHighCommand;
 import frc.team5689.ck2018.Commands.TargetLowCommand;
@@ -33,7 +27,7 @@ public class BPiston extends Subsystem {
     }
 
     //----- Make Singleton -----
-    public static BPiston instance;
+    private static BPiston instance;
 
     public static BPiston getInstance() {
         if (instance == null) {
@@ -61,11 +55,11 @@ public class BPiston extends Subsystem {
     }
 
     public void shoot() {
-        launcherPiston.set(RMap.pistonLaunch);
+        launcherPiston.set(RMap.FIRE);
     }
 
     public void load() {
-        launcherPiston.set(RMap.pistonLoad);
+        launcherPiston.set(RMap.LOAD);
     }
 
     public Position getCurrentPos() {
@@ -75,23 +69,22 @@ public class BPiston extends Subsystem {
     public void setPosition(Position pos) {      // sets shooting angle
         switch (pos) {
             case Flat:
-                lowPiston.set(DoubleSolenoid.Value.kReverse);
-                highPiston.set(DoubleSolenoid.Value.kReverse);
+                lowPiston.set(RMap.DOWN);
+                highPiston.set(RMap.DOWN);
                 SmartDashboard.putString(RMap.shootPosition, "Flat");
                 break;
             case Low:
-                lowPiston.set(DoubleSolenoid.Value.kForward);
-                highPiston.set(DoubleSolenoid.Value.kReverse);
+                lowPiston.set(RMap.UP);
+                highPiston.set(RMap.DOWN);
                 SmartDashboard.putString(RMap.shootPosition, "Low");
                 break;
             case High:
-                lowPiston.set(DoubleSolenoid.Value.kForward);
-                highPiston.set(DoubleSolenoid.Value.kForward);
+                lowPiston.set(RMap.UP);
+                highPiston.set(RMap.UP);
                 SmartDashboard.putString(RMap.shootPosition, "High");
                 break;
         }
         currentPos = pos;
-
     }
 
     public Command nextPostion() {

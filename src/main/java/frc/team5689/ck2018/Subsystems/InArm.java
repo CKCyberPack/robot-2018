@@ -16,7 +16,7 @@ public class InArm extends Subsystem {
     private double targetAngle;
 
     //----- Make Singleton -----
-    public static InArm instance;
+    private static InArm instance;
 
     public static InArm getInstance() {
         if (instance == null) {
@@ -28,30 +28,30 @@ public class InArm extends Subsystem {
     private InArm()  //private so no duplicate Subsystem is created
     {
         //Initialize Motors
-        inMotorAngleL = new TalonSRX(RMap.intakeAngleLeftPort);
-        inMotorAngleR = new TalonSRX(RMap.intakeAngleRightPort);
+        inMotorAngleL = new TalonSRX(RMap.canIntakeArmRight);
+        inMotorAngleR = new TalonSRX(RMap.canIntakeArmLeft);
 
         //Left Motor
-        inMotorAngleL.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, RMap.pididx, RMap.timeout);
+        inMotorAngleL.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, RMap.PIDIDX, RMap.TIMEOUT);
         inMotorAngleL.setSensorPhase(true);
         inMotorAngleL.setInverted(true);
-        inMotorAngleL.configPeakOutputForward(RMap.armPOW, RMap.timeout);
-        inMotorAngleL.configPeakOutputReverse(-RMap.armPOW, RMap.timeout);
-        inMotorAngleL.config_kF(RMap.pididx, SmartDashboard.getNumber("kF", RMap.armKF), RMap.timeout);     // overcome friction
-        inMotorAngleL.config_kP(RMap.pididx, RMap.armKP, RMap.timeout);     // Proportional
-        inMotorAngleL.config_kI(RMap.pididx, SmartDashboard.getNumber("kI", RMap.armKI), RMap.timeout);   // Integral
-        inMotorAngleL.config_kD(RMap.pididx, SmartDashboard.getNumber("kD", RMap.armKD), RMap.timeout);   // Derivative
+        inMotorAngleL.configPeakOutputForward(RMap.armPOW, RMap.TIMEOUT);
+        inMotorAngleL.configPeakOutputReverse(-RMap.armPOW, RMap.TIMEOUT);
+        inMotorAngleL.config_kF(RMap.PIDIDX, SmartDashboard.getNumber("kF", RMap.armKF), RMap.TIMEOUT);     // overcome friction
+        inMotorAngleL.config_kP(RMap.PIDIDX, RMap.armKP, RMap.TIMEOUT);     // Proportional
+        inMotorAngleL.config_kI(RMap.PIDIDX, SmartDashboard.getNumber("kI", RMap.armKI), RMap.TIMEOUT);   // Integral
+        inMotorAngleL.config_kD(RMap.PIDIDX, SmartDashboard.getNumber("kD", RMap.armKD), RMap.TIMEOUT);   // Derivative
 
         //Right Motor
-        inMotorAngleR.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, RMap.pididx, RMap.timeout);
+        inMotorAngleR.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, RMap.PIDIDX, RMap.TIMEOUT);
         inMotorAngleR.setSensorPhase(true);
         inMotorAngleR.setInverted(false);
-        inMotorAngleR.configPeakOutputForward(RMap.armPOW, RMap.timeout);
-        inMotorAngleR.configPeakOutputReverse(-RMap.armPOW, RMap.timeout);
-        inMotorAngleR.config_kF(RMap.pididx, RMap.armKF, RMap.timeout);     // overcome friction
-        inMotorAngleR.config_kP(RMap.pididx, RMap.armKP, RMap.timeout);     // Proportional
-        inMotorAngleR.config_kI(RMap.pididx, RMap.armKI, RMap.timeout);   // Integral
-        inMotorAngleR.config_kD(RMap.pididx, RMap.armKD, RMap.timeout);   // Derivative
+        inMotorAngleR.configPeakOutputForward(RMap.armPOW, RMap.TIMEOUT);
+        inMotorAngleR.configPeakOutputReverse(-RMap.armPOW, RMap.TIMEOUT);
+        inMotorAngleR.config_kF(RMap.PIDIDX, RMap.armKF, RMap.TIMEOUT);     // overcome friction
+        inMotorAngleR.config_kP(RMap.PIDIDX, RMap.armKP, RMap.TIMEOUT);     // Proportional
+        inMotorAngleR.config_kI(RMap.PIDIDX, RMap.armKI, RMap.TIMEOUT);   // Integral
+        inMotorAngleR.config_kD(RMap.PIDIDX, RMap.armKD, RMap.TIMEOUT);   // Derivative
     }
 
 
@@ -70,11 +70,11 @@ public class InArm extends Subsystem {
         setRArmAngle(targetAngle);
     }
 
-    public void setLArmAngle(double angle) {
+    private void setLArmAngle(double angle) {
         inMotorAngleL.set(ControlMode.Position, Math.min(angle,RMap.intakeAngleStop));
     }
 
-    public void setRArmAngle(double angle) {
+    private void setRArmAngle(double angle) {
         //If Position is High, Don't let it go out so far
         if (BPiston.getInstance().getCurrentPos() == BPiston.Position.High){
             inMotorAngleR.set(ControlMode.Position, Math.min(angle,RMap.intakeAngleStop));
@@ -90,8 +90,8 @@ public class InArm extends Subsystem {
     }
 
     public void resetAngle() {
-        inMotorAngleL.setSelectedSensorPosition(0, RMap.pididx, RMap.timeout);
-        inMotorAngleR.setSelectedSensorPosition(0, RMap.pididx, RMap.timeout);
+        inMotorAngleL.setSelectedSensorPosition(0, RMap.PIDIDX, RMap.TIMEOUT);
+        inMotorAngleR.setSelectedSensorPosition(0, RMap.PIDIDX, RMap.TIMEOUT);
     }
 
     public double getTargetAngle() {
@@ -99,9 +99,9 @@ public class InArm extends Subsystem {
     }
 
     public void smartDashboard(){
-        SmartDashboard.putNumber("ArmLPOS", inMotorAngleL.getSelectedSensorPosition(RMap.pididx));
+        SmartDashboard.putNumber("ArmLPOS", inMotorAngleL.getSelectedSensorPosition(RMap.PIDIDX));
         SmartDashboard.putNumber("ArmLPOW", inMotorAngleL.getMotorOutputPercent());
-        SmartDashboard.putNumber("ArmRPOS", inMotorAngleR.getSelectedSensorPosition(RMap.pididx));
+        SmartDashboard.putNumber("ArmRPOS", inMotorAngleR.getSelectedSensorPosition(RMap.PIDIDX));
         SmartDashboard.putNumber("ArmRPOW", inMotorAngleR.getMotorOutputPercent());
         SmartDashboard.putNumber("ArmTarget", targetAngle);
     }

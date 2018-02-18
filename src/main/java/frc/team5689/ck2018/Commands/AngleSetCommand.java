@@ -1,12 +1,7 @@
 package frc.team5689.ck2018.Commands;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.team5689.ck2018.RMap;
-import frc.team5689.ck2018.Robot;
 import frc.team5689.ck2018.Subsystems.InArm;
-import frc.team5689.ck2018.Subsystems.InMotor;
 
 public class AngleSetCommand extends Command {
 

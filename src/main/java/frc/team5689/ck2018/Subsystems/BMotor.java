@@ -17,7 +17,7 @@ public class BMotor extends Subsystem {
     private TalonSRX shootRight;
 
     //----- Make Singleton -----
-    public static BMotor instance;
+    private static BMotor instance;
 
     public static BMotor getInstance() {
         if (instance == null) {
@@ -29,27 +29,27 @@ public class BMotor extends Subsystem {
     private BMotor()  //private so no duplicate Subsystem is created
     {
         //Initialize Motors
-        preShootLeft = new VictorSPX(RMap.preShootLeftPort);
-        preShootRight = new VictorSPX(RMap.preShootRightPort);
-        shootLeft = new TalonSRX(RMap.shooterLeftPort);
-        shootRight = new TalonSRX(RMap.shooterRightPort);
+        preShootLeft = new VictorSPX(RMap.canPreShootLeft);
+        preShootRight = new VictorSPX(RMap.canPreShootRight);
+        shootLeft = new TalonSRX(RMap.canShooterLeft);
+        shootRight = new TalonSRX(RMap.canShooterRight);
 
         //Set PID
-        shootLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, RMap.pididx, RMap.timeout);
+        shootLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, RMap.PIDIDX, RMap.TIMEOUT);
         shootLeft.setSensorPhase(true);
-        //shootLeft.configNominalOutputReverse(0,RMap.timeout);
-        shootLeft.config_kF(RMap.pididx, RMap.shootKF,RMap.timeout);
-        shootLeft.config_kP(RMap.pididx, RMap.shootKP,RMap.timeout);
-        shootLeft.config_kI(RMap.pididx, RMap.shootKI,RMap.timeout);
-        shootLeft.config_kD(RMap.pididx, RMap.shootKD,RMap.timeout);
+        //shootLeft.configNominalOutputReverse(0,RMap.TIMEOUT);
+        shootLeft.config_kF(RMap.PIDIDX, RMap.shootKF, RMap.TIMEOUT);
+        shootLeft.config_kP(RMap.PIDIDX, RMap.shootKP, RMap.TIMEOUT);
+        shootLeft.config_kI(RMap.PIDIDX, RMap.shootKI, RMap.TIMEOUT);
+        shootLeft.config_kD(RMap.PIDIDX, RMap.shootKD, RMap.TIMEOUT);
 
-        shootRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, RMap.pididx, RMap.timeout);
+        shootRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, RMap.PIDIDX, RMap.TIMEOUT);
         shootRight.setSensorPhase(false);
-        //shootRight.configNominalOutputReverse(0,RMap.timeout);
-        shootRight.config_kF(RMap.pididx, RMap.shootKF,RMap.timeout);
-        shootRight.config_kP(RMap.pididx, RMap.shootKP,RMap.timeout);
-        shootRight.config_kI(RMap.pididx, RMap.shootKI,RMap.timeout);
-        shootRight.config_kD(RMap.pididx, RMap.shootKD,RMap.timeout);
+        //shootRight.configNominalOutputReverse(0,RMap.TIMEOUT);
+        shootRight.config_kF(RMap.PIDIDX, RMap.shootKF, RMap.TIMEOUT);
+        shootRight.config_kP(RMap.PIDIDX, RMap.shootKP, RMap.TIMEOUT);
+        shootRight.config_kI(RMap.PIDIDX, RMap.shootKI, RMap.TIMEOUT);
+        shootRight.config_kD(RMap.PIDIDX, RMap.shootKD, RMap.TIMEOUT);
     }
 
 
@@ -87,13 +87,13 @@ public class BMotor extends Subsystem {
     }
 
     public double getRPM(){
-        return Math.min(shootLeft.getSelectedSensorVelocity(RMap.pididx),shootRight.getSelectedSensorVelocity(RMap.pididx));
+        return Math.min(shootLeft.getSelectedSensorVelocity(RMap.PIDIDX), shootRight.getSelectedSensorVelocity(RMap.PIDIDX));
     }
 
     public void smartDashboard(){
-        SmartDashboard.putNumber("ShootLVel", shootLeft.getSelectedSensorVelocity(RMap.pididx));
+        SmartDashboard.putNumber("ShootLVel", shootLeft.getSelectedSensorVelocity(RMap.PIDIDX));
         SmartDashboard.putNumber("ShootLPow", shootLeft.getMotorOutputPercent());
-        SmartDashboard.putNumber("ShootRVel", shootRight.getSelectedSensorVelocity(RMap.pididx));
+        SmartDashboard.putNumber("ShootRVel", shootRight.getSelectedSensorVelocity(RMap.PIDIDX));
         SmartDashboard.putNumber("ShootRPow", shootRight.getMotorOutputPercent());
     }
 }

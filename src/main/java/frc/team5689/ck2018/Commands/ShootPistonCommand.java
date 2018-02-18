@@ -9,6 +9,7 @@ public class ShootPistonCommand extends Command {
     private long timer;
     private boolean finished = false;
 
+    @SuppressWarnings("WeakerAccess")
     public ShootPistonCommand() {
         //List Subsystems required to run this command
         requires(BPiston.getInstance());
@@ -28,7 +29,7 @@ public class ShootPistonCommand extends Command {
     protected void execute() {
         BPiston.getInstance().shoot();
 
-        if (System.currentTimeMillis() - timer >= RMap.shootTimer){
+        if (System.currentTimeMillis() - timer >= RMap.timerShoot) {
             finished = true;
         }
     }
