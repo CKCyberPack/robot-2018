@@ -21,7 +21,7 @@ public class AngleDecreaseCommand extends Command {
      * This method is called periodically (about every 20ms)
      */
     protected void execute() {
-        InArm.getInstance().setAngle(InArm.getInstance().getTargetAngle() - RMap.intakeAngleStep);
+        InArm.getInstance().setAngle(InArm.getInstance().getTargetAngle() - RMap.intakeAngleSpeed);
     }
 
     /*

@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.team5689.ck2018.Commands.AngleSetCommand;
 import frc.team5689.ck2018.Commands.TargetFlatCommand;
 import frc.team5689.ck2018.Commands.TargetHighCommand;
 import frc.team5689.ck2018.Commands.TargetLowCommand;
@@ -44,8 +45,8 @@ public class BPiston extends Subsystem {
     private BPiston()  //private so no duplicate Subsystem is created
     {
         //initializes variables such as SpeedControllers, Pneumatics, etc.
-        highPiston = new DoubleSolenoid(RMap.pcmShooterHigh,RMap.pcmShooterHighB);
-        lowPiston = new DoubleSolenoid(RMap.pcmShooterLow,RMap.pcmShooterLowB);
+        highPiston = new DoubleSolenoid(RMap.pcmShooterHigh, RMap.pcmShooterHighB);
+        lowPiston = new DoubleSolenoid(RMap.pcmShooterLow, RMap.pcmShooterLowB);
         launcherPiston = new DoubleSolenoid(RMap.pcmShooterFireA, RMap.pcmShooterFireB);
     }
 
@@ -76,24 +77,24 @@ public class BPiston extends Subsystem {
             case Flat:
                 lowPiston.set(DoubleSolenoid.Value.kReverse);
                 highPiston.set(DoubleSolenoid.Value.kReverse);
-                SmartDashboard.putString("ShootAIM", "Flat");
+                SmartDashboard.putString(RMap.shootPosition, "Flat");
                 break;
             case Low:
                 lowPiston.set(DoubleSolenoid.Value.kForward);
                 highPiston.set(DoubleSolenoid.Value.kReverse);
-                SmartDashboard.putString("ShootAIM", "Low");
+                SmartDashboard.putString(RMap.shootPosition, "Low");
                 break;
             case High:
                 lowPiston.set(DoubleSolenoid.Value.kForward);
                 highPiston.set(DoubleSolenoid.Value.kForward);
-                SmartDashboard.putString("ShootAIM", "High");
+                SmartDashboard.putString(RMap.shootPosition, "High");
                 break;
         }
         currentPos = pos;
 
     }
 
-    public Command nextPostion(){
+    public Command nextPostion() {
         switch (currentPos) {
             case Flat:
                 return new TargetLowCommand();
@@ -106,7 +107,7 @@ public class BPiston extends Subsystem {
         }
     }
 
-    public Command prevPostion(){
+    public Command prevPostion() {
         switch (currentPos) {
             case High:
                 return new TargetLowCommand();

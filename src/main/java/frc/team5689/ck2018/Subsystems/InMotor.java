@@ -40,8 +40,9 @@ public class InMotor extends Subsystem {
     }
 
     public void setspeed(double speed) {
-        inMotorR.set(ControlMode.PercentOutput, speed);
-        inMotorL.set(ControlMode.PercentOutput, speed);
+        //Math.min to make sure you can't go over IntakeSpeed
+        inMotorR.set(ControlMode.PercentOutput, Math.min(speed,RMap.intakeSpeedMax));
+        inMotorL.set(ControlMode.PercentOutput, Math.min(speed,RMap.intakeSpeedMax));
     }
 
     public void stopIntake() {

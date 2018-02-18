@@ -29,8 +29,8 @@ public class BMotor extends Subsystem {
     private BMotor()  //private so no duplicate Subsystem is created
     {
         //Initialize Motors
-        preShootLeft = new VictorSPX(RMap.preshootLeftPort);
-        preShootRight = new VictorSPX(RMap.preshootRightPort);
+        preShootLeft = new VictorSPX(RMap.preShootLeftPort);
+        preShootRight = new VictorSPX(RMap.preShootRightPort);
         shootLeft = new TalonSRX(RMap.shooterLeftPort);
         shootRight = new TalonSRX(RMap.shooterRightPort);
 
@@ -64,11 +64,19 @@ public class BMotor extends Subsystem {
     }
 
     public void setRPM(double RPM) {
-        shootLeft.set(ControlMode.PercentOutput, RPM);
-        shootRight.set(ControlMode.PercentOutput, RPM);
-        preShootLeft.set(ControlMode.PercentOutput, RPM);
-        preShootRight.set(ControlMode.PercentOutput, RPM);
+        shootLeft.set(ControlMode.Velocity, RPM);
+        shootRight.set(ControlMode.Velocity, RPM);
+        preShootLeft.set(ControlMode.Follower, shootLeft.getDeviceID());
+        preShootRight.set(ControlMode.Follower, shootRight.getDeviceID());
         SmartDashboard.putNumber("ShootTarget", RPM);
+    }
+
+    public void setSpeed(double speed) {
+        shootLeft.set(ControlMode.PercentOutput, speed);
+        shootRight.set(ControlMode.PercentOutput, speed);
+        preShootLeft.set(ControlMode.PercentOutput, speed);
+        preShootRight.set(ControlMode.PercentOutput, speed);
+        SmartDashboard.putNumber("ShootTarget", speed);
     }
 
     public void stopMotor() {

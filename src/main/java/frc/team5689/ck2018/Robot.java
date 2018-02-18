@@ -107,7 +107,7 @@ public class Robot extends IterativeRobot {
         }
 
         if (ckController.getBButtonPressed()) {
-            new AngleSetCommand().start();
+            new AngleSetCommand(RMap.intakeAngle).start();
         }
 
         if (ckController.getYButtonPressed()) {

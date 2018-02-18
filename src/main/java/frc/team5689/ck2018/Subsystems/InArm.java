@@ -65,31 +65,23 @@ public class InArm extends Subsystem {
     }
 
     public void setAngle(double angle) {
-        if (angle < 0) {
-            angle = 0;
-        }else if (angle >= Math.max(RMap.intakeAngleStopL, RMap.intakeAngleStopR)){
-            angle = Math.max(RMap.intakeAngleStopL, RMap.intakeAngleStopR);
-        }
-
-        setLArmAngle(angle);
-        setRArmAngle(angle);
-        targetAngle = angle;
+        targetAngle = Math.min(Math.max(0, angle),RMap.intakeAngleMax);//Set between 0 and MaxAngle
+        setLArmAngle(targetAngle);
+        setRArmAngle(targetAngle);
     }
 
     public void setLArmAngle(double angle) {
-        if (angle >= RMap.intakeAngleStopL) {
-            angle = RMap.intakeAngleStopL;
-        }
-
-        inMotorAngleL.set(ControlMode.Position, angle);
+        inMotorAngleL.set(ControlMode.Position, Math.min(angle,RMap.intakeAngleStop));
     }
 
     public void setRArmAngle(double angle) {
-        if (angle >= RMap.intakeAngleStopR) {
-            angle = RMap.intakeAngleStopR;
+        //If Position is High, Don't let it go out so far
+        if (BPiston.getInstance().getCurrentPos() == BPiston.Position.High){
+            inMotorAngleR.set(ControlMode.Position, Math.min(angle,RMap.intakeAngleStop));
         }
-
-        inMotorAngleR.set(ControlMode.Position, angle);
+        else{
+            inMotorAngleR.set(ControlMode.Position, Math.min(angle,RMap.intakeAngleMax));
+        }
     }
 
     public void stopMotor() {

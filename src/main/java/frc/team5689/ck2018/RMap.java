@@ -22,8 +22,8 @@ public class RMap {
     //Shooters
     public static int shooterLeftPort = 21;
     public static int shooterRightPort = 22;
-    public static int preshootLeftPort = 25;
-    public static int preshootRightPort = 26;
+    public static int preShootLeftPort = 25;
+    public static int preShootRightPort = 26;
     //Intake
     public static int intakeLeftPort = 31;
     public static int intakeRightPort = 32;
@@ -47,12 +47,12 @@ public class RMap {
 
     //Intake angles
     public static int intakeAngle = 2000;
-    public static int intakeAngleStopL= 4000;
-    public static int intakeAngleStopR= 6000;
-    public static int intakeAngleStep = 30;
+    public static int intakeAngleStop = 4000;
+    public static int intakeAngleMax = 6000;
+    public static int intakeAngleSpeed = 30;
 
     //Intake speeds
-    public  static double intakeSpeed = 0.5;
+    public  static double intakeSpeedMax = 0.5;
 
 
     //PCM
@@ -70,9 +70,9 @@ public class RMap {
 
 
     //Shooter speeds
-//    public static double shootSpeedHigh = 5000;
-//    public static double shootSpeedLow = 3000;
-//    public static double shootSpeedFlat = 1000;
+    public static double shootRPMHigh = 5000;
+    public static double shootRPMLow = 3000;
+    public static double shootRPMFlat = 1000;
     public static double shootSpeedHigh = 1;
     public static double shootSpeedLow = 0.5;
     public static double shootSpeedFlat = 0.3;
@@ -93,5 +93,6 @@ public class RMap {
     public static String robotMode = "Robot Mode";
     public static String driveMode = "Drive Mode";
     public static String gameData = "Game Data";
+    public static String shootPosition = "Shoot Target";
 
 }

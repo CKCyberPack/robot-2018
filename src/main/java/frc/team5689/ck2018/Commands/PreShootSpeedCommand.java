@@ -5,7 +5,7 @@ import frc.team5689.ck2018.RMap;
 import frc.team5689.ck2018.Subsystems.BMotor;
 import frc.team5689.ck2018.Subsystems.BPiston;
 
-public class PreShootCommand extends Command {
+public class PreShootSpeedCommand extends Command {
 
     private long timer;
     private boolean finished = false;
@@ -13,7 +13,7 @@ public class PreShootCommand extends Command {
     private BPiston.Position curPosition;
     private double maxSpeed;
 
-    public PreShootCommand() {
+    public PreShootSpeedCommand() {
         //List Subsystems required to run this command
         requires(BMotor.getInstance());
     }
@@ -44,7 +44,7 @@ public class PreShootCommand extends Command {
             default:
                 System.out.println("ERROR - Invalid Shooter Position");
         }
-        BMotor.getInstance().setRPM(maxSpeed);
+        BMotor.getInstance().setSpeed(maxSpeed);
 
         if (System.currentTimeMillis() - timer >= RMap.preShootTimer) {
             finished = true;
@@ -55,24 +55,18 @@ public class PreShootCommand extends Command {
      * Make this return true when this Command no longer needs to run execute()
      */
     protected boolean isFinished() {
-        if (finished == true){
+        if (finished == true) {
             return true;
+        } else {
+            return false;
         }
-        return false;
-//        else {
-//            if (BMotor.getInstance().getRPM() >= (maxSpeed - 100)) {
-//                return true;
-//            } else {
-//                return false;
-//            }
-//       }
     }
 
     /*
      * Called once after isFinished returns true
      */
     protected void end() {
-        //BMotor.getInstance().stopMotor();
+        //Let Motor Keep Running
     }
 
     /* Called when another command which requires one or more of the same
