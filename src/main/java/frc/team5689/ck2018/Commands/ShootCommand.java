@@ -6,6 +6,7 @@ import frc.team5689.ck2018.Subsystems.BPiston;
 
 public class ShootCommand extends Command {
 
+
     public ShootCommand() {
         //List Subsystems required to run this command
         requires(Robot.ckBPiston);

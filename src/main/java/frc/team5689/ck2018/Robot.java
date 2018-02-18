@@ -145,15 +145,6 @@ public class Robot extends IterativeRobot {
         //Scheduler.getInstance().run(); //Scheduler won't run in test
 
 
-
-
-
-
-
-
-
-
-
 //        if (ckController.getTriggerAxis(GenericHID.Hand.kRight) > 0){       // shoot
 //
 //            Thread x = new Thread(() -> {{//Might work?

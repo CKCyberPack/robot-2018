@@ -68,6 +68,9 @@ public class RMap {
     //----------------------------//
     public static double driveDeadzone = 0.15;
 
+    //Commands
+    public static long shootTimer = 100;
+
 
 
     //SmartDashboard
