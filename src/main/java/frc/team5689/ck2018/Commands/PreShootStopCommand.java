@@ -1,12 +1,11 @@
 package frc.team5689.ck2018.Commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.team5689.ck2018.RMap;
 import frc.team5689.ck2018.Subsystems.BMotor;
-import frc.team5689.ck2018.Subsystems.BPiston;
 
 public class PreShootStopCommand extends Command {
 
+    @SuppressWarnings("WeakerAccess")
     public PreShootStopCommand() {
         //List Subsystems required to run this command
         requires(BMotor.getInstance());

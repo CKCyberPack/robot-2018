@@ -18,8 +18,8 @@ public class Robot extends IterativeRobot {
     private int driveRobot = 0;
 
     //Components
-    public DriveTrain ckDrive;
     private XboxController ckController;
+    private DriveTrain ckDrive;
     private PowerDistributionPanel ckPDP;
     private Compressor ckCompressor;
 
@@ -38,6 +38,7 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putString(RMap.robotMode, "Start Up");
         ckController = new XboxController(0);
         ckDrive = DriveTrain.getInstance();
+        ckPDP = new PowerDistributionPanel();
         ckCompressor = new Compressor();
     }
 
@@ -127,7 +128,7 @@ public class Robot extends IterativeRobot {
                 targetCommand.start();
             }
         }
-        if (ckController.getTriggerAxis(GenericHID.Hand.kLeft) >= 0.5 && shooterReleased == true){
+        if (ckController.getTriggerAxis(GenericHID.Hand.kLeft) >= 0.5 && shooterReleased) {
             shooterReleased = false;
             Command targetCommand = BPiston.getInstance().prevPostion();
             if (targetCommand != null){

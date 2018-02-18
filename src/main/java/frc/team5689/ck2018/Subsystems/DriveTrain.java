@@ -10,12 +10,6 @@ import frc.team5689.ck2018.RMap;
 
 public class DriveTrain extends Subsystem {
 
-    //Declare Motors Here
-    private DriveVictorSPX rearRightMotor;
-    private DriveVictorSPX rearLeftMotor;
-    private DriveVictorSPX frontRightMotor;
-    private DriveVictorSPX frontLeftMotor;
-
     private MecanumDrive ckDrive;
     private BuiltInAccelerometer ckAccel;
     private ADXRS450_Gyro ckGyro;
@@ -34,14 +28,14 @@ public class DriveTrain extends Subsystem {
     private DriveTrain()  //private so no duplicate Subsystem is created
     {
         //initializes variables such as SpeedControllers, Pneumatics, etc.
-        rearLeftMotor = new DriveVictorSPX(RMap.canDriveRearLeft);
-        rearRightMotor = new DriveVictorSPX(RMap.canDriveRearRight);
-        frontLeftMotor = new DriveVictorSPX(RMap.canDriveFrontLeft);
-        frontRightMotor = new DriveVictorSPX(RMap.canDriveFrontRight);
+        DriveVictorSPX rearLeftMotor = new DriveVictorSPX(RMap.canDriveRearLeft);
+        DriveVictorSPX rearRightMotor = new DriveVictorSPX(RMap.canDriveRearRight);
+        DriveVictorSPX frontLeftMotor = new DriveVictorSPX(RMap.canDriveFrontLeft);
+        DriveVictorSPX frontRightMotor = new DriveVictorSPX(RMap.canDriveFrontRight);
 
         ckDrive = new MecanumDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
-        ckDrive.setDeadband(RMap.DEADZONE);    // calibrate control sticks
-        ckDrive.setSafetyEnabled(false);
+        ckDrive.setDeadband(RMap.DEADZONE);
+        ckDrive.setSafetyEnabled(true); //Make sure it doesn't run away
 
         ckGyro = new ADXRS450_Gyro();
         ckAccel = new BuiltInAccelerometer();

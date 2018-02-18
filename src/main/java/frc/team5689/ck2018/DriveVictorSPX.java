@@ -37,16 +37,6 @@ public class DriveVictorSPX extends VictorSPX implements SpeedController {
         return super.getMotorOutputPercent();
     }
 
-    @Override
-    public boolean getInverted() {
-        return super.getInverted();
-    }
-
-    @Override
-    public void setInverted(boolean isInverted) {
-        super.setInverted(isInverted);
-    }
-
     /**
      * Disable the speed controller.
      */
