@@ -1,13 +1,13 @@
 package frc.team5689.ck2018.Commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.team5689.ck2018.Robot;
+import frc.team5689.ck2018.Subsystems.ExampleSubsystem;
 
 public class ExampleCommand extends Command {
 
     public ExampleCommand() {
         //List Subsystems required to run this command
-        requires(Robot.exampleSubsystem);
+        requires(ExampleSubsystem.getInstance());
     }
 
     /*

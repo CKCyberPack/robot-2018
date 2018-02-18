@@ -12,17 +12,7 @@ import frc.team5689.ck2018.Subsystems.*;
 import java.util.Set;
 
 public class Robot extends IterativeRobot {
-    //Subsystems
-    public static ExampleSubsystem exampleSubsystem;
-    public static DriveTrain ckDrive;
-    public static BMotor ckBMotor;
-    public static BPiston ckBPiston;
-    public static InArm ckInArm;
-    public static InMotor ckInMotor;
-
     //Commands
-    private Command intakeCommand;
-
 
     //Auto variables
     private final static String START_LEFT = "left";//Left side of the field
@@ -31,8 +21,8 @@ public class Robot extends IterativeRobot {
     private String gameData;
     private int driveRobot = 0;
 
-
     //Components
+    public DriveTrain ckDrive;
     private XboxController ckController;
     private PowerDistributionPanel ckPDP;
 
@@ -44,13 +34,7 @@ public class Robot extends IterativeRobot {
     @Override
     public void robotInit() {
         SmartDashboard.putString(RMap.robotMode, "Start Up");
-        ckController = new XboxController (0);
-        //ckPDP = new PowerDistributionPanel();
-        //ckDrive = DriveTrain.getInstance();
-        //ckBMotor = BMotor.getInstance();
-        //ckBPiston = BPiston.getInstance();
-        ckInArm = InArm.getInstance();
-        //ckInMotor = InMotor.getInstance();
+        ckController = new XboxController(0);
     }
 
     @Override
@@ -91,26 +75,25 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
 
-        if (ckController.getAButtonPressed()){
+        if (ckController.getAButtonPressed()) {
             new SetAngleCommand().start();
         }
 
-        if (ckController.getBButtonPressed()){
+        if (ckController.getBButtonPressed()) {
             new StopAngleCommand().start();
         }
 
         /////////////////
         // Drive Modes //
         /////////////////
-        //System.out.println(driveRobot);
         switch (driveRobot) {
             case 0:                                     //forward - rotate  - strafe
                 SmartDashboard.putString(RMap.driveMode, "Right Y - Right X - Left X");
-          //      ckDrive.teleDriveCartesian(-ckController.getY(GenericHID.Hand.kRight), ckController.getX(GenericHID.Hand.kRight), ckController.getX(GenericHID.Hand.kLeft));
+                //TODO      ckDrive.teleDriveCartesian(-ckController.getY(GenericHID.Hand.kRight), ckController.getX(GenericHID.Hand.kRight), ckController.getX(GenericHID.Hand.kLeft));
                 break;
             case 1:
                 SmartDashboard.putString(RMap.driveMode, "Right Y - Left X - Right X");
-             //   ckDrive.teleDriveCartesian(-ckController.getY(GenericHID.Hand.kRight), ckController.getX(GenericHID.Hand.kLeft), ckController.getX(GenericHID.Hand.kRight));
+                //TODO   ckDrive.teleDriveCartesian(-ckController.getY(GenericHID.Hand.kRight), ckController.getX(GenericHID.Hand.kLeft), ckController.getX(GenericHID.Hand.kRight));
                 break;
             default:
                 System.out.println("ERROR - No more drive modes");
@@ -127,16 +110,6 @@ public class Robot extends IterativeRobot {
     @Override
     public void testInit() {
         SmartDashboard.putString(RMap.robotMode, "Test");
-
-//        //Putting the values
-//        //TODO Delete
-//        SmartDashboard.putNumber("kF", RMap.armKF);
-//        SmartDashboard.putNumber("kP", RMap.armKP);
-//        SmartDashboard.putNumber("kI", RMap.armKI);
-//        SmartDashboard.putNumber("kD", RMap.armKD);
-//
-//        //intakeCommand = new SetAngleCommand();
-
     }
 
     @Override
