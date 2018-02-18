@@ -2,49 +2,34 @@ package frc.team5689.ck2018.Commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.team5689.ck2018.RMap;
-import frc.team5689.ck2018.Subsystems.BPiston;
+import frc.team5689.ck2018.Robot;
+import frc.team5689.ck2018.Subsystems.InArm;
 
-import static frc.team5689.ck2018.Subsystems.BPiston.Position.Flat;
-import static frc.team5689.ck2018.Subsystems.BPiston.Position.Low;
+public class AngleStopCommand extends Command {
 
-public class TargetLowCommand extends Command {
-
-    private long timer;
-    private boolean finished = false;
-
-    public TargetLowCommand() {
+    public AngleStopCommand() {
         //List Subsystems required to run this command
-        requires(BPiston.getInstance());
+        requires(InArm.getInstance());
     }
 
     /*
      *	This method sets up the command and is called immediately before the command
      *	is executed for the first time and every subsequent time it is started .
      */
-    protected void initialize() {
-        timer = System.currentTimeMillis();
-        if (BPiston.getInstance().getCurrentPos() == Low){
-            finished = true;
-        }
-
-    }
+    protected void initialize() { }
 
     /*
      * This method is called periodically (about every 20ms)
      */
     protected void execute() {
-        BPiston.getInstance().setPosition(Low);
-
-        if (System.currentTimeMillis() - timer >= RMap.shootPistonTimer){
-            finished = true;
-        }
+        InArm.getInstance().stopMotor();
     }
 
     /*
      * Make this return true when this Command no longer needs to run execute()
      */
     protected boolean isFinished() {
-        return finished;
+        return true;
     }
 
     /*

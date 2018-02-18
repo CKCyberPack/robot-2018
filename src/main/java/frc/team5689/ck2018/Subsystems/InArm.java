@@ -33,7 +33,6 @@ public class InArm extends Subsystem {
 
         //Left Motor
         inMotorAngleL.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, RMap.pididx, RMap.timeout);
-        //inMotorAngleL.setSensorPhase(true);
         //Todo inMotorAngleL.setInverted();
         inMotorAngleL.configPeakOutputForward(RMap.armPOW, RMap.timeout);
         inMotorAngleL.configPeakOutputReverse(-RMap.armPOW, RMap.timeout);
@@ -44,7 +43,6 @@ public class InArm extends Subsystem {
 
         //Right Motor
         inMotorAngleR.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, RMap.pididx, RMap.timeout);
-        //inMotorAngleR.setSensorPhase(true)
         inMotorAngleR.configPeakOutputForward(RMap.armPOW, RMap.timeout);
         inMotorAngleR.configPeakOutputReverse(-RMap.armPOW, RMap.timeout);
         inMotorAngleR.config_kF(RMap.pididx, RMap.armKF, RMap.timeout);     // overcome friction
@@ -64,17 +62,18 @@ public class InArm extends Subsystem {
     }
 
     public void setAngle(double angle) {
+        if (angle < 0){
+            angle = 0;
+        }
+
+        setLArmAngle(angle);
+        setRArmAngle(angle);
         targetAngle = angle;
-        setLArmAngle(targetAngle);
-        setRArmAngle(targetAngle);
     }
 
     public void setLArmAngle(double angle) {
         if (angle >= RMap.intakeAngleStopL) {
             angle = RMap.intakeAngleStopL;
-        }
-        else if (angle <= 0){
-            angle = 0;
         }
 
         inMotorAngleL.set(ControlMode.Position, angle);//TODO Negate angle?
@@ -85,9 +84,6 @@ public class InArm extends Subsystem {
     public void setRArmAngle(double angle) {
         if (angle >= RMap.intakeAngleStopR) {
             angle = RMap.intakeAngleStopR;
-        }
-        else if (angle <= 0){
-            angle = 0;
         }
 
         inMotorAngleR.set(ControlMode.Position, angle);
@@ -105,7 +101,8 @@ public class InArm extends Subsystem {
         inMotorAngleR.setSelectedSensorPosition(0, RMap.pididx, RMap.timeout);
     }
 
-//    public double getAngle() {
-//        return inMotorAngleR.getSelectedSensorPosition(RMap.pididx); //Todo Should this be left motor instead?
-//    }
+    public double getTargetAngle() {
+        return targetAngle;
+    }
+
 }

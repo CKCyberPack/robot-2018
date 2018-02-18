@@ -2,12 +2,11 @@ package frc.team5689.ck2018.Commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.team5689.ck2018.RMap;
-import frc.team5689.ck2018.Robot;
 import frc.team5689.ck2018.Subsystems.InArm;
 
-public class StopAngleCommand extends Command {
+public class AngleIncreaseCommand extends Command {
 
-    public StopAngleCommand() {
+    public AngleIncreaseCommand() {
         //List Subsystems required to run this command
         requires(InArm.getInstance());
     }
@@ -16,24 +15,20 @@ public class StopAngleCommand extends Command {
      *	This method sets up the command and is called immediately before the command
      *	is executed for the first time and every subsequent time it is started .
      */
-    protected void initialize() {
-        System.out.println("INIT");
-    }
+    protected void initialize() {}
 
     /*
      * This method is called periodically (about every 20ms)
      */
     protected void execute() {
-        System.out.println("EXEC");
-        InArm.getInstance().stopMotor();
+        InArm.getInstance().setAngle(InArm.getInstance().getTargetAngle() + RMap.intakeAngleStep);
     }
 
     /*
      * Make this return true when this Command no longer needs to run execute()
      */
     protected boolean isFinished() {
-        System.out.print("Stop done");
-        return true;
+        return false;
     }
 
     /*
@@ -47,8 +42,6 @@ public class StopAngleCommand extends Command {
      * subsystems is scheduled to run
      */
     protected void interrupted() {
-
-        InArm.getInstance().stopMotor();
-
+        end();
     }
 }

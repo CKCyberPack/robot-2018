@@ -3,8 +3,8 @@ package frc.team5689.ck2018;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.team5689.ck2018.Commands.HoldAngleCommand;
-import frc.team5689.ck2018.Commands.StopAngleCommand;
+import frc.team5689.ck2018.Commands.AngleSetCommand;
+import frc.team5689.ck2018.Commands.AngleStopCommand;
 import frc.team5689.ck2018.Subsystems.*;
 
 public class Robot extends IterativeRobot {
@@ -72,11 +72,11 @@ public class Robot extends IterativeRobot {
         Scheduler.getInstance().run();
 
         if (ckController.getAButtonPressed()) {
-            new HoldAngleCommand().start();
+            new AngleSetCommand().start();
         }
 
         if (ckController.getBButtonPressed()) {
-            new StopAngleCommand().start();
+            new AngleStopCommand().start();
         }
 
         // Reset Encoder
