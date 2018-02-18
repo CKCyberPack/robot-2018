@@ -48,6 +48,9 @@ public class RMap {
 
     //Intake angles
     public static int intakeAngle = 2300;
+    public static int intakeAngleStopL= 2500;
+    public static int intakeAngleStopR= 3000;
+
 
 
     //PCM
