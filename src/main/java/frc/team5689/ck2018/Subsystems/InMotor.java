@@ -1,10 +1,7 @@
 package frc.team5689.ck2018.Subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.team5689.ck2018.RMap;
 
@@ -27,8 +24,8 @@ public class InMotor extends Subsystem {
     private InMotor()  //private so no duplicate Subsystem is created
     {
         //Initialize Motors
-        inMotorL = new VictorSPX(RMap.intakeAngleLeft);
-        inMotorR = new VictorSPX(RMap.intakeAngleRight);
+        inMotorL = new VictorSPX(RMap.intakeAngleLeftPort);
+        inMotorR = new VictorSPX(RMap.intakeAngleRightPort);
     }
 
     /**

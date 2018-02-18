@@ -4,8 +4,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.team5689.ck2018.RMap;
 
@@ -30,10 +28,10 @@ public class BMotor extends Subsystem {
     private BMotor()  //private so no duplicate Subsystem is created
     {
         //Initialize Motors
-        preShootLeft = new VictorSPX(RMap.preshootLeft);
-        preShootRight = new VictorSPX(RMap.preshootRight);
-        shootLeft = new TalonSRX(RMap.shooterLeft);
-        shootRight = new TalonSRX(RMap.shooterRight);
+        preShootLeft = new VictorSPX(RMap.preshootLeftPort);
+        preShootRight = new VictorSPX(RMap.preshootRightPort);
+        shootLeft = new TalonSRX(RMap.shooterLeftPort);
+        shootRight = new TalonSRX(RMap.shooterRightPort);
 
         //Set PID
         shootLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, RMap.pididx, RMap.timeout);

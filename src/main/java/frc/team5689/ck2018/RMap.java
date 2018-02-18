@@ -3,7 +3,7 @@ package frc.team5689.ck2018;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 /////////////////////////////////////////////////////////
-//** Magic Numbers Class ** I think
+//** Magic Numbers Class **
 /////////////////////////////////////////////////////////
 public class RMap {
 
@@ -11,26 +11,27 @@ public class RMap {
     //GLOBAL
     public static int timeout = 10;//10ms
     public static int pididx = 0;
+
     //CAN outputs
     //-------------//
     //Drive
-    public static int driveRearLeft = 11;
-    public static int driveRearRight = 12;
-    public static int driveFrontLeft = 15;
-    public static int driveFrontRight = 16;
+    public static int driveRearLeftPort = 11;
+    public static int driveRearRightPort = 12;
+    public static int driveFrontLeftPort = 15;
+    public static int driveFrontRightPort = 16;
     //Shooters
-    public static int shooterLeft = 21;
-    public static int shooterRight = 22;
-    public static int preshootLeft = 25;
-    public static int preshootRight = 26;
+    public static int shooterLeftPort = 21;
+    public static int shooterRightPort = 22;
+    public static int preshootLeftPort = 25;
+    public static int preshootRightPort = 26;
     //Intake
-    public static int intakeLeft = 31;
-    public static int intakeRight = 32;
-    public static int intakeArmLeft = 35;
-    public static int intakeArmRight = 36;
+    public static int intakeLeftPort = 31;
+    public static int intakeRightPort = 32;
+    public static int intakeArmLeftPort = 35;
+    public static int intakeArmRightPort = 36;
 
-    public static int intakeAngleLeft = 41;
-    public static int intakeAngleRight = 42;
+    public static int intakeAngleLeftPort = 41;
+    public static int intakeAngleRightPort = 42;
 
     public static double armKP = 10;//SmartDashboard.getNumber("kP", 0);
     public static double armKI = 0;

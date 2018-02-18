@@ -3,7 +3,6 @@ package frc.team5689.ck2018.Subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team5689.ck2018.RMap;
@@ -29,8 +28,8 @@ public class InArm extends Subsystem {
     private InArm()  //private so no duplicate Subsystem is created
     {
         //Initialize Motors
-        inMotorAngleL = new TalonSRX(RMap.intakeAngleLeft);
-        inMotorAngleR = new TalonSRX(RMap.intakeAngleRight);
+        inMotorAngleL = new TalonSRX(RMap.intakeAngleLeftPort);
+        inMotorAngleR = new TalonSRX(RMap.intakeAngleRightPort);
 
         //Left Motor
         inMotorAngleL.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, RMap.pididx, RMap.timeout);
