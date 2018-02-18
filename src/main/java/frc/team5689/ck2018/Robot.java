@@ -72,22 +72,19 @@ public class Robot extends IterativeRobot {
     @Override
     public void autonomousInit() {
         SmartDashboard.putString(RMap.robotMode, "Auto");
-        //Load Auto Commands
+        //TODO Load Auto Commands
     }
 
 
     @Override
     public void autonomousPeriodic() {
-        //Schedler.getInstance().run()
+        Scheduler.getInstance().run();
     }
 
     @Override
     public void teleopInit() {
         SmartDashboard.putString(RMap.robotMode, "Teleop");
-        //Cancel Auto Commans command.cancel()
-
-        //ckController.a.whenPressed(new SetAngleCommand());
-        //ckController.b.whenPressed(new StopAngleCommand());
+        Scheduler.getInstance().removeAll(); //TODO Test that this clears them
     }
 
     @Override
@@ -131,14 +128,14 @@ public class Robot extends IterativeRobot {
     public void testInit() {
         SmartDashboard.putString(RMap.robotMode, "Test");
 
-        //Putting the values
-        //TODO Delete
-        SmartDashboard.putNumber("kF", RMap.armKF);
-        SmartDashboard.putNumber("kP", RMap.armKP);
-        SmartDashboard.putNumber("kI", RMap.armKI);
-        SmartDashboard.putNumber("kD", RMap.armKD);
-
-        //intakeCommand = new SetAngleCommand();
+//        //Putting the values
+//        //TODO Delete
+//        SmartDashboard.putNumber("kF", RMap.armKF);
+//        SmartDashboard.putNumber("kP", RMap.armKP);
+//        SmartDashboard.putNumber("kI", RMap.armKI);
+//        SmartDashboard.putNumber("kD", RMap.armKD);
+//
+//        //intakeCommand = new SetAngleCommand();
 
     }
 
