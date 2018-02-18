@@ -1,15 +1,11 @@
 package frc.team5689.ck2018;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.team5689.ck2018.Commands.SetAngleCommand;
+import frc.team5689.ck2018.Commands.HoldAngleCommand;
 import frc.team5689.ck2018.Commands.StopAngleCommand;
 import frc.team5689.ck2018.Subsystems.*;
-
-import java.util.Set;
 
 public class Robot extends IterativeRobot {
     //Commands
@@ -76,7 +72,7 @@ public class Robot extends IterativeRobot {
         Scheduler.getInstance().run();
 
         if (ckController.getAButtonPressed()) {
-            new SetAngleCommand().start();
+            new HoldAngleCommand().start();
         }
 
         if (ckController.getBButtonPressed()) {

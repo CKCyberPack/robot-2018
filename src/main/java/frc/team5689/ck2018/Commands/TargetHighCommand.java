@@ -10,7 +10,7 @@ public class TargetHighCommand extends Command {
 
     public TargetHighCommand() {
         //List Subsystems required to run this command
-        requires(Robot.ckBPiston);
+        requires(BPiston.getInstance());
     }
 
     /*

@@ -3,13 +3,13 @@ package frc.team5689.ck2018.Commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.team5689.ck2018.RMap;
 import frc.team5689.ck2018.Robot;
+import frc.team5689.ck2018.Subsystems.InArm;
 
 public class StopAngleCommand extends Command {
 
     public StopAngleCommand() {
-        super();
         //List Subsystems required to run this command
-        requires(Robot.ckInArm);
+        requires(InArm.getInstance());
     }
 
     /*
@@ -25,7 +25,7 @@ public class StopAngleCommand extends Command {
      */
     protected void execute() {
         System.out.println("EXEC");
-        Robot.ckInArm.stopMotor();
+        InArm.getInstance().stopMotor();
     }
 
     /*
@@ -48,7 +48,7 @@ public class StopAngleCommand extends Command {
      */
     protected void interrupted() {
 
-        Robot.ckInArm.stopMotor();
+        InArm.getInstance().stopMotor();
 
     }
 }

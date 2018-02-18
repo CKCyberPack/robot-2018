@@ -10,7 +10,7 @@ public class TargetFlatCommand extends Command {
 
     public TargetFlatCommand() {
         //List Subsystems required to run this command
-        requires(Robot.ckBPiston);
+        requires(BPiston.getInstance());
     }
 
     /*

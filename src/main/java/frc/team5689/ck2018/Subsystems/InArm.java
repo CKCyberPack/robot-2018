@@ -14,6 +14,8 @@ public class InArm extends Subsystem {
     private TalonSRX inMotorAngleL;
     private TalonSRX inMotorAngleR;
 
+    private double curAngle;
+
     //----- Make Singleton -----
     public static InArm instance;
 
@@ -87,5 +89,13 @@ public class InArm extends Subsystem {
     public void resetangle() {
         inMotorAngleL.setSelectedSensorPosition(0, RMap.pididx, RMap.timeout);
         inMotorAngleR.setSelectedSensorPosition(0, RMap.pididx, RMap.timeout);
+    }
+
+    public double getCurAngle() {
+        return inMotorAngleR.getSelectedSensorPosition(RMap.pididx);
+    }
+
+    public void setCurAngle(double curAngle) {
+        this.curAngle = curAngle;
     }
 }
