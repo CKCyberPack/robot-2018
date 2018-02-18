@@ -8,9 +8,9 @@ import frc.team5689.ck2018.Robot;
 import frc.team5689.ck2018.Subsystems.InArm;
 import frc.team5689.ck2018.Subsystems.InMotor;
 
-public class HoldAngleCommand extends Command {
+public class AngleSetCommand extends Command {
 
-    public HoldAngleCommand() {
+    public AngleSetCommand() {
         //List Subsystems required to run this command
         requires(InArm.getInstance());
     }
@@ -32,12 +32,6 @@ public class HoldAngleCommand extends Command {
      * Make this return true when this Command no longer needs to run execute()
      */
     protected boolean isFinished() {
-//        if (InArm.getInstance().getCurAngle() >= RMap.intakeAngle){
-//            return true;
-//        }
-//        else{
-//            return false;
-//        }
         return false;
     }
 

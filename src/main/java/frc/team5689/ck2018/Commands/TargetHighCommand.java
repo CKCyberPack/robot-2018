@@ -1,12 +1,16 @@
 package frc.team5689.ck2018.Commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.team5689.ck2018.Robot;
+import frc.team5689.ck2018.RMap;
 import frc.team5689.ck2018.Subsystems.BPiston;
 
 import static frc.team5689.ck2018.Subsystems.BPiston.Position.High;
+import static frc.team5689.ck2018.Subsystems.BPiston.Position.Low;
 
 public class TargetHighCommand extends Command {
+
+    private long timer;
+    private boolean finished = false;
 
     public TargetHighCommand() {
         //List Subsystems required to run this command
@@ -18,6 +22,11 @@ public class TargetHighCommand extends Command {
      *	is executed for the first time and every subsequent time it is started .
      */
     protected void initialize() {
+        timer = System.currentTimeMillis();
+        if (BPiston.getInstance().getCurrentPos() == High){
+            finished = true;
+        }
+
     }
 
     /*
@@ -25,26 +34,28 @@ public class TargetHighCommand extends Command {
      */
     protected void execute() {
         BPiston.getInstance().setPosition(High);
+
+        if (System.currentTimeMillis() - timer >= RMap.shootPistonTimer){
+            finished = true;
+        }
     }
 
     /*
      * Make this return true when this Command no longer needs to run execute()
      */
     protected boolean isFinished() {
-        return false;
+        return finished;
     }
 
     /*
      * Called once after isFinished returns true
      */
-    protected void end() {
-
-    }
+    protected void end() { }
 
     /* Called when another command which requires one or more of the same
      * subsystems is scheduled to run
      */
     protected void interrupted() {
-
+        end();
     }
 }
