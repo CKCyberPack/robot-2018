@@ -9,6 +9,8 @@ import frc.team5689.ck2018.Commands.SetAngleCommand;
 import frc.team5689.ck2018.Commands.StopAngleCommand;
 import frc.team5689.ck2018.Subsystems.*;
 
+import java.util.Set;
+
 public class Robot extends IterativeRobot {
     //Subsystems
     public static ExampleSubsystem exampleSubsystem;
@@ -31,7 +33,7 @@ public class Robot extends IterativeRobot {
 
 
     //Components
-    private OI ckController;
+    private XboxController ckController;
     private PowerDistributionPanel ckPDP;
 
     //Variables
@@ -42,7 +44,7 @@ public class Robot extends IterativeRobot {
     @Override
     public void robotInit() {
         SmartDashboard.putString(RMap.robotMode, "Start Up");
-        ckController = new OI (0);
+        ckController = new XboxController (0);
         //ckPDP = new PowerDistributionPanel();
         //ckDrive = DriveTrain.getInstance();
         //ckBMotor = BMotor.getInstance();
@@ -84,13 +86,21 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putString(RMap.robotMode, "Teleop");
         //Cancel Auto Commans command.cancel()
 
-        ckController.a.whenPressed(new SetAngleCommand());
-        ckController.b.whenPressed(new StopAngleCommand());
+        //ckController.a.whenPressed(new SetAngleCommand());
+        //ckController.b.whenPressed(new StopAngleCommand());
     }
 
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+
+        if (ckController.getAButtonPressed()){
+            new SetAngleCommand().start();
+        }
+
+        if (ckController.getBButtonPressed()){
+            new StopAngleCommand().start();
+        }
 
         /////////////////
         // Drive Modes //
