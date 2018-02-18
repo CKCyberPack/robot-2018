@@ -59,13 +59,6 @@ public class BMotor extends Subsystem {
 
     }
 
-    public void setspeed(double speed) {
-        shootLeft.set(ControlMode.PercentOutput, speed); //Todo Reverse Shoot Motor?
-        shootRight.set(ControlMode.PercentOutput, speed);
-        preShootLeft.set(ControlMode.PercentOutput, shootLeft.getMotorOutputPercent());
-        preShootRight.set(ControlMode.PercentOutput, shootRight.getMotorOutputPercent());
-    }
-
     public void setRPM(double RPM) {
         shootLeft.set(ControlMode.Velocity, RPM);
         shootRight.set(ControlMode.Velocity, RPM);
@@ -80,4 +73,7 @@ public class BMotor extends Subsystem {
         preShootRight.set(ControlMode.Disabled, 0);
     }
 
+    public double getRPM(){
+        return Math.min(shootLeft.getSelectedSensorVelocity(RMap.pididx),shootRight.getSelectedSensorVelocity(RMap.pididx));
+    }
 }
