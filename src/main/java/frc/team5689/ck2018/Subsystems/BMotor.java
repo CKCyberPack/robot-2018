@@ -12,45 +12,43 @@ import frc.team5689.ck2018.RMap;
 public class BMotor extends Subsystem {
 
     //Declare Motors Here
-    private VictorSPX shootMotor1;
-    private VictorSPX shootMotor2;
-    private TalonSRX shootMotor3;
-    private TalonSRX shootMotor4;
-
-    public TalonSRX smt;
-
-
+    private VictorSPX preShootLeft;
+    private VictorSPX preShootRight;
+    private TalonSRX shootLeft;
+    private TalonSRX shootRight;
 
     //----- Make Singleton -----
     public static BMotor instance;
 
     public static BMotor getInstance()
     {
-        if (instance == null)
+        if (instance == null) {
             instance = new BMotor();
-
+        }
         return instance;
     }
 
     private BMotor()  //private so no duplicate Subsystem is created
     {
-        //initializes variables such as SpeedControllers, Pneumatics, etc.
         //Initialize Motors
-    /*    shootMotor1 = new VictorSPX(RMap.preshootLeft);
-        shootMotor2 = new VictorSPX(RMap.preshootRight);
-        shootMotor3 = new TalonSRX(RMap.shooterLeft);
-        shootMotor4 = new TalonSRX(RMap.shooterRight);
-        */
+        preShootLeft = new VictorSPX(RMap.preshootLeft);
+        preShootRight = new VictorSPX(RMap.preshootRight);
+        shootLeft = new TalonSRX(RMap.shooterLeft);
+        shootRight = new TalonSRX(RMap.shooterRight);
 
-        //Shooter Test Motor
-        smt = new TalonSRX(RMap.shooterLeft);
-        smt.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
-        smt.setSensorPhase(true);
-        smt.configNominalOutputForward(0, 10);
-        smt.configNominalOutputReverse(0, 10);
-        smt.configPeakOutputForward(0.5, 10);
-        smt.configPeakOutputReverse(-0.5, 10);
+        //Set PID
+        shootLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, RMap.pididx, RMap.timeout);
+        //Todo shootLeft.setInverted();
+        shootLeft.config_kF(RMap.pididx,RMap.shootKF);
+        shootLeft.config_kP(RMap.pididx,RMap.shootKP);
+        shootLeft.config_kI(RMap.pididx,RMap.shootKI);
+        shootLeft.config_kD(RMap.pididx,RMap.shootKD);
 
+        shootRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, RMap.pididx, RMap.timeout);
+        shootRight.config_kF(RMap.pididx,RMap.shootKF);
+        shootRight.config_kP(RMap.pididx,RMap.shootKP);
+        shootRight.config_kI(RMap.pididx,RMap.shootKI);
+        shootRight.config_kD(RMap.pididx,RMap.shootKD);
     }
 
 
@@ -64,28 +62,24 @@ public class BMotor extends Subsystem {
 
     }
     public void setspeed(double speed){
-        //shootMotor1.set(ControlMode.PercentOutput, speed);
-        //shootMotor2.set(ControlMode.PercentOutput, speed);
-        shootMotor3.set(ControlMode.PercentOutput, speed);
-        shootMotor4.set(ControlMode.PercentOutput, speed);
-        shootMotor1.set(ControlMode.PercentOutput, shootMotor3.getMotorOutputPercent());
-        shootMotor2.set(ControlMode.PercentOutput, shootMotor4.getMotorOutputPercent());
-
+        shootLeft.set(ControlMode.PercentOutput, speed); //Todo Reverse Shoot Motor?
+        shootRight.set(ControlMode.PercentOutput, speed);
+        preShootLeft.set(ControlMode.PercentOutput, shootLeft.getMotorOutputPercent());
+        preShootRight.set(ControlMode.PercentOutput, shootRight.getMotorOutputPercent());
     }
 
     public void setRPM(double RPM){
-
-        shootMotor3.set(ControlMode.Velocity, RPM);
-        shootMotor4.set(ControlMode.Velocity, RPM);
-        shootMotor1.set(ControlMode.Velocity, shootMotor3.getMotorOutputPercent());
-        shootMotor2.set(ControlMode.Velocity, shootMotor4.getMotorOutputPercent());
+        shootLeft.set(ControlMode.Velocity, RPM);
+        shootRight.set(ControlMode.Velocity, RPM);
+        preShootLeft.set(ControlMode.PercentOutput, shootLeft.getMotorOutputPercent());
+        preShootRight.set(ControlMode.PercentOutput, shootRight.getMotorOutputPercent());
     }
 
     public void stopMotor() {
-        shootMotor3.set(ControlMode.Disabled, 0);
-        shootMotor4.set(ControlMode.Disabled, 0);
-        shootMotor1.set(ControlMode.Disabled, 0);
-        shootMotor2.set(ControlMode.Disabled, 0);
+        shootLeft.set(ControlMode.Disabled, 0);
+        shootRight.set(ControlMode.Disabled, 0);
+        preShootLeft.set(ControlMode.Disabled, 0);
+        preShootRight.set(ControlMode.Disabled, 0);
     }
 
 }
