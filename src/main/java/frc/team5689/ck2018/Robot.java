@@ -24,7 +24,7 @@ public class Robot extends IterativeRobot {
 
     //Variables
     private boolean overrideSafety = false;
-    private boolean ledOn = false;//LED
+    private boolean ledOn = false;
 
 
     @Override
@@ -78,6 +78,12 @@ public class Robot extends IterativeRobot {
         if (ckController.getBButtonPressed()) {
             new StopAngleCommand().start();
         }
+
+        // Reset Encoder
+        if (ckController.getStartButtonPressed()){
+            InArm.getInstance().resetAngle();
+        }
+
 
         /////////////////
         // Drive Modes //

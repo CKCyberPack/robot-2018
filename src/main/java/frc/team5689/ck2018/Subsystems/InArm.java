@@ -13,7 +13,7 @@ public class InArm extends Subsystem {
     private TalonSRX inMotorAngleL;
     private TalonSRX inMotorAngleR;
 
-    private double curAngle;
+    private double targetAngle;
 
     //----- Make Singleton -----
     public static InArm instance;
@@ -64,17 +64,32 @@ public class InArm extends Subsystem {
     }
 
     public void setAngle(double angle) {
-        setLArmAngle(angle);
-        setRArmAngle(angle);
+        targetAngle = angle;
+        setLArmAngle(targetAngle);
+        setRArmAngle(targetAngle);
     }
 
-    public void setLArmAngle(double angle) {         // only one arm plz
+    public void setLArmAngle(double angle) {
+        if (angle >= RMap.intakeAngleStopL) {
+            angle = RMap.intakeAngleStopL;
+        }
+        else if (angle <= 0){
+            angle = 0;
+        }
+
         inMotorAngleL.set(ControlMode.Position, angle);//TODO Negate angle?
         SmartDashboard.putNumber("LPOS", inMotorAngleL.getSelectedSensorPosition(RMap.pididx));
         SmartDashboard.putNumber("LPOW", inMotorAngleL.getMotorOutputPercent());
     }
 
-    public void setRArmAngle(double angle) {         // only one arm plz
+    public void setRArmAngle(double angle) {
+        if (angle >= RMap.intakeAngleStopR) {
+            angle = RMap.intakeAngleStopR;
+        }
+        else if (angle <= 0){
+            angle = 0;
+        }
+
         inMotorAngleR.set(ControlMode.Position, angle);
         SmartDashboard.putNumber("RPOS", inMotorAngleR.getSelectedSensorPosition(RMap.pididx));
         SmartDashboard.putNumber("RPOW", inMotorAngleR.getMotorOutputPercent());
@@ -85,16 +100,12 @@ public class InArm extends Subsystem {
         inMotorAngleR.set(ControlMode.Disabled, 0);
     }
 
-    public void resetangle() {
+    public void resetAngle() {
         inMotorAngleL.setSelectedSensorPosition(0, RMap.pididx, RMap.timeout);
         inMotorAngleR.setSelectedSensorPosition(0, RMap.pididx, RMap.timeout);
     }
 
-    public double getCurAngle() {
-        return inMotorAngleR.getSelectedSensorPosition(RMap.pididx);
-    }
-
-    public void setCurAngle(double curAngle) {
-        this.curAngle = curAngle;
-    }
+//    public double getAngle() {
+//        return inMotorAngleR.getSelectedSensorPosition(RMap.pididx); //Todo Should this be left motor instead?
+//    }
 }
