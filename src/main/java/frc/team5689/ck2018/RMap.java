@@ -63,6 +63,7 @@ public class RMap {
     public static int pcmShooterLow = 1;
     public static int pcmShooterFireA = 2;
     public static int pcmShooterFireB = 3;
+   // public static int
     //Shooter speeds
     public static double shootSpeed = 1;//0 is 0 % and 1 is 100%
     //Intake speeds
@@ -75,7 +76,7 @@ public class RMap {
 
     //Commands
     public static long shootTimer = 100;
-
+    public static long shootPistonTimer = 1000;
 
 
     //SmartDashboard
