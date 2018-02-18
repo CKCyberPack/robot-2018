@@ -13,32 +13,23 @@ public class InMotor extends Subsystem {
     //Declare Motors Here
     private VictorSPX inMotorL;
     private VictorSPX inMotorR;
-//    private VictorSPX inMotorArmL;
-    //private VictorSPX inMotorArmR;
-
-
 
     //----- Make Singleton -----
     public static InMotor instance;
 
-    public static InMotor getInstance()
-    {
-        if (instance == null)
+    public static InMotor getInstance() {
+        if (instance == null) {
             instance = new InMotor();
-
+        }
         return instance;
     }
 
     private InMotor()  //private so no duplicate Subsystem is created
     {
-        //initializes variables such as SpeedControllers, Pneumatics, etc.
         //Initialize Motors
-//        inMotorArmL= new VictorSPX(RMap.intakeArmLeft);
-//        inMotorArmR = new VictorSPX(RMap.intakeArmRight);
         inMotorL = new VictorSPX(RMap.intakeAngleLeft);
-        inMotorR= new VictorSPX(RMap.intakeAngleRight);
+        inMotorR = new VictorSPX(RMap.intakeAngleRight);
     }
-
 
     /**
      * Initialize the default command for a subsystem By default subsystems have no default command,
@@ -46,19 +37,16 @@ public class InMotor extends Subsystem {
      * CommandBase in the users program after all the Subsystems are created.
      */
     @Override
-    protected void initDefaultCommand() { }
-    public void setspeed(double speed){
-//        inMotorArmL.set(ControlMode.PercentOutput, speed);
-//        inMotorArmR.set(ControlMode.PercentOutput, speed);
+    protected void initDefaultCommand() {
+    }
+
+    public void setspeed(double speed) {
         inMotorR.set(ControlMode.PercentOutput, speed);
         inMotorL.set(ControlMode.PercentOutput, speed);
     }
 
-    public void stopIntake(){
-//        inMotorArmL.set(ControlMode.PercentOutput, 0);
-//        inMotorArmR.set(ControlMode.PercentOutput, 0);
+    public void stopIntake() {
         inMotorR.set(ControlMode.Disabled, 0);
         inMotorL.set(ControlMode.Disabled, 0);
     }
-
 }

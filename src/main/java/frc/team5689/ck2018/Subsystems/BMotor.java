@@ -38,16 +38,16 @@ public class BMotor extends Subsystem {
         //Set PID
         shootLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, RMap.pididx, RMap.timeout);
         //Todo shootLeft.setInverted();
-        shootLeft.config_kF(RMap.pididx, RMap.shootKF);
-        shootLeft.config_kP(RMap.pididx, RMap.shootKP);
-        shootLeft.config_kI(RMap.pididx, RMap.shootKI);
-        shootLeft.config_kD(RMap.pididx, RMap.shootKD);
+        shootLeft.config_kF(RMap.pididx, RMap.shootKF,RMap.timeout);
+        shootLeft.config_kP(RMap.pididx, RMap.shootKP,RMap.timeout);
+        shootLeft.config_kI(RMap.pididx, RMap.shootKI,RMap.timeout);
+        shootLeft.config_kD(RMap.pididx, RMap.shootKD,RMap.timeout);
 
         shootRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, RMap.pididx, RMap.timeout);
-        shootRight.config_kF(RMap.pididx, RMap.shootKF);
-        shootRight.config_kP(RMap.pididx, RMap.shootKP);
-        shootRight.config_kI(RMap.pididx, RMap.shootKI);
-        shootRight.config_kD(RMap.pididx, RMap.shootKD);
+        shootRight.config_kF(RMap.pididx, RMap.shootKF,RMap.timeout);
+        shootRight.config_kP(RMap.pididx, RMap.shootKP,RMap.timeout);
+        shootRight.config_kI(RMap.pididx, RMap.shootKI,RMap.timeout);
+        shootRight.config_kD(RMap.pididx, RMap.shootKD,RMap.timeout);
     }
 
 
