@@ -21,17 +21,24 @@ public class Robot extends IterativeRobot {
     public DriveTrain ckDrive;
     private XboxController ckController;
     private PowerDistributionPanel ckPDP;
+    private Compressor ckCompressor;
 
     //Variables
     private boolean shooterReleased = true;
     private boolean overrideSafety = false;
     private boolean ledOn = false;
 
+    //Commands
+    private Command increaseAngle;
+    private Command decreaseAngle;
+
 
     @Override
     public void robotInit() {
         SmartDashboard.putString(RMap.robotMode, "Start Up");
         ckController = new XboxController(0);
+        ckDrive = DriveTrain.getInstance();
+        ckCompressor = new Compressor();
     }
 
     @Override
@@ -65,7 +72,6 @@ public class Robot extends IterativeRobot {
     @Override
     public void teleopInit() {
         SmartDashboard.putString(RMap.robotMode, "Teleop");
-        new AngleSetCommand().start();
         Scheduler.getInstance().removeAll(); //TODO Test that this clears them
     }
 
@@ -73,15 +79,31 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
 
+        /////////////////////
+        // Smart Dashboard //
+        /////////////////////
+        InArm.getInstance().smartDashboard();
+        BMotor.getInstance().smartDashboard();
+
         ///////////////
         // Arm Angle //
         ///////////////
-        if (ckController.getAButton()) { //Hold this to increase angle
-            new AngleIncreaseCommand().start();
+        if (ckController.getAButtonPressed()) { //Hold this to increase angle
+            increaseAngle = new AngleIncreaseCommand();
+            increaseAngle.start();
+        }else if (ckController.getAButtonReleased()){
+            if (increaseAngle != null){
+                increaseAngle.cancel();
+            }
         }
 
         if (ckController.getXButton()) { //Hold this to decrease angle
-            new AngleDecreaseCommand().start();
+            decreaseAngle = new AngleDecreaseCommand();
+            decreaseAngle.start();
+        }else if (ckController.getXButtonReleased()){
+            if (decreaseAngle != null){
+                decreaseAngle.cancel();
+            }
         }
 
         if (ckController.getBButtonPressed()) {
@@ -121,6 +143,7 @@ public class Robot extends IterativeRobot {
         // Shoot Shooter //
         ///////////////////
         if (ckController.getBumperPressed(GenericHID.Hand.kRight)) {
+            //new PreShootCommand().start();
             new ShootCommandGroup().start();
         }
 
@@ -135,11 +158,11 @@ public class Robot extends IterativeRobot {
         switch (driveRobot) {
             case 0:                                     //forward - rotate  - strafe
                 SmartDashboard.putString(RMap.driveMode, "Right Y - Right X - Left X");
-                //TODO      ckDrive.teleDriveCartesian(-ckController.getY(GenericHID.Hand.kRight), ckController.getX(GenericHID.Hand.kRight), ckController.getX(GenericHID.Hand.kLeft));
+                ckDrive.teleDriveCartesian(-ckController.getY(GenericHID.Hand.kRight), ckController.getX(GenericHID.Hand.kRight), ckController.getX(GenericHID.Hand.kLeft));
                 break;
             case 1:
                 SmartDashboard.putString(RMap.driveMode, "Right Y - Left X - Right X");
-                //TODO   ckDrive.teleDriveCartesian(-ckController.getY(GenericHID.Hand.kRight), ckController.getX(GenericHID.Hand.kLeft), ckController.getX(GenericHID.Hand.kRight));
+                ckDrive.teleDriveCartesian(-ckController.getY(GenericHID.Hand.kRight), ckController.getX(GenericHID.Hand.kLeft), ckController.getX(GenericHID.Hand.kRight));
                 break;
             default:
                 System.out.println("ERROR - No more drive modes");
@@ -159,58 +182,8 @@ public class Robot extends IterativeRobot {
     }
 
     @Override
-
     public void testPeriodic() {
         //Scheduler.getInstance().run(); //Scheduler won't run in test
-
-
-//        if (ckController.getTriggerAxis(GenericHID.Hand.kRight) > 0){       // shoot
-//
-//            Thread x = new Thread(() -> {{//Might work?
-//               // ckBMotor.setspeed(1);
-//                try {
-//                    ckBMotor.setspeed(1);
-//                    Thread.sleep(1000);
-//                    ckBPiston.shoot();
-//                    Thread.sleep(1000);
-//                    ckBPiston.setPosition(BPiston.Position.Flat);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//            });
-//            x.start();
-//
-//        }
-//        if (ckController.getTriggerAxis(GenericHID.Hand.kLeft) > 0){        // intake
-//            ckInMotor.setspeed(RMap.intakeSpeed);
-//        }
-//        if (ckController.getBumperPressed(GenericHID.Hand.kRight)){         // pos 1
-//            ckBPiston.setPosition(BPiston.Position.Low);
-//        }
-//        if (ckController.getBumperPressed(GenericHID.Hand.kLeft)){          // pos 2
-//            ckBPiston.setPosition(BPiston.Position.High);
-//        }
-//        if (ckController.getAButtonPressed()){                              // moving in
-//            ckInArm.setLArmAngle(3200);         //TODO - Find Actual Angle
-//            ckInArm.resetangle();
-//        }
-//        if (ckController.getAButton()) {
-//            ckInArm.setAngle(0);
-//        }
-//        if (ckController.getBButton()) {
-//            ckInArm.setAngle(RMap.intakeAngle);
-//            System.out.print("Starting");
-//        }
-//        if (ckController.getStartButtonPressed())
-//            ckInArm.resetangle();
-//        if (ckController.getXButtonPressed()) {                  // reset back to encoder position 0 (spin backwards)
-//            ckInArm.setAngle(RMap.intakeAngle -300);
-//        }
-//        if (ckController.getYButtonPressed()) {                  // stop
-//            ckInArm.stopMotor();
-//        }
-
     }
 
 }

@@ -24,8 +24,10 @@ public class InMotor extends Subsystem {
     private InMotor()  //private so no duplicate Subsystem is created
     {
         //Initialize Motors
-        inMotorL = new VictorSPX(RMap.intakeAngleLeftPort);
-        inMotorR = new VictorSPX(RMap.intakeAngleRightPort);
+        inMotorL = new VictorSPX(RMap.intakeLeftPort);
+        inMotorR = new VictorSPX(RMap.intakeRightPort);
+
+        inMotorL.setInverted(true);
     }
 
     /**

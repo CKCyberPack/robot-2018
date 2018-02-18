@@ -33,7 +33,8 @@ public class InArm extends Subsystem {
 
         //Left Motor
         inMotorAngleL.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, RMap.pididx, RMap.timeout);
-        //Todo inMotorAngleL.setInverted();
+        inMotorAngleL.setSensorPhase(true);
+        inMotorAngleL.setInverted(true);
         inMotorAngleL.configPeakOutputForward(RMap.armPOW, RMap.timeout);
         inMotorAngleL.configPeakOutputReverse(-RMap.armPOW, RMap.timeout);
         inMotorAngleL.config_kF(RMap.pididx, SmartDashboard.getNumber("kF", RMap.armKF), RMap.timeout);     // overcome friction
@@ -43,6 +44,8 @@ public class InArm extends Subsystem {
 
         //Right Motor
         inMotorAngleR.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, RMap.pididx, RMap.timeout);
+        inMotorAngleR.setSensorPhase(true);
+        inMotorAngleR.setInverted(false);
         inMotorAngleR.configPeakOutputForward(RMap.armPOW, RMap.timeout);
         inMotorAngleR.configPeakOutputReverse(-RMap.armPOW, RMap.timeout);
         inMotorAngleR.config_kF(RMap.pididx, RMap.armKF, RMap.timeout);     // overcome friction
@@ -62,8 +65,10 @@ public class InArm extends Subsystem {
     }
 
     public void setAngle(double angle) {
-        if (angle < 0){
+        if (angle < 0) {
             angle = 0;
+        }else if (angle >= Math.max(RMap.intakeAngleStopL, RMap.intakeAngleStopR)){
+            angle = Math.max(RMap.intakeAngleStopL, RMap.intakeAngleStopR);
         }
 
         setLArmAngle(angle);
@@ -76,9 +81,7 @@ public class InArm extends Subsystem {
             angle = RMap.intakeAngleStopL;
         }
 
-        inMotorAngleL.set(ControlMode.Position, angle);//TODO Negate angle?
-        SmartDashboard.putNumber("LPOS", inMotorAngleL.getSelectedSensorPosition(RMap.pididx));
-        SmartDashboard.putNumber("LPOW", inMotorAngleL.getMotorOutputPercent());
+        inMotorAngleL.set(ControlMode.Position, angle);
     }
 
     public void setRArmAngle(double angle) {
@@ -87,8 +90,6 @@ public class InArm extends Subsystem {
         }
 
         inMotorAngleR.set(ControlMode.Position, angle);
-        SmartDashboard.putNumber("RPOS", inMotorAngleR.getSelectedSensorPosition(RMap.pididx));
-        SmartDashboard.putNumber("RPOW", inMotorAngleR.getMotorOutputPercent());
     }
 
     public void stopMotor() {
@@ -103,6 +104,14 @@ public class InArm extends Subsystem {
 
     public double getTargetAngle() {
         return targetAngle;
+    }
+
+    public void smartDashboard(){
+        SmartDashboard.putNumber("ArmLPOS", inMotorAngleL.getSelectedSensorPosition(RMap.pididx));
+        SmartDashboard.putNumber("ArmLPOW", inMotorAngleL.getMotorOutputPercent());
+        SmartDashboard.putNumber("ArmRPOS", inMotorAngleR.getSelectedSensorPosition(RMap.pididx));
+        SmartDashboard.putNumber("ArmRPOW", inMotorAngleR.getMotorOutputPercent());
+        SmartDashboard.putNumber("ArmTarget", targetAngle);
     }
 
 }

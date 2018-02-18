@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team5689.ck2018.RMap;
 
 public class BMotor extends Subsystem {
@@ -35,13 +36,16 @@ public class BMotor extends Subsystem {
 
         //Set PID
         shootLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, RMap.pididx, RMap.timeout);
-        //Todo shootLeft.setInverted();
+        shootLeft.setSensorPhase(true);
+        //shootLeft.configNominalOutputReverse(0,RMap.timeout);
         shootLeft.config_kF(RMap.pididx, RMap.shootKF,RMap.timeout);
         shootLeft.config_kP(RMap.pididx, RMap.shootKP,RMap.timeout);
         shootLeft.config_kI(RMap.pididx, RMap.shootKI,RMap.timeout);
         shootLeft.config_kD(RMap.pididx, RMap.shootKD,RMap.timeout);
 
         shootRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, RMap.pididx, RMap.timeout);
+        shootRight.setSensorPhase(false);
+        //shootRight.configNominalOutputReverse(0,RMap.timeout);
         shootRight.config_kF(RMap.pididx, RMap.shootKF,RMap.timeout);
         shootRight.config_kP(RMap.pididx, RMap.shootKP,RMap.timeout);
         shootRight.config_kI(RMap.pididx, RMap.shootKI,RMap.timeout);
@@ -60,10 +64,11 @@ public class BMotor extends Subsystem {
     }
 
     public void setRPM(double RPM) {
-        shootLeft.set(ControlMode.Velocity, RPM);
-        shootRight.set(ControlMode.Velocity, RPM);
-        preShootLeft.set(ControlMode.PercentOutput, shootLeft.getMotorOutputPercent());
-        preShootRight.set(ControlMode.PercentOutput, shootRight.getMotorOutputPercent());
+        shootLeft.set(ControlMode.PercentOutput, RPM);
+        shootRight.set(ControlMode.PercentOutput, RPM);
+        preShootLeft.set(ControlMode.PercentOutput, RPM);
+        preShootRight.set(ControlMode.PercentOutput, RPM);
+        SmartDashboard.putNumber("ShootTarget", RPM);
     }
 
     public void stopMotor() {
@@ -75,5 +80,12 @@ public class BMotor extends Subsystem {
 
     public double getRPM(){
         return Math.min(shootLeft.getSelectedSensorVelocity(RMap.pididx),shootRight.getSelectedSensorVelocity(RMap.pididx));
+    }
+
+    public void smartDashboard(){
+        SmartDashboard.putNumber("ShootLVel", shootLeft.getSelectedSensorVelocity(RMap.pididx));
+        SmartDashboard.putNumber("ShootLPow", shootLeft.getMotorOutputPercent());
+        SmartDashboard.putNumber("ShootRVel", shootRight.getSelectedSensorVelocity(RMap.pididx));
+        SmartDashboard.putNumber("ShootRPow", shootRight.getMotorOutputPercent());
     }
 }

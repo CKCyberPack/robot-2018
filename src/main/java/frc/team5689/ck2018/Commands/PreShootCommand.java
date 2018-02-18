@@ -9,6 +9,7 @@ public class PreShootCommand extends Command {
 
     private long timer;
     private boolean finished = false;
+
     private BPiston.Position curPosition;
     private double maxSpeed;
 
@@ -30,7 +31,7 @@ public class PreShootCommand extends Command {
      * This method is called periodically (about every 20ms)
      */
     protected void execute() {
-        switch (curPosition){
+        switch (curPosition) {
             case High:
                 maxSpeed = RMap.shootSpeedHigh;
                 break;
@@ -44,18 +45,27 @@ public class PreShootCommand extends Command {
                 System.out.println("ERROR - Invalid Shooter Position");
         }
         BMotor.getInstance().setRPM(maxSpeed);
+
+        if (System.currentTimeMillis() - timer >= RMap.preShootTimer) {
+            finished = true;
+        }
     }
 
     /*
      * Make this return true when this Command no longer needs to run execute()
      */
     protected boolean isFinished() {
-        if (BMotor.getInstance().getRPM() >= (maxSpeed - 50)){
+        if (finished == true){
             return true;
         }
-        else{
-            return false;
-        }
+        return false;
+//        else {
+//            if (BMotor.getInstance().getRPM() >= (maxSpeed - 100)) {
+//                return true;
+//            } else {
+//                return false;
+//            }
+//       }
     }
 
     /*

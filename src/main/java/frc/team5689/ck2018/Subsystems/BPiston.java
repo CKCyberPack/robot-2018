@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team5689.ck2018.Commands.TargetFlatCommand;
 import frc.team5689.ck2018.Commands.TargetHighCommand;
 import frc.team5689.ck2018.Commands.TargetLowCommand;
@@ -18,10 +19,10 @@ public class BPiston extends Subsystem {
     //Declare Motors Here
 
     private DoubleSolenoid launcherPiston;
-    private Solenoid highPiston;
-    private Solenoid lowPiston;
+    private DoubleSolenoid highPiston;
+    private DoubleSolenoid lowPiston;
 
-    private Position currentPos;
+    private Position currentPos = Position.Flat;
 
     //    private int shooterPosition;
     public enum Position {
@@ -43,8 +44,8 @@ public class BPiston extends Subsystem {
     private BPiston()  //private so no duplicate Subsystem is created
     {
         //initializes variables such as SpeedControllers, Pneumatics, etc.
-        highPiston = new Solenoid(RMap.pcmShooterHigh);
-        lowPiston = new Solenoid(RMap.pcmShooterLow);
+        highPiston = new DoubleSolenoid(RMap.pcmShooterHigh,RMap.pcmShooterHighB);
+        lowPiston = new DoubleSolenoid(RMap.pcmShooterLow,RMap.pcmShooterLowB);
         launcherPiston = new DoubleSolenoid(RMap.pcmShooterFireA, RMap.pcmShooterFireB);
     }
 
@@ -73,19 +74,23 @@ public class BPiston extends Subsystem {
     public void setPosition(Position pos) {      // sets shooting angle
         switch (pos) {
             case Flat:
-                lowPiston.set(false);
-                highPiston.set(false);
+                lowPiston.set(DoubleSolenoid.Value.kReverse);
+                highPiston.set(DoubleSolenoid.Value.kReverse);
+                SmartDashboard.putString("ShootAIM", "Flat");
                 break;
             case Low:
-                lowPiston.set(true);
-                highPiston.set(false);
+                lowPiston.set(DoubleSolenoid.Value.kForward);
+                highPiston.set(DoubleSolenoid.Value.kReverse);
+                SmartDashboard.putString("ShootAIM", "Low");
                 break;
             case High:
-                lowPiston.set(true);
-                highPiston.set(true);
+                lowPiston.set(DoubleSolenoid.Value.kForward);
+                highPiston.set(DoubleSolenoid.Value.kForward);
+                SmartDashboard.putString("ShootAIM", "High");
                 break;
         }
         currentPos = pos;
+
     }
 
     public Command nextPostion(){

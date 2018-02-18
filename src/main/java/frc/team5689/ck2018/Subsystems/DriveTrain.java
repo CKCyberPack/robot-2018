@@ -22,7 +22,7 @@ public class DriveTrain extends Subsystem {
 
 
     //----- Make Singleton -----
-    public static DriveTrain instance;
+    private static DriveTrain instance;
 
     public static DriveTrain getInstance() {
         if (instance == null) {
