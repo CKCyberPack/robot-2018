@@ -97,7 +97,7 @@ public class Robot extends IterativeRobot {
             }
         }
 
-        if (ckController.getXButton()) { //Hold this to decrease angle
+        if (ckController.getXButtonPressed()) { //Hold this to decrease angle
             decreaseAngle = new AngleDecreaseCommand();
             decreaseAngle.start();
         }else if (ckController.getXButtonReleased()){
