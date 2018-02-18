@@ -65,7 +65,9 @@ public class RMap {
     public static int pcmShooterFireB = 3;
    // public static int
     //Shooter speeds
-    public static double shootSpeed = 1;//0 is 0 % and 1 is 100%
+    public static double shootSpeedHigh = 5000;//0 is 0 % and 1 is 100%
+    public static double shootSpeedMed = 3000;
+    public static double shootSpeedLow = 1000;
     //Intake speeds
     public  static double intakeSpeed = 0.5;
 
