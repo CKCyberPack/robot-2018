@@ -21,15 +21,13 @@ public class DriveTrain extends Subsystem {
     private ADXRS450_Gyro ckGyro;
 
 
-
     //----- Make Singleton -----
     public static DriveTrain instance;
 
-    public static DriveTrain getInstance()
-    {
-        if (instance == null)
+    public static DriveTrain getInstance() {
+        if (instance == null) {
             instance = new DriveTrain();
-
+        }
         return instance;
     }
 
@@ -41,18 +39,15 @@ public class DriveTrain extends Subsystem {
         frontLeftMotor = new DriveVictorSPX(RMap.driveFrontLeft);
         frontRightMotor = new DriveVictorSPX(RMap.driveFrontRight);
 
-//        rearRightMotor.setInverted(true);           // reorient the motors
-//        frontRightMotor.setInverted(true);
-
-        ckDrive = new MecanumDrive(frontLeftMotor,rearLeftMotor,frontRightMotor,rearRightMotor);
+        ckDrive = new MecanumDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
         ckDrive.setDeadband(RMap.driveDeadzone);    // calibrate control sticks
         ckDrive.setSafetyEnabled(false);
 
         ckGyro = new ADXRS450_Gyro();
         ckAccel = new BuiltInAccelerometer();
 
-        SmartDashboard.putData("DriveTrain", ckDrive);
-        SmartDashboard.putData("Accel",ckAccel);
+        //SmartDashboard.putData("DriveTrain", ckDrive);
+        SmartDashboard.putData("Accelerometer", ckAccel);
         SmartDashboard.putData("Gyro", ckGyro);
     }
 
