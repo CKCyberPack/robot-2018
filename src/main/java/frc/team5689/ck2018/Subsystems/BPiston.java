@@ -16,22 +16,23 @@ public class BPiston extends Subsystem {
     private DoubleSolenoid launcherPiston;
     private Solenoid highPiston;
     private Solenoid lowPiston;
-    public Position currentPos;
-//    private int shooterPosition;
-public enum Position
-{
-    Flat,
-    Low,
-    High
-}
+
+    private Position currentPos;
+
+    //    private int shooterPosition;
+    public enum Position {
+        Flat,
+        Low,
+        High
+    }
+
     //----- Make Singleton -----
     public static BPiston instance;
 
-    public static BPiston getInstance()
-    {
-        if (instance == null)
+    public static BPiston getInstance() {
+        if (instance == null) {
             instance = new BPiston();
-
+        }
         return instance;
     }
 
@@ -40,7 +41,7 @@ public enum Position
         //initializes variables such as SpeedControllers, Pneumatics, etc.
         highPiston = new Solenoid(RMap.pcmShooterHigh);
         lowPiston = new Solenoid(RMap.pcmShooterLow);
-        launcherPiston = new DoubleSolenoid(RMap.pcmShooterFireA,RMap.pcmShooterFireB);
+        launcherPiston = new DoubleSolenoid(RMap.pcmShooterFireA, RMap.pcmShooterFireB);
     }
 
     /**
@@ -53,15 +54,20 @@ public enum Position
 
     }
 
-    public void shoot(){
+    public void shoot() {
         launcherPiston.set(RMap.pistonLaunch);
     }
-    public void load(){
+
+    public void load() {
         launcherPiston.set(RMap.pistonLoad);
     }
 
-    public void setPosition(Position pos){      // sets shooting angle
-        switch(pos){
+    public Position getCurrentPos() {
+        return currentPos;
+    }
+
+    public void setPosition(Position pos) {      // sets shooting angle
+        switch (pos) {
             case Flat:
                 lowPiston.set(false);
                 highPiston.set(false);

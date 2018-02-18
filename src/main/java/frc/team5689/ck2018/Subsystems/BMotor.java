@@ -20,8 +20,7 @@ public class BMotor extends Subsystem {
     //----- Make Singleton -----
     public static BMotor instance;
 
-    public static BMotor getInstance()
-    {
+    public static BMotor getInstance() {
         if (instance == null) {
             instance = new BMotor();
         }
@@ -39,16 +38,16 @@ public class BMotor extends Subsystem {
         //Set PID
         shootLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, RMap.pididx, RMap.timeout);
         //Todo shootLeft.setInverted();
-        shootLeft.config_kF(RMap.pididx,RMap.shootKF);
-        shootLeft.config_kP(RMap.pididx,RMap.shootKP);
-        shootLeft.config_kI(RMap.pididx,RMap.shootKI);
-        shootLeft.config_kD(RMap.pididx,RMap.shootKD);
+        shootLeft.config_kF(RMap.pididx, RMap.shootKF);
+        shootLeft.config_kP(RMap.pididx, RMap.shootKP);
+        shootLeft.config_kI(RMap.pididx, RMap.shootKI);
+        shootLeft.config_kD(RMap.pididx, RMap.shootKD);
 
         shootRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, RMap.pididx, RMap.timeout);
-        shootRight.config_kF(RMap.pididx,RMap.shootKF);
-        shootRight.config_kP(RMap.pididx,RMap.shootKP);
-        shootRight.config_kI(RMap.pididx,RMap.shootKI);
-        shootRight.config_kD(RMap.pididx,RMap.shootKD);
+        shootRight.config_kF(RMap.pididx, RMap.shootKF);
+        shootRight.config_kP(RMap.pididx, RMap.shootKP);
+        shootRight.config_kI(RMap.pididx, RMap.shootKI);
+        shootRight.config_kD(RMap.pididx, RMap.shootKD);
     }
 
 
@@ -61,14 +60,15 @@ public class BMotor extends Subsystem {
     protected void initDefaultCommand() {
 
     }
-    public void setspeed(double speed){
+
+    public void setspeed(double speed) {
         shootLeft.set(ControlMode.PercentOutput, speed); //Todo Reverse Shoot Motor?
         shootRight.set(ControlMode.PercentOutput, speed);
         preShootLeft.set(ControlMode.PercentOutput, shootLeft.getMotorOutputPercent());
         preShootRight.set(ControlMode.PercentOutput, shootRight.getMotorOutputPercent());
     }
 
-    public void setRPM(double RPM){
+    public void setRPM(double RPM) {
         shootLeft.set(ControlMode.Velocity, RPM);
         shootRight.set(ControlMode.Velocity, RPM);
         preShootLeft.set(ControlMode.PercentOutput, shootLeft.getMotorOutputPercent());
