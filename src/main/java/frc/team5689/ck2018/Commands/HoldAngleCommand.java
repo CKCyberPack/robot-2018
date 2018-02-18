@@ -32,19 +32,20 @@ public class HoldAngleCommand extends Command {
      * Make this return true when this Command no longer needs to run execute()
      */
     protected boolean isFinished() {
-        if (InArm.getInstance().getCurAngle() >= RMap.intakeAngle){
-            return true;
-        }
-        else{
-            return false;
-        }
+//        if (InArm.getInstance().getCurAngle() >= RMap.intakeAngle){
+//            return true;
+//        }
+//        else{
+//            return false;
+//        }
+        return false;
     }
 
     /*
      * Called once after isFinished returns true
      */
     protected void end() {
-        //InArm.getInstance().stopMotor();
+        InArm.getInstance().stopMotor();
     }
 
     /* Called when another command which requires one or more of the same
