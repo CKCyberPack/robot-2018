@@ -1,8 +1,6 @@
 package frc.team5689.ck2018;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import sun.awt.SunHints;
 
 /////////////////////////////////////////////////////////
 //** Magic Numbers Class ** I think
@@ -38,6 +36,11 @@ public class RMap {
     public static double armKI = 0;
     public static double armKD = 0;
     public static double armKF = 0;
+
+    public static double shootKP = 10;//SmartDashboard.getNumber("kP", 0);
+    public static double shootKI = 0;
+    public static double shootKD = 0;
+    public static double shootKF = 0;
 
     public static double armPOW = 0.5;
 
