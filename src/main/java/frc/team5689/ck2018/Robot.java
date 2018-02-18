@@ -1,10 +1,10 @@
 package frc.team5689.ck2018;
 
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.team5689.ck2018.Commands.AngleSetCommand;
-import frc.team5689.ck2018.Commands.AngleStopCommand;
+import frc.team5689.ck2018.Commands.*;
 import frc.team5689.ck2018.Subsystems.*;
 
 public class Robot extends IterativeRobot {
@@ -23,6 +23,7 @@ public class Robot extends IterativeRobot {
     private PowerDistributionPanel ckPDP;
 
     //Variables
+    private boolean shooterReleased = true;
     private boolean overrideSafety = false;
     private boolean ledOn = false;
 
@@ -64,6 +65,7 @@ public class Robot extends IterativeRobot {
     @Override
     public void teleopInit() {
         SmartDashboard.putString(RMap.robotMode, "Teleop");
+        new AngleSetCommand().start();
         Scheduler.getInstance().removeAll(); //TODO Test that this clears them
     }
 
@@ -71,19 +73,61 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
 
-        if (ckController.getAButtonPressed()) {
-            new AngleSetCommand().start();
+        ///////////////
+        // Arm Angle //
+        ///////////////
+        if (ckController.getAButton()) { //Hold this to increase angle
+            new AngleIncreaseCommand().start();
+        }
+
+        if (ckController.getXButton()) { //Hold this to decrease angle
+            new AngleDecreaseCommand().start();
         }
 
         if (ckController.getBButtonPressed()) {
-            new AngleStopCommand().start();
+            new AngleSetCommand().start();
         }
 
+        if (ckController.getYButtonPressed()) {
+            new AngleStopCommand().start();
+        }
         // Reset Encoder
         if (ckController.getStartButtonPressed()){
             InArm.getInstance().resetAngle();
         }
 
+        /////////////////
+        // Aim Shooter //
+        /////////////////
+        if (ckController.getBumperPressed(GenericHID.Hand.kLeft)){
+            Command targetCommand = BPiston.getInstance().nextPostion();
+            if (targetCommand != null){
+                targetCommand.start();
+            }
+        }
+        if (ckController.getTriggerAxis(GenericHID.Hand.kLeft) >= 0.5 && shooterReleased == true){
+            shooterReleased = false;
+            Command targetCommand = BPiston.getInstance().prevPostion();
+            if (targetCommand != null){
+                targetCommand.start();
+            }
+        }
+        //Release the shooter variable
+        if (ckController.getTriggerAxis(GenericHID.Hand.kLeft) < 0.5){
+            shooterReleased = true;
+        }
+
+        ///////////////////
+        // Shoot Shooter //
+        ///////////////////
+        if (ckController.getBumperPressed(GenericHID.Hand.kRight)) {
+            new ShootCommandGroup().start();
+        }
+
+        ////////////
+        // Intake //
+        ////////////
+        InMotor.getInstance().setspeed(ckController.getTriggerAxis(GenericHID.Hand.kRight));
 
         /////////////////
         // Drive Modes //

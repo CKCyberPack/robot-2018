@@ -6,7 +6,11 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.team5689.ck2018.Commands.TargetFlatCommand;
+import frc.team5689.ck2018.Commands.TargetHighCommand;
+import frc.team5689.ck2018.Commands.TargetLowCommand;
 import frc.team5689.ck2018.RMap;
 
 public class BPiston extends Subsystem {
@@ -82,5 +86,31 @@ public class BPiston extends Subsystem {
                 break;
         }
         currentPos = pos;
+    }
+
+    public Command nextPostion(){
+        switch (currentPos) {
+            case Flat:
+                return new TargetLowCommand();
+            case Low:
+                return new TargetHighCommand();
+            case High:
+                return new TargetHighCommand();
+            default:
+                return null;
+        }
+    }
+
+    public Command prevPostion(){
+        switch (currentPos) {
+            case High:
+                return new TargetLowCommand();
+            case Low:
+                return new TargetFlatCommand();
+            case Flat:
+                return new TargetFlatCommand();
+            default:
+                return null;
+        }
     }
 }
