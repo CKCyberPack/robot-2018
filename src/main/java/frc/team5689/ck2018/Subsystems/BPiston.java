@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.team5689.ck2018.Commands.NullCommand;
 import frc.team5689.ck2018.Commands.TargetFlatCommand;
 import frc.team5689.ck2018.Commands.TargetHighCommand;
 import frc.team5689.ck2018.Commands.TargetLowCommand;
@@ -19,7 +20,6 @@ public class BPiston extends Subsystem {
 
     private Position currentPos = Position.Flat;
 
-    //    private int shooterPosition;
     public enum Position {
         Flat,
         Low,
@@ -96,7 +96,7 @@ public class BPiston extends Subsystem {
             case High:
                 return new TargetHighCommand();
             default:
-                return null;
+                return new NullCommand();
         }
     }
 
@@ -109,7 +109,7 @@ public class BPiston extends Subsystem {
             case Flat:
                 return new TargetFlatCommand();
             default:
-                return null;
+                return new NullCommand();
         }
     }
 }

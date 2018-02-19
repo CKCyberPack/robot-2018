@@ -3,35 +3,30 @@ package frc.team5689.ck2018;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team5689.ck2018.Commands.*;
 import frc.team5689.ck2018.Subsystems.*;
 
 public class Robot extends IterativeRobot {
-    //Commands
-
     //Auto variables
-    private final static String START_LEFT = "left";//Left side of the field
-    private final static String START_RIGHT = "right";//Right side of the field
-    private final static String START_MIDDLE = "mid";//Middle starting position
     private String gameData;
-    private int driveRobot = 0;
+    private SendableChooser<Position> sideChooser;
+    private SendableChooser<Auto> autoChooser;
 
+    //Variables
+    private int driveRobot = 0;
     //Components
     private XboxController ckController;
     private DriveTrain ckDrive;
     private PowerDistributionPanel ckPDP;
     private Compressor ckCompressor;
-
-    //Variables
     private boolean shooterReleased = true;
     private boolean overrideSafety = false;
     private boolean ledOn = false;
-
     //Commands
     private Command increaseAngle;
     private Command decreaseAngle;
-
 
     @Override
     public void robotInit() {
@@ -40,51 +35,62 @@ public class Robot extends IterativeRobot {
         ckDrive = DriveTrain.getInstance();
         ckPDP = new PowerDistributionPanel();
         ckCompressor = new Compressor();
+
+        //Auto Side
+        sideChooser = new SendableChooser<>();
+        sideChooser.addDefault("Middle", Position.MIDDLE);
+        sideChooser.addObject("Left", Position.LEFT);
+        sideChooser.addObject("Right", Position.RIGHT);
+        SmartDashboard.putData("Auto Side", sideChooser);
+
+        //Auto Mode
+        autoChooser = new SendableChooser<>();
+        autoChooser.addDefault("Do Nothing", Auto.NOTHING);
+        autoChooser.addObject("Drive Forward", Auto.FORWARD);
+        autoChooser.addObject("Switch or Forward", Auto.SWITCH);
+        SmartDashboard.putData("Auto Mode", autoChooser);
     }
 
     @Override
     public void robotPeriodic() {
         gameData = DriverStation.getInstance().getGameSpecificMessage();//Gets the sides of the switches and scales.
-        SmartDashboard.putString(RMap.gameData, gameData);
-    }
-
-    @Override
-    public void disabledInit() {
-        SmartDashboard.putString(RMap.robotMode, "Disabled");
-    }
-
-
-    @Override
-    public void disabledPeriodic() {
-    }
-
-    @Override
-    public void autonomousInit() {
-        SmartDashboard.putString(RMap.robotMode, "Auto");
-        //TODO Load Auto Commands
-    }
-
-
-    @Override
-    public void autonomousPeriodic() {
-        Scheduler.getInstance().run();
-    }
-
-    @Override
-    public void teleopInit() {
-        SmartDashboard.putString(RMap.robotMode, "Teleop");
-        Scheduler.getInstance().removeAll(); //TODO Test that this clears them
-    }
-
-    @Override
-    public void teleopPeriodic() {
-        Scheduler.getInstance().run();
 
         /////////////////////
         // Smart Dashboard //
         /////////////////////
         InArm.getInstance().smartDashboard();
         BMotor.getInstance().smartDashboard();
+        SmartDashboard.putString(RMap.gameData, gameData);
+    }
+
+    @Override
+    public void autonomousInit() {
+        SmartDashboard.putString(RMap.robotMode, "Auto");
+
+        Position autoSide = sideChooser.getSelected();
+        Auto autoMode = autoChooser.getSelected();
+
+        switch (autoMode) {
+            case NOTHING:
+                //DO NOTHING
+                break;
+            case FORWARD:
+                new AutoDriveForwardStop().start();
+                break;
+            case SWITCH:
+                if (autoSide == Position.LEFT && gameData.charAt(0) == 'L') {
+                    new AutoDriveSwitch().start();
+                } else if (autoSide == Position.RIGHT && gameData.charAt(0) == 'R') {
+                    new AutoDriveSwitch().start();
+                }
+                //ELSE - DO NOTHING
+                break;
+        }
+    }
+
+    @Override
+    public void teleopPeriodic() {
+        Scheduler.getInstance().run();
 
         ///////////////
         // Arm Angle //
@@ -123,20 +129,14 @@ public class Robot extends IterativeRobot {
         // Aim Shooter //
         /////////////////
         if (ckController.getBumperPressed(GenericHID.Hand.kLeft)){
-            Command targetCommand = BPiston.getInstance().nextPostion();
-            if (targetCommand != null){
-                targetCommand.start();
-            }
+            BPiston.getInstance().nextPostion().start();
         }
         if (ckController.getTriggerAxis(GenericHID.Hand.kLeft) >= 0.5 && shooterReleased) {
             shooterReleased = false;
-            Command targetCommand = BPiston.getInstance().prevPostion();
-            if (targetCommand != null){
-                targetCommand.start();
-            }
+            BPiston.getInstance().prevPostion().start();
         }
-        //Release the shooter variable
         if (ckController.getTriggerAxis(GenericHID.Hand.kLeft) < 0.5){
+            //Release the shooter variable
             shooterReleased = true;
         }
 
@@ -175,6 +175,39 @@ public class Robot extends IterativeRobot {
                 driveRobot = 0;
             }
         }
+    }
+
+    @Override
+    public void disabledInit() {
+        SmartDashboard.putString(RMap.robotMode, "Disabled");
+    }
+
+
+    @Override
+    public void disabledPeriodic() {
+    }
+
+    @Override
+    public void autonomousPeriodic() {
+        Scheduler.getInstance().run();
+    }
+
+    @Override
+    public void teleopInit() {
+        SmartDashboard.putString(RMap.robotMode, "Teleop");
+        Scheduler.getInstance().removeAll(); //TODO Test that this clears them
+    }
+
+    private enum Position {
+        MIDDLE,
+        LEFT,
+        RIGHT
+    }
+
+    private enum Auto {
+        NOTHING,
+        FORWARD,
+        SWITCH
     }
 
     @Override
