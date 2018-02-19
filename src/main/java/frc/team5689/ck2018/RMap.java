@@ -69,7 +69,11 @@ public class RMap {
 
     //Robot Dependent Variables
     //----------------------------//
+    //Drivetrain
     public static final double DEADZONE = 0.15;
+    public static final double gyroStraightKP = 0.05;  //0.065
+    public static final float maxCollisionG = 0.5f;
+    public static final double autoStraightSpeed = 0.2;
     //Intake angles
     public static final int intakeAngle = 2000;
     public static final int intakeAngleStop = 4000;

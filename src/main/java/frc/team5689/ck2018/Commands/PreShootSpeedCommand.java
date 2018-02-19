@@ -8,7 +8,7 @@ import frc.team5689.ck2018.Subsystems.BPiston;
 public class PreShootSpeedCommand extends Command {
 
     private long timer;
-    private boolean finished = false;
+    private boolean finished;
 
     private BPiston.Position curPosition;
     private double maxSpeed;
@@ -26,6 +26,7 @@ public class PreShootSpeedCommand extends Command {
     protected void initialize() {
         timer = System.currentTimeMillis();
         curPosition = BPiston.getInstance().getCurrentPos();
+        finished = false;
     }
 
     /*

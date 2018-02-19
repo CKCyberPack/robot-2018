@@ -9,7 +9,7 @@ import static frc.team5689.ck2018.Subsystems.BPiston.Position.Flat;
 public class TargetFlatCommand extends Command {
 
     private long timer;
-    private boolean finished = false;
+    private boolean finished;
 
     public TargetFlatCommand() {
         //List Subsystems required to run this command
@@ -22,9 +22,7 @@ public class TargetFlatCommand extends Command {
      */
     protected void initialize() {
         timer = System.currentTimeMillis();
-        if (BPiston.getInstance().getCurrentPos() == Flat){
-            finished = true;
-        }
+        finished = BPiston.getInstance().getCurrentPos() == Flat;
 
     }
 

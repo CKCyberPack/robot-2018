@@ -2,17 +2,20 @@ package frc.team5689.ck2018.Commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.team5689.ck2018.RMap;
-import frc.team5689.ck2018.Subsystems.BPiston;
+import frc.team5689.ck2018.Subsystems.DriveTrain;
 
-public class ShootPistonCommand extends Command {
+public class DriveForwardCommand extends Command {
 
     private long timer;
+    private long totalTime;
     private boolean finished;
+    private double maxG;
 
     @SuppressWarnings("WeakerAccess")
-    public ShootPistonCommand() {
+    public DriveForwardCommand(long timeInSeconds) {
+        totalTime = timeInSeconds * 1000;
         //List Subsystems required to run this command
-        requires(BPiston.getInstance());
+        requires(DriveTrain.getInstance());
     }
 
     /*
@@ -21,6 +24,7 @@ public class ShootPistonCommand extends Command {
      */
     protected void initialize() {
         timer = System.currentTimeMillis();
+        maxG = 0;
         finished = false;
     }
 
@@ -28,9 +32,13 @@ public class ShootPistonCommand extends Command {
      * This method is called periodically (about every 20ms)
      */
     protected void execute() {
-        BPiston.getInstance().shoot();
+        DriveTrain.getInstance().driveStraight(RMap.autoStraightSpeed);
 
-        if (System.currentTimeMillis() - timer >= RMap.timerShoot) {
+        if (DriveTrain.getInstance().getAcceleration() > maxG) {
+            maxG = DriveTrain.getInstance().getAcceleration();
+        }
+
+        if (System.currentTimeMillis() - timer >= totalTime) {
             finished = true;
         }
     }
@@ -39,14 +47,15 @@ public class ShootPistonCommand extends Command {
      * Make this return true when this Command no longer needs to run execute()
      */
     protected boolean isFinished() {
-        return finished;
+        //Return if maxG or time has finished
+        return (maxG > RMap.maxCollisionG || finished);
     }
 
     /*
      * Called once after isFinished returns true
      */
     protected void end() {
-        BPiston.getInstance().load();
+        DriveTrain.getInstance().stopMotor();
     }
 
     /* Called when another command which requires one or more of the same

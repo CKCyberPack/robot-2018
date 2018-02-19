@@ -9,7 +9,7 @@ import static frc.team5689.ck2018.Subsystems.BPiston.Position.Low;
 public class TargetLowCommand extends Command {
 
     private long timer;
-    private boolean finished = false;
+    private boolean finished;
 
     public TargetLowCommand() {
         //List Subsystems required to run this command
@@ -22,9 +22,7 @@ public class TargetLowCommand extends Command {
      */
     protected void initialize() {
         timer = System.currentTimeMillis();
-        if (BPiston.getInstance().getCurrentPos() == Low){
-            finished = true;
-        }
+        finished = BPiston.getInstance().getCurrentPos() == Low;
 
     }
 

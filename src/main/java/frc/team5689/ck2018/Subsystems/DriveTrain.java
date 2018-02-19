@@ -56,7 +56,23 @@ public class DriveTrain extends Subsystem {
 
     }
 
+    public double getAcceleration() {
+        return ckAccel.getY();
+    }
+
+    public void resetGyro() {
+        ckGyro.reset();
+    }
+
     public void teleDriveCartesian(double forward, double rotation, double strafe) {
         ckDrive.driveCartesian(strafe, forward, rotation, 0);
+    }
+
+    public void driveStraight(double speed) {
+        teleDriveCartesian(speed, ckGyro.getAngle() * RMap.gyroStraightKP, 0);
+    }
+
+    public void stopMotor() {
+        ckDrive.stopMotor();
     }
 }

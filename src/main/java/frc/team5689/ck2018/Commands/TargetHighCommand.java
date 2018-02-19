@@ -9,7 +9,7 @@ import static frc.team5689.ck2018.Subsystems.BPiston.Position.High;
 public class TargetHighCommand extends Command {
 
     private long timer;
-    private boolean finished = false;
+    private boolean finished;
 
     public TargetHighCommand() {
         //List Subsystems required to run this command
@@ -22,9 +22,7 @@ public class TargetHighCommand extends Command {
      */
     protected void initialize() {
         timer = System.currentTimeMillis();
-        if (BPiston.getInstance().getCurrentPos() == High){
-            finished = true;
-        }
+        finished = BPiston.getInstance().getCurrentPos() == High;
 
     }
 
