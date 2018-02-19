@@ -98,8 +98,10 @@ public class Robot extends IterativeRobot {
                     new AutoDriveSwitch().start();
                 } else if (autoSide == Position.RIGHT && gameData.charAt(0) == 'R') {
                     new AutoDriveSwitch().start();
+                } else {
+                    //Just drive forward then since its on the wrong side
+                    new AutoDriveForwardStop().start();
                 }
-                //ELSE - DO NOTHING
                 break;
         }
     }
