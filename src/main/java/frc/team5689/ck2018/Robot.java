@@ -9,6 +9,112 @@ import frc.team5689.ck2018.Commands.*;
 import frc.team5689.ck2018.Subsystems.*;
 
 public class Robot extends IterativeRobot {
+
+    @Override
+    public void teleopPeriodic() {
+        Scheduler.getInstance().run();
+
+        ///////////////
+        // Arm Angle //
+        ///////////////
+
+        //Close Arms (Hold)
+        if (ckController.getAButtonPressed()) {
+            increaseAngle = new AngleIncreaseCommand();
+            increaseAngle.start();
+        } else if (ckController.getAButtonReleased()) {
+            if (increaseAngle != null) {
+                increaseAngle.cancel();
+            }
+        }
+
+        //Open Arms (Hold)
+        if (ckController.getXButtonPressed()) {
+            decreaseAngle = new AngleDecreaseCommand();
+            decreaseAngle.start();
+        } else if (ckController.getXButtonReleased()) {
+            if (decreaseAngle != null) {
+                decreaseAngle.cancel();
+            }
+        }
+
+        //Loading Position
+        if (ckController.getBButtonPressed()) {
+            new AngleSetCommand(RMap.intakeAngle).start();
+        }
+
+        //Free Arms
+        if (ckController.getYButtonPressed()) {
+            new AngleStopCommand().start();
+        }
+
+        //Reset Encoder
+        if (ckController.getStartButtonPressed()) {
+            InArm.getInstance().resetAngle();
+        }
+
+        /////////////////
+        // Aim Shooter //
+        /////////////////
+
+        //Left Bumper Aim UP
+        if (ckController.getBumperPressed(GenericHID.Hand.kLeft)) {
+            BPiston.getInstance().nextPostion().start();
+        }
+
+        //Left Trigger Aim Down
+        if (ckController.getTriggerAxis(GenericHID.Hand.kLeft) >= 0.5 && shooterReleased) {
+            shooterReleased = false;
+            BPiston.getInstance().prevPostion().start();
+        }
+        if (ckController.getTriggerAxis(GenericHID.Hand.kLeft) < 0.5) {
+            //Release the shooter variable
+            shooterReleased = true;
+        }
+
+        ///////////////////
+        // Shoot Shooter //
+        ///////////////////
+        if (ckController.getBumperPressed(GenericHID.Hand.kRight)) {
+            new ShootCommandGroup().start();
+        }
+
+        ////////////
+        // Intake //
+        ////////////
+        InMotor.getInstance().setspeed(ckController.getTriggerAxis(GenericHID.Hand.kRight));
+
+        /////////////////
+        // Drive Modes //
+        /////////////////
+        switch (driveRobot) {
+            case 0:                                     //forward - rotate  - strafe
+                SmartDashboard.putString(RMap.driveMode, "Right Y - Right X - Left X");
+                ckDrive.teleDriveCartesian(-ckController.getY(GenericHID.Hand.kRight), ckController.getX(GenericHID.Hand.kRight), ckController.getX(GenericHID.Hand.kLeft));
+                break;
+            case 1:
+                SmartDashboard.putString(RMap.driveMode, "Right Y - Left X - Right X");
+                ckDrive.teleDriveCartesian(-ckController.getY(GenericHID.Hand.kRight), ckController.getX(GenericHID.Hand.kLeft), ckController.getX(GenericHID.Hand.kRight));
+                break;
+            default:
+                System.out.println("ERROR - No more drive modes");
+
+        }
+        if (ckController.getBackButtonPressed()) {//Switches between drive moves
+            driveRobot++;
+            if (driveRobot >= 2) {
+                driveRobot = 0;
+            }
+        }
+    }
+
+    //ENUMS
+    private enum Position {
+        MIDDLE,
+        LEFT,
+        RIGHT
+    }
+
     //Auto variables
     private String gameData;
     private SendableChooser<Position> sideChooser;
@@ -16,6 +122,7 @@ public class Robot extends IterativeRobot {
 
     //Variables
     private int driveRobot = 0;
+
     //Components
     private XboxController ckController;
     private DriveTrain ckDrive;
@@ -24,6 +131,7 @@ public class Robot extends IterativeRobot {
     private boolean shooterReleased = true;
     private boolean overrideSafety = false;
     private boolean ledOn = false;
+
     //Commands
     private Command increaseAngle;
     private Command decreaseAngle;
@@ -88,93 +196,10 @@ public class Robot extends IterativeRobot {
         }
     }
 
-    @Override
-    public void teleopPeriodic() {
-        Scheduler.getInstance().run();
-
-        ///////////////
-        // Arm Angle //
-        ///////////////
-        if (ckController.getAButtonPressed()) { //Hold this to increase angle
-            increaseAngle = new AngleIncreaseCommand();
-            increaseAngle.start();
-        }else if (ckController.getAButtonReleased()){
-            if (increaseAngle != null){
-                increaseAngle.cancel();
-            }
-        }
-
-        if (ckController.getXButtonPressed()) { //Hold this to decrease angle
-            decreaseAngle = new AngleDecreaseCommand();
-            decreaseAngle.start();
-        }else if (ckController.getXButtonReleased()){
-            if (decreaseAngle != null){
-                decreaseAngle.cancel();
-            }
-        }
-
-        if (ckController.getBButtonPressed()) {
-            new AngleSetCommand(RMap.intakeAngle).start();
-        }
-
-        if (ckController.getYButtonPressed()) {
-            new AngleStopCommand().start();
-        }
-        // Reset Encoder
-        if (ckController.getStartButtonPressed()){
-            InArm.getInstance().resetAngle();
-        }
-
-        /////////////////
-        // Aim Shooter //
-        /////////////////
-        if (ckController.getBumperPressed(GenericHID.Hand.kLeft)){
-            BPiston.getInstance().nextPostion().start();
-        }
-        if (ckController.getTriggerAxis(GenericHID.Hand.kLeft) >= 0.5 && shooterReleased) {
-            shooterReleased = false;
-            BPiston.getInstance().prevPostion().start();
-        }
-        if (ckController.getTriggerAxis(GenericHID.Hand.kLeft) < 0.5){
-            //Release the shooter variable
-            shooterReleased = true;
-        }
-
-        ///////////////////
-        // Shoot Shooter //
-        ///////////////////
-        if (ckController.getBumperPressed(GenericHID.Hand.kRight)) {
-            //new PreShootCommand().start();
-            new ShootCommandGroup().start();
-        }
-
-        ////////////
-        // Intake //
-        ////////////
-        InMotor.getInstance().setspeed(ckController.getTriggerAxis(GenericHID.Hand.kRight));
-
-        /////////////////
-        // Drive Modes //
-        /////////////////
-        switch (driveRobot) {
-            case 0:                                     //forward - rotate  - strafe
-                SmartDashboard.putString(RMap.driveMode, "Right Y - Right X - Left X");
-                ckDrive.teleDriveCartesian(-ckController.getY(GenericHID.Hand.kRight), ckController.getX(GenericHID.Hand.kRight), ckController.getX(GenericHID.Hand.kLeft));
-                break;
-            case 1:
-                SmartDashboard.putString(RMap.driveMode, "Right Y - Left X - Right X");
-                ckDrive.teleDriveCartesian(-ckController.getY(GenericHID.Hand.kRight), ckController.getX(GenericHID.Hand.kLeft), ckController.getX(GenericHID.Hand.kRight));
-                break;
-            default:
-                System.out.println("ERROR - No more drive modes");
-
-        }
-        if (ckController.getBackButtonPressed()) {//Switches between drive moves
-            driveRobot++;
-            if (driveRobot >= 2) {
-                driveRobot = 0;
-            }
-        }
+    private enum Auto {
+        NOTHING,
+        FORWARD,
+        SWITCH
     }
 
     @Override
@@ -196,18 +221,6 @@ public class Robot extends IterativeRobot {
     public void teleopInit() {
         SmartDashboard.putString(RMap.robotMode, "Teleop");
         Scheduler.getInstance().removeAll(); //TODO Test that this clears them
-    }
-
-    private enum Position {
-        MIDDLE,
-        LEFT,
-        RIGHT
-    }
-
-    private enum Auto {
-        NOTHING,
-        FORWARD,
-        SWITCH
     }
 
     @Override
