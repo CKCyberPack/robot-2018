@@ -10,6 +10,111 @@ import frc.team5689.ck2018.Subsystems.*;
 
 public class Robot extends IterativeRobot {
 
+    //ENUMS
+    private enum Position {
+        MIDDLE,
+        LEFT,
+        RIGHT
+    }
+
+    private enum Auto {
+        NOTHING,
+        FORWARD,
+        SWITCH
+    }
+
+    //Auto variables
+    private String gameData;
+    private SendableChooser<Position> sideChooser;
+    private SendableChooser<Auto> autoChooser;
+
+    //Variables
+    private int driveRobot = 0;
+
+    //Components
+    private XboxController ckController;
+    private DriveTrain ckDrive;
+    private PowerDistributionPanel ckPDP;
+    private Compressor ckCompressor;
+    private boolean shooterReleased = true;
+    private boolean overrideSafety = false;
+    private boolean ledOn = false;
+
+    //Commands
+    private Command increaseAngle;
+    private Command decreaseAngle;
+
+    @Override
+    public void robotInit() {
+        SmartDashboard.putString(RMap.robotMode, "Start Up");
+        ckController = new XboxController(0);
+        ckDrive = DriveTrain.getInstance();
+        ckPDP = new PowerDistributionPanel();
+        ckCompressor = new Compressor();
+
+        //Auto Side
+        sideChooser = new SendableChooser<>();
+        sideChooser.addDefault("Middle", Position.MIDDLE);
+        sideChooser.addObject("Left", Position.LEFT);
+        sideChooser.addObject("Right", Position.RIGHT);
+        SmartDashboard.putData("Auto Side", sideChooser);
+
+        //Auto Mode
+        autoChooser = new SendableChooser<>();
+        autoChooser.addDefault("Do Nothing", Auto.NOTHING);
+        autoChooser.addObject("Drive Forward", Auto.FORWARD);
+        autoChooser.addObject("Switch or Forward", Auto.SWITCH);
+        SmartDashboard.putData("Auto Mode", autoChooser);
+    }
+
+    @Override
+    public void robotPeriodic() {
+        gameData = DriverStation.getInstance().getGameSpecificMessage();//Gets the sides of the switches and scales.
+
+        /////////////////////
+        // Smart Dashboard //
+        /////////////////////
+        InArm.getInstance().smartDashboard();
+        BMotor.getInstance().smartDashboard();
+        SmartDashboard.putString(RMap.gameData, gameData);
+    }
+
+    @Override
+    public void autonomousInit() {
+        SmartDashboard.putString(RMap.robotMode, "Auto");
+
+        Position autoSide = sideChooser.getSelected();
+        Auto autoMode = autoChooser.getSelected();
+
+        switch (autoMode) {
+            case NOTHING:
+                //DO NOTHING
+                break;
+            case FORWARD:
+                new AutoDriveForwardStop().start();
+                break;
+            case SWITCH:
+                if (autoSide == Position.LEFT && gameData.charAt(0) == 'L') {
+                    new AutoDriveSwitch().start();
+                } else if (autoSide == Position.RIGHT && gameData.charAt(0) == 'R') {
+                    new AutoDriveSwitch().start();
+                }
+                //ELSE - DO NOTHING
+                break;
+        }
+    }
+
+    @Override
+    public void autonomousPeriodic() {
+        Scheduler.getInstance().run();
+    }
+
+    @Override
+    public void teleopInit() {
+        SmartDashboard.putString(RMap.robotMode, "Teleop");
+        Scheduler.getInstance().removeAll(); //TODO Test that this clears them
+    }
+
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
@@ -108,100 +213,6 @@ public class Robot extends IterativeRobot {
         }
     }
 
-    //ENUMS
-    private enum Position {
-        MIDDLE,
-        LEFT,
-        RIGHT
-    }
-
-    //Auto variables
-    private String gameData;
-    private SendableChooser<Position> sideChooser;
-    private SendableChooser<Auto> autoChooser;
-
-    //Variables
-    private int driveRobot = 0;
-
-    //Components
-    private XboxController ckController;
-    private DriveTrain ckDrive;
-    private PowerDistributionPanel ckPDP;
-    private Compressor ckCompressor;
-    private boolean shooterReleased = true;
-    private boolean overrideSafety = false;
-    private boolean ledOn = false;
-
-    //Commands
-    private Command increaseAngle;
-    private Command decreaseAngle;
-
-    @Override
-    public void robotInit() {
-        SmartDashboard.putString(RMap.robotMode, "Start Up");
-        ckController = new XboxController(0);
-        ckDrive = DriveTrain.getInstance();
-        ckPDP = new PowerDistributionPanel();
-        ckCompressor = new Compressor();
-
-        //Auto Side
-        sideChooser = new SendableChooser<>();
-        sideChooser.addDefault("Middle", Position.MIDDLE);
-        sideChooser.addObject("Left", Position.LEFT);
-        sideChooser.addObject("Right", Position.RIGHT);
-        SmartDashboard.putData("Auto Side", sideChooser);
-
-        //Auto Mode
-        autoChooser = new SendableChooser<>();
-        autoChooser.addDefault("Do Nothing", Auto.NOTHING);
-        autoChooser.addObject("Drive Forward", Auto.FORWARD);
-        autoChooser.addObject("Switch or Forward", Auto.SWITCH);
-        SmartDashboard.putData("Auto Mode", autoChooser);
-    }
-
-    @Override
-    public void robotPeriodic() {
-        gameData = DriverStation.getInstance().getGameSpecificMessage();//Gets the sides of the switches and scales.
-
-        /////////////////////
-        // Smart Dashboard //
-        /////////////////////
-        InArm.getInstance().smartDashboard();
-        BMotor.getInstance().smartDashboard();
-        SmartDashboard.putString(RMap.gameData, gameData);
-    }
-
-    @Override
-    public void autonomousInit() {
-        SmartDashboard.putString(RMap.robotMode, "Auto");
-
-        Position autoSide = sideChooser.getSelected();
-        Auto autoMode = autoChooser.getSelected();
-
-        switch (autoMode) {
-            case NOTHING:
-                //DO NOTHING
-                break;
-            case FORWARD:
-                new AutoDriveForwardStop().start();
-                break;
-            case SWITCH:
-                if (autoSide == Position.LEFT && gameData.charAt(0) == 'L') {
-                    new AutoDriveSwitch().start();
-                } else if (autoSide == Position.RIGHT && gameData.charAt(0) == 'R') {
-                    new AutoDriveSwitch().start();
-                }
-                //ELSE - DO NOTHING
-                break;
-        }
-    }
-
-    private enum Auto {
-        NOTHING,
-        FORWARD,
-        SWITCH
-    }
-
     @Override
     public void disabledInit() {
         SmartDashboard.putString(RMap.robotMode, "Disabled");
@@ -210,17 +221,6 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void disabledPeriodic() {
-    }
-
-    @Override
-    public void autonomousPeriodic() {
-        Scheduler.getInstance().run();
-    }
-
-    @Override
-    public void teleopInit() {
-        SmartDashboard.putString(RMap.robotMode, "Teleop");
-        Scheduler.getInstance().removeAll(); //TODO Test that this clears them
     }
 
     @Override
