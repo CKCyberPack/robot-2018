@@ -52,6 +52,9 @@ public class Robot extends IterativeRobot {
         ckPDP = new PowerDistributionPanel();
         ckCompressor = new Compressor();
 
+        //Do this once To get in SmartDashbord
+        SmartDashboard.putString(RMap.shootPosition, "START");
+
         //Auto Side
         sideChooser = new SendableChooser<>();
         sideChooser.addDefault("Middle", Position.MIDDLE);
@@ -91,7 +94,7 @@ public class Robot extends IterativeRobot {
                 //DO NOTHING
                 break;
             case FORWARD:
-                new AutoDriveForwardStop().start();
+                new AutoDriveBackwardsStop().start();
                 break;
             case SWITCH:
                 if (autoSide == Position.LEFT && gameData.charAt(0) == 'L') {
@@ -100,7 +103,7 @@ public class Robot extends IterativeRobot {
                     new AutoDriveSwitch().start();
                 } else {
                     //Just drive forward then since its on the wrong side
-                    new AutoDriveForwardStop().start();
+                    new AutoDriveBackwardsStop().start();
                 }
                 break;
         }

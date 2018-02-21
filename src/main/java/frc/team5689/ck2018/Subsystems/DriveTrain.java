@@ -35,7 +35,7 @@ public class DriveTrain extends Subsystem {
 
         ckDrive = new MecanumDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
         ckDrive.setDeadband(RMap.DEADZONE);
-        ckDrive.setSafetyEnabled(true); //Make sure it doesn't run away
+        ckDrive.setSafetyEnabled(false); //Make sure it doesn't run away
 
         ckGyro = new ADXRS450_Gyro();
         ckAccel = new BuiltInAccelerometer();

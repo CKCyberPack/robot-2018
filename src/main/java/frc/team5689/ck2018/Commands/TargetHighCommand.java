@@ -3,6 +3,8 @@ package frc.team5689.ck2018.Commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.team5689.ck2018.RMap;
 import frc.team5689.ck2018.Subsystems.BPiston;
+import frc.team5689.ck2018.Subsystems.InArm;
+import frc.team5689.ck2018.Subsystems.InMotor;
 
 import static frc.team5689.ck2018.Subsystems.BPiston.Position.High;
 
@@ -14,6 +16,7 @@ public class TargetHighCommand extends Command {
     public TargetHighCommand() {
         //List Subsystems required to run this command
         requires(BPiston.getInstance());
+        requires(InArm.getInstance());
     }
 
     /*
@@ -23,7 +26,6 @@ public class TargetHighCommand extends Command {
     protected void initialize() {
         timer = System.currentTimeMillis();
         finished = BPiston.getInstance().getCurrentPos() == High;
-
     }
 
     /*
@@ -31,6 +33,8 @@ public class TargetHighCommand extends Command {
      */
     protected void execute() {
         BPiston.getInstance().setPosition(High);
+
+        InArm.getInstance().setAngle(RMap.intakeAngleStop);
 
         if (System.currentTimeMillis() - timer >= RMap.timerAim) {
             finished = true;

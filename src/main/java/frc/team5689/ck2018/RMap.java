@@ -61,8 +61,8 @@ public class RMap {
     public static final double armKD = 0.01;
     public static final double armKF = 0;
     //Shooter Motors
-    public static final double shootKP = 0.05;//SmartDashboard.getNumber("kP", 0);
-    public static final double shootKI = 0.0;
+    public static final double shootKP = 0.01;//SmartDashboard.getNumber("kP", 0);
+    public static final double shootKI = 0.001;
     public static final double shootKD = 0;
     public static final double shootKF = 0;
 
@@ -71,22 +71,22 @@ public class RMap {
     //----------------------------//
     //Drivetrain
     public static final double DEADZONE = 0.15;
-    public static final double gyroStraightKP = 0.05;  //0.065
-    public static final float maxCollisionG = 0.5f;
-    public static final double autoStraightSpeed = 0.2;
+    public static final double gyroStraightKP = -0.05;  //0.065
+    public static final float maxCollisionG = 0.75f;
+    public static final double autoStraightSpeed = 0.5;
     //Intake angles
     public static final int intakeAngle = 2000;
-    public static final int intakeAngleStop = 4000;
-    public static final int intakeAngleMax = 6000;
+    public static final int intakeAngleStop = 2500;
+    public static final int intakeAngleMax = 3000;
     public static final int intakeAngleSpeed = 30;
     //Intake speeds
     public static final double intakeSpeedMax = 0.5;
     //Shooter speeds
-    public static final double shootRPMHigh = 5000;
-    public static final double shootRPMLow = 3000;
-    public static final double shootRPMFlat = 1000;
+    public static final double shootRPMHigh = 30000;
+    public static final double shootRPMLow = 20000;
+    public static final double shootRPMFlat = 15000;
     public static final double shootSpeedHigh = 1;
-    public static final double shootSpeedLow = 0.5;
+    public static final double shootSpeedLow = 0.3;
     public static final double shootSpeedFlat = 0.3;
     //Command Timing
     public static final long timerShoot = 1000;

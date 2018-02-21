@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.team5689.ck2018.RMap;
 import frc.team5689.ck2018.Subsystems.DriveTrain;
 
-public class DriveForwardCommand extends Command {
+public class DriveBackwardsCommand extends Command {
 
     private long timer;
     private long totalTime;
@@ -12,7 +12,7 @@ public class DriveForwardCommand extends Command {
     private double maxG;
 
     @SuppressWarnings("WeakerAccess")
-    public DriveForwardCommand(long timeInSeconds) {
+    public DriveBackwardsCommand(long timeInSeconds) {
         totalTime = timeInSeconds * 1000;
         //List Subsystems required to run this command
         requires(DriveTrain.getInstance());
@@ -24,6 +24,7 @@ public class DriveForwardCommand extends Command {
      */
     protected void initialize() {
         timer = System.currentTimeMillis();
+        DriveTrain.getInstance().resetGyro();
         maxG = 0;
         finished = false;
     }
@@ -32,7 +33,7 @@ public class DriveForwardCommand extends Command {
      * This method is called periodically (about every 20ms)
      */
     protected void execute() {
-        DriveTrain.getInstance().driveStraight(RMap.autoStraightSpeed);
+        DriveTrain.getInstance().driveStraight(-RMap.autoStraightSpeed);
 
         if (DriveTrain.getInstance().getAcceleration() > maxG) {
             maxG = DriveTrain.getInstance().getAcceleration();
