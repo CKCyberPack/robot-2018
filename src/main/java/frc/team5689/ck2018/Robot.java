@@ -32,7 +32,8 @@ public class Robot extends IterativeRobot {
     private int driveRobot = 0;
 
     //Components
-    private XboxController ckController;
+    private XboxController ckController1;
+    private XboxController ckController2;
     private DriveTrain ckDrive;
     private PowerDistributionPanel ckPDP;
     private Compressor ckCompressor;
@@ -47,7 +48,8 @@ public class Robot extends IterativeRobot {
     @Override
     public void robotInit() {
         SmartDashboard.putString(RMap.robotMode, "Start Up");
-        ckController = new XboxController(0);
+        ckController1 = new XboxController(0);
+        ckController2 = new XboxController(1);
         ckDrive = DriveTrain.getInstance();
         ckPDP = new PowerDistributionPanel();
         ckCompressor = new Compressor();
@@ -128,38 +130,39 @@ public class Robot extends IterativeRobot {
         // Arm Angle //
         ///////////////
 
+        //"Player 2" - Shooting, loading and more.
         //Close Arms (Hold)
-        if (ckController.getAButtonPressed()) {
+        if (ckController2.getAButtonPressed()) {
             increaseAngle = new AngleIncreaseCommand();
             increaseAngle.start();
-        } else if (ckController.getAButtonReleased()) {
+        } else if (ckController2.getAButtonReleased()) {
             if (increaseAngle != null) {
                 increaseAngle.cancel();
             }
         }
 
         //Open Arms (Hold)
-        if (ckController.getXButtonPressed()) {
+        if (ckController2.getXButtonPressed()) {
             decreaseAngle = new AngleDecreaseCommand();
             decreaseAngle.start();
-        } else if (ckController.getXButtonReleased()) {
+        } else if (ckController2.getXButtonReleased()) {
             if (decreaseAngle != null) {
                 decreaseAngle.cancel();
             }
         }
 
         //Loading Position
-        if (ckController.getBButtonPressed()) {
+        if (ckController2.getBButtonPressed()) {
             new AngleSetCommand(RMap.intakeAngle).start();
         }
 
         //Free Arms
-        if (ckController.getYButtonPressed()) {
+        if (ckController2.getYButtonPressed()) {
             new AngleStopCommand().start();
         }
 
         //Reset Encoder
-        if (ckController.getStartButtonPressed()) {
+        if (ckController2.getStartButtonPressed()) {
             InArm.getInstance().resetAngle();
         }
 
@@ -168,16 +171,16 @@ public class Robot extends IterativeRobot {
         /////////////////
 
         //Left Bumper Aim UP
-        if (ckController.getBumperPressed(GenericHID.Hand.kLeft)) {
+        if (ckController2.getBumperPressed(GenericHID.Hand.kLeft)) {
             BPiston.getInstance().nextPostion().start();
         }
 
         //Left Trigger Aim Down
-        if (ckController.getTriggerAxis(GenericHID.Hand.kLeft) >= 0.5 && shooterReleased) {
+        if (ckController2.getTriggerAxis(GenericHID.Hand.kLeft) >= 0.5 && shooterReleased) {
             shooterReleased = false;
             BPiston.getInstance().prevPostion().start();
         }
-        if (ckController.getTriggerAxis(GenericHID.Hand.kLeft) < 0.5) {
+        if (ckController2.getTriggerAxis(GenericHID.Hand.kLeft) < 0.5) {
             //Release the shooter variable
             shooterReleased = true;
         }
@@ -185,32 +188,33 @@ public class Robot extends IterativeRobot {
         ///////////////////
         // Shoot Shooter //
         ///////////////////
-        if (ckController.getBumperPressed(GenericHID.Hand.kRight)) {
+        if (ckController2.getBumperPressed(GenericHID.Hand.kRight)) {
             new ShootCommandGroup().start();
         }
 
         ////////////
         // Intake //
         ////////////
-        InMotor.getInstance().setspeed(ckController.getTriggerAxis(GenericHID.Hand.kRight));
+        InMotor.getInstance().setspeed(ckController2.getTriggerAxis(GenericHID.Hand.kRight));
 
         /////////////////
         // Drive Modes //
         /////////////////
+        //"Player 1" - Driving
         switch (driveRobot) {
             case 0:                                     //forward - rotate  - strafe
                 SmartDashboard.putString(RMap.driveMode, "Right Y - Right X - Left X");
-                ckDrive.teleDriveCartesian(-ckController.getY(GenericHID.Hand.kRight), ckController.getX(GenericHID.Hand.kRight), ckController.getX(GenericHID.Hand.kLeft));
+                ckDrive.teleDriveCartesian(-ckController1.getY(GenericHID.Hand.kRight), ckController1.getX(GenericHID.Hand.kRight), ckController1.getX(GenericHID.Hand.kLeft));
                 break;
             case 1:
                 SmartDashboard.putString(RMap.driveMode, "Right Y - Left X - Right X");
-                ckDrive.teleDriveCartesian(-ckController.getY(GenericHID.Hand.kRight), ckController.getX(GenericHID.Hand.kLeft), ckController.getX(GenericHID.Hand.kRight));
+                ckDrive.teleDriveCartesian(-ckController1.getY(GenericHID.Hand.kRight), ckController1.getX(GenericHID.Hand.kLeft), ckController1.getX(GenericHID.Hand.kRight));
                 break;
             default:
                 System.out.println("ERROR - No more drive modes");
 
         }
-        if (ckController.getBackButtonPressed()) {//Switches between drive moves
+        if (ckController1.getBackButtonPressed()) {//Switches between drive moves
             driveRobot++;
             if (driveRobot >= 2) {
                 driveRobot = 0;
