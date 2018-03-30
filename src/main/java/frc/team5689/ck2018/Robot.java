@@ -91,6 +91,13 @@ public class Robot extends IterativeRobot {
         Position autoSide = sideChooser.getSelected();
         Auto autoMode = autoChooser.getSelected();
 
+        //Checks to see if we have all of the field data available
+        do{
+          //  if (DriverStation.getInstance().getGameSpecificMessage()!=null) {
+                gameData = DriverStation.getInstance().getGameSpecificMessage();
+          //  }
+        }while(gameData.length() != 3);
+
         switch (autoMode) {
             case NOTHING:
                 //DO NOTHING
