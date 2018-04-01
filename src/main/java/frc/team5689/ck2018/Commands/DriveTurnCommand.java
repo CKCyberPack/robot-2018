@@ -4,16 +4,16 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.team5689.ck2018.RMap;
 import frc.team5689.ck2018.Subsystems.DriveTrain;
 
-public class DriveBackwardsCommand extends Command {
+public class DriveTurnCommand extends Command {
 
     private long timer;
-    private long totalTime;
+    private double targetAngle;
     private boolean finished;
     private double maxG;
 
     @SuppressWarnings("WeakerAccess")
-    public DriveBackwardsCommand(long timeInMilSeconds) {
-        totalTime = timeInMilSeconds * 1000;
+    public DriveTurnCommand(double angle) {//todo\
+        targetAngle = angle;
         //List Subsystems required to run this command
         requires(DriveTrain.getInstance());
     }
@@ -23,9 +23,9 @@ public class DriveBackwardsCommand extends Command {
      *	is executed for the first time and every subsequent time it is started .
      */
     protected void initialize() {
-        timer = System.currentTimeMillis();
+        //timer = System.currentTimeMillis();
         DriveTrain.getInstance().resetGyro();
-        maxG = 0;
+        //maxG = 0;
         finished = false;
     }
 
@@ -33,13 +33,15 @@ public class DriveBackwardsCommand extends Command {
      * This method is called periodically (about every 20ms)
      */
     protected void execute() {
-        DriveTrain.getInstance().driveStraight(-RMap.autoStraightSpeed);
-
-        if (DriveTrain.getInstance().getAcceleration() > maxG) {
-            maxG = DriveTrain.getInstance().getAcceleration();
+        if (targetAngle < 0 ){
+            //Turn Left
+            DriveTrain.getInstance().autoTurnLeft(RMap.gyroTurnSpeed); //todo
+        }else{
+            //Turn Right
+            DriveTrain.getInstance().autoTurnRight(RMap.gyroTurnSpeed);//todo
         }
 
-        if (System.currentTimeMillis() - timer >= totalTime) {
+        if (Math.abs(DriveTrain.getInstance().getAngle()) >= Math.abs(targetAngle)) {
             finished = true;
         }
     }
@@ -49,7 +51,7 @@ public class DriveBackwardsCommand extends Command {
      */
     protected boolean isFinished() {
         //Return if maxG or time has finished
-        return (maxG > RMap.maxCollisionG || finished);
+        return (finished);
     }
 
     /*

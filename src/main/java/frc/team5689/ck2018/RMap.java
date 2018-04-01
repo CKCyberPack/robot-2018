@@ -74,11 +74,13 @@ public class RMap {
     public static final double gyroStraightKP = -0.05;  //0.065
     public static final float maxCollisionG = 0.75f;
     public static final double autoStraightSpeed = 0.5;
+    public static final double gyroTurnSpeed = 0.2;
     //Intake angles
     public static final int intakeAngle = 2000;
     public static final int intakeAngleStop = 2500;
     public static final int intakeAngleMax = 3000;
     public static final int intakeAngleSpeed = 30;
+    public static final int intakeReset = 155;
     //Intake speeds
     public static final double intakeSpeedMax = 0.5;
     //Shooter speeds
@@ -91,7 +93,7 @@ public class RMap {
     //Command Timing
     public static final long timerShoot = 1000;
     public static final long timerAim = 1000;
-    public static final long timerPreShoot = 2000;
+    public static final long timerPreShoot = 1500;
 
 
     //SmartDashboard

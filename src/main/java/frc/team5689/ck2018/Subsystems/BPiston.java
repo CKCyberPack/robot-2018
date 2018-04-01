@@ -100,6 +100,20 @@ public class BPiston extends Subsystem {
         }
     }
 
+    public Command maxPosition() {
+        switch (currentPos) {
+            case High:
+                return new TargetHighCommand();
+            case Low:
+                return new TargetHighCommand();
+            case Flat:
+                return new TargetHighCommand();
+            default:
+                return new NullCommand();
+
+        }
+    }
+
     public Command prevPostion() {
         switch (currentPos) {
             case High:

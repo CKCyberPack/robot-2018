@@ -20,7 +20,9 @@ public class Robot extends IterativeRobot {
     private enum Auto {
         NOTHING,
         FORWARD,
-        SWITCH
+        SWITCH,
+        TURNLEFT,
+        TURNRIGHT,
     }
 
     //Auto variables
@@ -32,7 +34,8 @@ public class Robot extends IterativeRobot {
     private int driveRobot = 0;
 
     //Components
-    private XboxController ckController;
+    private XboxController ckController1;
+    private XboxController ckController2;
     private DriveTrain ckDrive;
     private PowerDistributionPanel ckPDP;
     private Compressor ckCompressor;
@@ -47,7 +50,8 @@ public class Robot extends IterativeRobot {
     @Override
     public void robotInit() {
         SmartDashboard.putString(RMap.robotMode, "Start Up");
-        ckController = new XboxController(0);
+        ckController1 = new XboxController(0);
+        ckController2 = new XboxController(1);
         ckDrive = DriveTrain.getInstance();
         ckPDP = new PowerDistributionPanel();
         ckCompressor = new Compressor();
@@ -64,9 +68,12 @@ public class Robot extends IterativeRobot {
 
         //Auto Mode
         autoChooser = new SendableChooser<>();
-        autoChooser.addDefault("Do Nothing", Auto.NOTHING);
-        autoChooser.addObject("Drive Forward", Auto.FORWARD);
+        autoChooser.addDefault("Drive Forward", Auto.FORWARD);
         autoChooser.addObject("Switch or Forward", Auto.SWITCH);
+        autoChooser.addObject("SWITCH RIGHT", Auto.TURNRIGHT);//on right
+        autoChooser.addObject("SWITCH LEFT", Auto.TURNLEFT);//on left
+        autoChooser.addObject("Do Nothing", Auto.NOTHING);
+
         SmartDashboard.putData("Auto Mode", autoChooser);
     }
 
@@ -99,11 +106,34 @@ public class Robot extends IterativeRobot {
             case SWITCH:
                 if (autoSide == Position.LEFT && gameData.charAt(0) == 'L') {
                     new AutoDriveSwitch().start();
+                    System.out.println("LEFT SIDE AND THE GAMEDATA IS LEFT, SHOULD BE SHOOTING");
                 } else if (autoSide == Position.RIGHT && gameData.charAt(0) == 'R') {
                     new AutoDriveSwitch().start();
+                    System.out.println("RIGHT SIDE AND THE GAMEDATA IS RIGHT, SHOULD BE SHOOTING");
                 } else {
                     //Just drive forward then since its on the wrong side
                     new AutoDriveBackwardsStop().start();
+                    System.out.println("Rest in peace. SWITCH failed or you selected the wrong one");
+                }
+                break;
+            case TURNLEFT:
+                if (autoSide == Position.LEFT && gameData.charAt(0) == 'L') {
+                    new AutoDriveTurnSwitchLeft().start();//TODO LEFT/RIGHT
+                    System.out.println("LEFT SIDE AND THE GAMEDATA IS LEFT, SHOULD BE TURNING AND SHOOTING");
+                }else {
+                    //Just drive forward then since its on the wrong side
+                    new AutoDriveBackwardsStop().start();
+                    System.out.println("Rest in peace. TURNLEFT failed or you selected the wrong one");
+                }
+                break;
+            case TURNRIGHT:
+                if (autoSide == Position.RIGHT&& gameData.charAt(0) == 'R') {
+                    new AutoDriveTurnSwitchRight().start();//TODO LEFT/RIGHTv
+                    System.out.println("RIGHT SIDE AND THE GAMEDATA IS RIGHT, SHOULD BE TURNING AND SHOOTING");
+                }else {
+                    //Just drive forward then since its on the wrong side
+                    new AutoDriveBackwardsStop().start();
+                    System.out.println("Rest in peace. TURNRIGHT failed or you selected the wrong one");
                 }
                 break;
         }
@@ -129,38 +159,44 @@ public class Robot extends IterativeRobot {
         ///////////////
 
         //Close Arms (Hold)
-        if (ckController.getAButtonPressed()) {
+        if (ckController2.getAButtonPressed()) {
             increaseAngle = new AngleIncreaseCommand();
             increaseAngle.start();
-        } else if (ckController.getAButtonReleased()) {
+        } else if (ckController2.getAButtonReleased()) {
             if (increaseAngle != null) {
                 increaseAngle.cancel();
             }
         }
 
         //Open Arms (Hold)
-        if (ckController.getXButtonPressed()) {
+        if (ckController2.getXButtonPressed()) {
             decreaseAngle = new AngleDecreaseCommand();
             decreaseAngle.start();
-        } else if (ckController.getXButtonReleased()) {
+        } else if (ckController2.getXButtonReleased()) {
             if (decreaseAngle != null) {
                 decreaseAngle.cancel();
             }
         }
 
         //Loading Position
-        if (ckController.getBButtonPressed()) {
+        if (ckController2.getBButtonPressed()) {
             new AngleSetCommand(RMap.intakeAngle).start();
         }
 
         //Free Arms
-        if (ckController.getYButtonPressed()) {
+        if (ckController2.getYButtonPressed()) {
             new AngleStopCommand().start();
+        }
+        //HOME
+        //This better work or I am going to break the computer
+        if (ckController2.getBackButtonPressed()){
+            new AngleSetCommand(RMap.intakeReset).start();
         }
 
         //Reset Encoder
-        if (ckController.getStartButtonPressed()) {
-            InArm.getInstance().resetAngle();
+        if (ckController2.getStartButtonPressed()) {
+          //  InArm.getInstance().resetAngle();
+          new PortalCommandGroup().start();
         }
 
         /////////////////
@@ -168,16 +204,16 @@ public class Robot extends IterativeRobot {
         /////////////////
 
         //Left Bumper Aim UP
-        if (ckController.getBumperPressed(GenericHID.Hand.kLeft)) {
+        if (ckController2.getBumperPressed(GenericHID.Hand.kLeft)) {
             BPiston.getInstance().nextPostion().start();
         }
 
         //Left Trigger Aim Down
-        if (ckController.getTriggerAxis(GenericHID.Hand.kLeft) >= 0.5 && shooterReleased) {
+        if (ckController2.getTriggerAxis(GenericHID.Hand.kLeft) >= 0.5 && shooterReleased) {
             shooterReleased = false;
             BPiston.getInstance().prevPostion().start();
         }
-        if (ckController.getTriggerAxis(GenericHID.Hand.kLeft) < 0.5) {
+        if (ckController2.getTriggerAxis(GenericHID.Hand.kLeft) < 0.5) {
             //Release the shooter variable
             shooterReleased = true;
         }
@@ -185,14 +221,14 @@ public class Robot extends IterativeRobot {
         ///////////////////
         // Shoot Shooter //
         ///////////////////
-        if (ckController.getBumperPressed(GenericHID.Hand.kRight)) {
+        if (ckController2.getBumperPressed(GenericHID.Hand.kRight)) {
             new ShootCommandGroup().start();
         }
 
         ////////////
         // Intake //
         ////////////
-        InMotor.getInstance().setspeed(ckController.getTriggerAxis(GenericHID.Hand.kRight));
+        InMotor.getInstance().setspeed(ckController2.getTriggerAxis(GenericHID.Hand.kRight));
 
         /////////////////
         // Drive Modes //
@@ -200,17 +236,17 @@ public class Robot extends IterativeRobot {
         switch (driveRobot) {
             case 0:                                     //forward - rotate  - strafe
                 SmartDashboard.putString(RMap.driveMode, "Right Y - Right X - Left X");
-                ckDrive.teleDriveCartesian(-ckController.getY(GenericHID.Hand.kRight), ckController.getX(GenericHID.Hand.kRight), ckController.getX(GenericHID.Hand.kLeft));
+                ckDrive.teleDriveCartesian(-ckController1.getY(GenericHID.Hand.kLeft), ckController1.getX(GenericHID.Hand.kRight), ckController1.getX(GenericHID.Hand.kLeft));
                 break;
             case 1:
                 SmartDashboard.putString(RMap.driveMode, "Right Y - Left X - Right X");
-                ckDrive.teleDriveCartesian(-ckController.getY(GenericHID.Hand.kRight), ckController.getX(GenericHID.Hand.kLeft), ckController.getX(GenericHID.Hand.kRight));
+                ckDrive.teleDriveCartesian(-ckController1.getY(GenericHID.Hand.kRight), ckController1.getX(GenericHID.Hand.kLeft), ckController1.getX(GenericHID.Hand.kRight));
                 break;
             default:
                 System.out.println("ERROR - No more drive modes");
 
         }
-        if (ckController.getBackButtonPressed()) {//Switches between drive moves
+        if (ckController1.getBackButtonPressed()) {//Switches between drive moves
             driveRobot++;
             if (driveRobot >= 2) {
                 driveRobot = 0;

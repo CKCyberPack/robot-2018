@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class AutoDriveBackwardsStop extends CommandGroup {
     public AutoDriveBackwardsStop() {
-        addSequential(new DriveBackwardsCommand(3));
+        //addSequential
+        addSequential(new AutoWaitCommand(10000));//TODO
+        addSequential(new DriveBackwardsCommand(3000));
     }
 }
