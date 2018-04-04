@@ -23,6 +23,7 @@ public class Robot extends IterativeRobot {
         SWITCH,
         TURNLEFT,
         TURNRIGHT,
+        STRAFEMID,
     }
 
     //Auto variables
@@ -72,6 +73,7 @@ public class Robot extends IterativeRobot {
         autoChooser.addObject("Switch or Forward", Auto.SWITCH);
         autoChooser.addObject("SWITCH RIGHT", Auto.TURNRIGHT);//on right
         autoChooser.addObject("SWITCH LEFT", Auto.TURNLEFT);//on left
+        autoChooser.addObject("STRAFE RIGHT", Auto.STRAFEMID);
         autoChooser.addObject("Do Nothing", Auto.NOTHING);
 
         SmartDashboard.putData("Auto Mode", autoChooser);
@@ -106,34 +108,41 @@ public class Robot extends IterativeRobot {
             case SWITCH:
                 if (autoSide == Position.LEFT && gameData.charAt(0) == 'L') {
                     new AutoDriveSwitch().start();
-                    System.out.println("LEFT SIDE AND THE GAMEDATA IS LEFT, SHOULD BE SHOOTING");
+                    //System.out.println("LEFT SIDE AND THE GAMEDATA IS LEFT, SHOULD BE SHOOTING");
                 } else if (autoSide == Position.RIGHT && gameData.charAt(0) == 'R') {
                     new AutoDriveSwitch().start();
-                    System.out.println("RIGHT SIDE AND THE GAMEDATA IS RIGHT, SHOULD BE SHOOTING");
+                    //System.out.println("RIGHT SIDE AND THE GAMEDATA IS RIGHT, SHOULD BE SHOOTING");
                 } else {
                     //Just drive forward then since its on the wrong side
                     new AutoDriveBackwardsStop().start();
-                    System.out.println("Rest in peace. SWITCH failed or you selected the wrong one");
+                    //System.out.println("Rest in peace. SWITCH failed or you selected the wrong one");
                 }
                 break;
             case TURNLEFT:
                 if (autoSide == Position.LEFT && gameData.charAt(0) == 'L') {
                     new AutoDriveTurnSwitchLeft().start();//TODO LEFT/RIGHT
-                    System.out.println("LEFT SIDE AND THE GAMEDATA IS LEFT, SHOULD BE TURNING AND SHOOTING");
-                }else {
+                    // System.out.println("LEFT SIDE AND THE GAMEDATA IS LEFT, SHOULD BE TURNING AND SHOOTING");
+                } else {
                     //Just drive forward then since its on the wrong side
                     new AutoDriveBackwardsStop().start();
-                    System.out.println("Rest in peace. TURNLEFT failed or you selected the wrong one");
+                    // System.out.println("Rest in peace. TURNLEFT failed or you selected the wrong one");
                 }
                 break;
             case TURNRIGHT:
-                if (autoSide == Position.RIGHT&& gameData.charAt(0) == 'R') {
+                if (autoSide == Position.RIGHT && gameData.charAt(0) == 'R') {
                     new AutoDriveTurnSwitchRight().start();//TODO LEFT/RIGHTv
-                    System.out.println("RIGHT SIDE AND THE GAMEDATA IS RIGHT, SHOULD BE TURNING AND SHOOTING");
-                }else {
+                    //System.out.println("RIGHT SIDE AND THE GAMEDATA IS RIGHT, SHOULD BE TURNING AND SHOOTING");
+                } else {
                     //Just drive forward then since its on the wrong side
                     new AutoDriveBackwardsStop().start();
-                    System.out.println("Rest in peace. TURNRIGHT failed or you selected the wrong one");
+                    // System.out.println("Rest in peace. TURNRIGHT failed or you selected the wrong one");
+                }
+                break;
+            case STRAFEMID:
+                if (autoSide == Position.MIDDLE && gameData.charAt(0) == 'L') {
+                    new AutoDriveStrafeLeft().start();
+                } else if (autoSide == Position.MIDDLE && gameData.charAt(0) == 'R') {
+                    new AutoDriveStrafeRight().start();
                 }
                 break;
         }
@@ -178,25 +187,24 @@ public class Robot extends IterativeRobot {
             }
         }
 
-        //Loading Position
+        //Loading Position(180 Degrees)
         if (ckController2.getBButtonPressed()) {
             new AngleSetCommand(RMap.intakeAngle).start();
         }
 
-        //Free Arms
+        //Free Arms/Wobbly Arms
         if (ckController2.getYButtonPressed()) {
             new AngleStopCommand().start();
         }
-        //HOME
-        //This better work or I am going to break the computer
-        if (ckController2.getBackButtonPressed()){
+        //Send the arms back to the HOME positon
+        if (ckController2.getBackButtonPressed()) {
             new AngleSetCommand(RMap.intakeReset).start();
         }
 
         //Reset Encoder
         if (ckController2.getStartButtonPressed()) {
-          //  InArm.getInstance().resetAngle();
-          new PortalCommandGroup().start();
+            //  InArm.getInstance().resetAngle();
+            new PortalCommandGroup().start();
         }
 
         /////////////////

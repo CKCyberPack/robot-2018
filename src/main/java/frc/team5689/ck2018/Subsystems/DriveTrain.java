@@ -84,6 +84,12 @@ public class DriveTrain extends Subsystem {
     public void autoTurnLeft(double speed) { //todo
         teleDriveCartesian(0,-speed, 0);
     }
+    public void autoStrafeLeft(double speed){
+        teleDriveCartesian(0,0,-speed);
+    }
+    public void autoStrafeRight(double speed){
+        teleDriveCartesian(0,0,speed);
+    }
 
     public void stopMotor() {
         ckDrive.stopMotor();

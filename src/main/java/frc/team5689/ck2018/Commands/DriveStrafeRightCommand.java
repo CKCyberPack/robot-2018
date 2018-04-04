@@ -2,21 +2,20 @@ package frc.team5689.ck2018.Commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.team5689.ck2018.RMap;
-import frc.team5689.ck2018.Subsystems.BPiston;
 import frc.team5689.ck2018.Subsystems.DriveTrain;
 
-public class CubeFlingDownCommand extends Command {
+public class DriveStrafeRightCommand extends Command {
 
     private long timer;
-    private long totalTime;
+    private double totalTime;
     private boolean finished;
     private double maxG;
 
     @SuppressWarnings("WeakerAccess")
-    public CubeFlingDownCommand(long timeInMilSeconds) {
-        totalTime = timeInMilSeconds;
+    public DriveStrafeRightCommand(double timer) {//todo\
+        totalTime = timer;
         //List Subsystems required to run this command
-        requires(BPiston.getInstance());
+        requires(DriveTrain.getInstance());
     }
 
     /*
@@ -26,7 +25,7 @@ public class CubeFlingDownCommand extends Command {
     protected void initialize() {
         timer = System.currentTimeMillis();
        // DriveTrain.getInstance().resetGyro();
-       // maxG = 0;
+        //maxG = 0;
         finished = false;
     }
 
@@ -34,7 +33,7 @@ public class CubeFlingDownCommand extends Command {
      * This method is called periodically (about every 20ms)
      */
     protected void execute() {
-        BPiston.getInstance().setPosition(BPiston.Position.High);
+        DriveTrain.getInstance().autoStrafeRight(RMap.autoStraightSpeed);
 
         if (System.currentTimeMillis() - timer >= totalTime) {
             finished = true;
