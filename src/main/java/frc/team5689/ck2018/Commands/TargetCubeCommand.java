@@ -2,20 +2,21 @@ package frc.team5689.ck2018.Commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.team5689.ck2018.RMap;
-import frc.team5689.ck2018.Subsystems.DriveTrain;
+import frc.team5689.ck2018.Subsystems.BPiston;
+import frc.team5689.ck2018.Subsystems.InArm;
 
-public class DriveBackwardsCommand extends Command {
+import static frc.team5689.ck2018.Subsystems.BPiston.Position.High;
+import static frc.team5689.ck2018.Subsystems.BPiston.Position.HighFLING;
+
+public class TargetCubeCommand extends Command {
 
     private long timer;
-    private long totalTime;
     private boolean finished;
-    private double maxG;
 
-    @SuppressWarnings("WeakerAccess")
-    public DriveBackwardsCommand(long timeInMilSeconds) {
-        totalTime = timeInMilSeconds;
+    public TargetCubeCommand() {
         //List Subsystems required to run this command
-        requires(DriveTrain.getInstance());
+        requires(BPiston.getInstance());
+        requires(InArm.getInstance());
     }
 
     /*
@@ -24,22 +25,18 @@ public class DriveBackwardsCommand extends Command {
      */
     protected void initialize() {
         timer = System.currentTimeMillis();
-        DriveTrain.getInstance().resetGyro();
-        maxG = 0;
-        finished = false;
+        finished = BPiston.getInstance().getCurrentPos() == High;
     }
 
     /*
      * This method is called periodically (about every 20ms)
      */
     protected void execute() {
-        DriveTrain.getInstance().driveStraight(-RMap.autoStraightSpeed);
+        BPiston.getInstance().setPosition(High);
 
-        if (DriveTrain.getInstance().getAcceleration() > maxG) {
-            maxG = DriveTrain.getInstance().getAcceleration();
-        }
+        InArm.getInstance().setAngle(RMap.getIntakeAngleStopFling);
 
-        if (System.currentTimeMillis() - timer >= totalTime) {
+        if (System.currentTimeMillis() - timer >= RMap.timerAim) {
             finished = true;
         }
     }
@@ -48,16 +45,13 @@ public class DriveBackwardsCommand extends Command {
      * Make this return true when this Command no longer needs to run execute()
      */
     protected boolean isFinished() {
-        //Return if maxG or time has finished
-        return (maxG > RMap.maxCollisionG || finished);
+        return finished;
     }
 
     /*
      * Called once after isFinished returns true
      */
-    protected void end() {
-        DriveTrain.getInstance().stopMotor();
-    }
+    protected void end() { }
 
     /* Called when another command which requires one or more of the same
      * subsystems is scheduled to run

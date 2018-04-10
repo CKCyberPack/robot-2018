@@ -2,20 +2,21 @@ package frc.team5689.ck2018.Commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.team5689.ck2018.RMap;
-import frc.team5689.ck2018.Subsystems.DriveTrain;
+import frc.team5689.ck2018.Subsystems.BMotor;
+import frc.team5689.ck2018.Subsystems.BPiston;
 
-public class DriveBackwardsCommand extends Command {
+public class ChrisPreShootSpeedCommand extends Command {
 
     private long timer;
-    private long totalTime;
     private boolean finished;
-    private double maxG;
+
+    private BPiston.Position curPosition;
+    private double maxSpeed;
 
     @SuppressWarnings("WeakerAccess")
-    public DriveBackwardsCommand(long timeInMilSeconds) {
-        totalTime = timeInMilSeconds;
+    public ChrisPreShootSpeedCommand() {
         //List Subsystems required to run this command
-        requires(DriveTrain.getInstance());
+        requires(BMotor.getInstance());
     }
 
     /*
@@ -24,8 +25,7 @@ public class DriveBackwardsCommand extends Command {
      */
     protected void initialize() {
         timer = System.currentTimeMillis();
-        DriveTrain.getInstance().resetGyro();
-        maxG = 0;
+        curPosition = BPiston.getInstance().getCurrentPos();
         finished = false;
     }
 
@@ -33,13 +33,17 @@ public class DriveBackwardsCommand extends Command {
      * This method is called periodically (about every 20ms)
      */
     protected void execute() {
-        DriveTrain.getInstance().driveStraight(-RMap.autoStraightSpeed);
-
-        if (DriveTrain.getInstance().getAcceleration() > maxG) {
-            maxG = DriveTrain.getInstance().getAcceleration();
+        switch (curPosition) {
+            case High:
+              //  maxSpeed = RMap.shootSpeedHigh;
+                maxSpeed = RMap.chrisShootSpeed;
+                break;
+            default:
+                System.out.println("ERROR - Invalid Shooter Position");
         }
+        BMotor.getInstance().setSpeed(maxSpeed);
 
-        if (System.currentTimeMillis() - timer >= totalTime) {
+        if (System.currentTimeMillis() - timer >= RMap.timerPreShoot) {
             finished = true;
         }
     }
@@ -48,21 +52,20 @@ public class DriveBackwardsCommand extends Command {
      * Make this return true when this Command no longer needs to run execute()
      */
     protected boolean isFinished() {
-        //Return if maxG or time has finished
-        return (maxG > RMap.maxCollisionG || finished);
+        return finished;
     }
 
     /*
      * Called once after isFinished returns true
      */
     protected void end() {
-        DriveTrain.getInstance().stopMotor();
+        //Let Motor Keep Running
     }
 
     /* Called when another command which requires one or more of the same
      * subsystems is scheduled to run
      */
     protected void interrupted() {
-        end();
+        BMotor.getInstance().stopMotor();
     }
 }

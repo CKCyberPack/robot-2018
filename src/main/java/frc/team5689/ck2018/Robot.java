@@ -73,7 +73,7 @@ public class Robot extends IterativeRobot {
         autoChooser.addObject("Switch or Forward", Auto.SWITCH);
         autoChooser.addObject("SWITCH RIGHT", Auto.TURNRIGHT);//on right
         autoChooser.addObject("SWITCH LEFT", Auto.TURNLEFT);//on left
-        autoChooser.addObject("STRAFE RIGHT", Auto.STRAFEMID);
+        autoChooser.addObject("STRAFE", Auto.STRAFEMID);
         autoChooser.addObject("Do Nothing", Auto.NOTHING);
 
         SmartDashboard.putData("Auto Mode", autoChooser);
@@ -232,7 +232,9 @@ public class Robot extends IterativeRobot {
         if (ckController2.getBumperPressed(GenericHID.Hand.kRight)) {
             new ShootCommandGroup().start();
         }
-
+        if (ckController1.getYButtonPressed()) {
+            new ChrisShootCommandGroup().start();
+        }
         ////////////
         // Intake //
         ////////////

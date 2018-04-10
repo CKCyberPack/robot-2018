@@ -4,10 +4,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.team5689.ck2018.Commands.NullCommand;
-import frc.team5689.ck2018.Commands.TargetFlatCommand;
-import frc.team5689.ck2018.Commands.TargetHighCommand;
-import frc.team5689.ck2018.Commands.TargetLowCommand;
+import frc.team5689.ck2018.Commands.*;
 import frc.team5689.ck2018.RMap;
 
 public class BPiston extends Subsystem {
@@ -23,7 +20,8 @@ public class BPiston extends Subsystem {
     public enum Position {
         Flat,
         Low,
-        High
+        High,
+        HighFLING
     }
 
     //----- Make Singleton -----
@@ -83,6 +81,11 @@ public class BPiston extends Subsystem {
                 highPiston.set(RMap.UP);
                 SmartDashboard.putString(RMap.shootPosition, "High");
                 break;
+            case HighFLING:
+                lowPiston.set(RMap.UP);
+                highPiston.set(RMap.UP);
+                SmartDashboard.putString(RMap.shootPosition, "High");
+                break;
         }
         currentPos = pos;
     }
@@ -95,6 +98,8 @@ public class BPiston extends Subsystem {
                 return new TargetHighCommand();
             case High:
                 return new TargetHighCommand();
+            case HighFLING:
+                return new TargetCubeCommand();
             default:
                 return new NullCommand();
         }

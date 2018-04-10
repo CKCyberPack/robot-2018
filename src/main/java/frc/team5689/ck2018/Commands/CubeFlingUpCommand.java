@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.team5689.ck2018.RMap;
 import frc.team5689.ck2018.Subsystems.BPiston;
 import frc.team5689.ck2018.Subsystems.DriveTrain;
+import frc.team5689.ck2018.Subsystems.InArm;
 
 public class CubeFlingUpCommand extends Command {
 
@@ -34,8 +35,8 @@ public class CubeFlingUpCommand extends Command {
      * This method is called periodically (about every 20ms)
      */
     protected void execute() {
-        BPiston.getInstance().setPosition(BPiston.Position.High);
-
+        BPiston.getInstance().setPosition(BPiston.Position.HighFLING);
+        InArm.getInstance().setAngle(RMap.getIntakeAngleStopFling);
         if (System.currentTimeMillis() - timer >= totalTime) {
             finished = true;
         }
