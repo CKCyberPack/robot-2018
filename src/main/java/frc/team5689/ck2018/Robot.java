@@ -139,38 +139,39 @@ public class Robot extends IterativeRobot {
 
         //"Player 2" - Shooting, loading and more.
         //Close Arms (Hold)
-        if (ckController2.getAButtonPressed()) {
+        if (ckController1.getAButtonPressed()) {
             increaseAngle = new AngleIncreaseCommand();
             increaseAngle.start();
-        } else if (ckController2.getAButtonReleased()) {
+        } else if (ckController1.getAButtonReleased()) {
             if (increaseAngle != null) {
                 increaseAngle.cancel();
             }
         }
 
         //Open Arms (Hold)
-        if (ckController2.getXButtonPressed()) {
-            decreaseAngle = new AngleDecreaseCommand();
-            decreaseAngle.start();
-        } else if (ckController2.getXButtonReleased()) {
+        if (ckController1.getXButtonPressed()) {
+           decreaseAngle = new AngleDecreaseCommand();
+           decreaseAngle.start();
+        } else if (ckController1.getXButtonReleased()) {
             if (decreaseAngle != null) {
                 decreaseAngle.cancel();
             }
         }
 
         //Loading Position
-        if (ckController2.getBButtonPressed()) {
-            new AngleSetCommand(RMap.intakeAngle).start();
+        if (ckController1.getBButtonPressed()) {
+           new AngleSetCommand(RMap.intakeAngle).start();
         }
 
         //Free Arms
-        if (ckController2.getYButtonPressed()) {
-            new AngleStopCommand().start();
+        if (ckController1.getYButtonPressed()) {
+          new AngleStopCommand().start();
         }
 
         //Reset Encoder
-        if (ckController2.getStartButtonPressed()) {
-            InArm.getInstance().resetAngle();
+        if (ckController1.getStartButtonPressed()) {
+            InArm.getInstance().setAngle(200);
+            //InArm.getInstance().resetAngle();
         }
 
         /////////////////
@@ -178,16 +179,16 @@ public class Robot extends IterativeRobot {
         /////////////////
 
         //Left Bumper Aim UP
-        if (ckController2.getBumperPressed(GenericHID.Hand.kLeft)) {
+        if (ckController1.getBumperPressed(GenericHID.Hand.kLeft)) {
             BPiston.getInstance().nextPostion().start();
         }
 
         //Left Trigger Aim Down
-        if (ckController2.getTriggerAxis(GenericHID.Hand.kLeft) >= 0.5 && shooterReleased) {
+        if (ckController1.getTriggerAxis(GenericHID.Hand.kLeft) >= 0.5 && shooterReleased) {
             shooterReleased = false;
             BPiston.getInstance().prevPostion().start();
         }
-        if (ckController2.getTriggerAxis(GenericHID.Hand.kLeft) < 0.5) {
+        if (ckController1.getTriggerAxis(GenericHID.Hand.kLeft) < 0.5) {
             //Release the shooter variable
             shooterReleased = true;
         }
@@ -195,14 +196,14 @@ public class Robot extends IterativeRobot {
         ///////////////////
         // Shoot Shooter //
         ///////////////////
-        if (ckController2.getBumperPressed(GenericHID.Hand.kRight)) {
+        if (ckController1.getBumperPressed(GenericHID.Hand.kRight)) {
             new ShootCommandGroup().start();
         }
 
         ////////////
         // Intake //
         ////////////
-        InMotor.getInstance().setspeed(ckController2.getTriggerAxis(GenericHID.Hand.kRight));
+        InMotor.getInstance().setspeed(ckController1.getTriggerAxis(GenericHID.Hand.kRight));
 
         /////////////////
         // Drive Modes //
