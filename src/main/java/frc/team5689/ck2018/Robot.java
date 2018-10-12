@@ -67,9 +67,18 @@ public class Robot extends IterativeRobot {
         sideChooser.addObject("Right", Position.RIGHT);
         SmartDashboard.putData("Auto Side", sideChooser);
 
-        //Auto Mode
+
+        /*Auto Mode Descriptions
+        Drive Forward - Only drives forward and does not release the cube
+        Switch or Forward - If the robot is placed on the correct side of the switch, it will release the cube, if not then it only drives forward
+        SWITCH RIGHT - If the switch is on the right, the robot will drive forward and turn to the left to deploy cube
+        SWITCH LEFT - If the switch is on the left, the robot will drive forward and turn to the right to deploy cube
+        STRAFE - The robot starts in the middle, and will strafe either left or right depending on the side of the switch to deploy the cube
+         */
+
+        //Auto Mode Chooosers
         autoChooser = new SendableChooser<>();
-        autoChooser.addDefault("Drive Forward", Auto.FORWARD);
+        autoChooser.addDefault("Drive Forward", Auto.FORWARD);//Only drives forward
         autoChooser.addObject("Switch or Forward", Auto.SWITCH);
         autoChooser.addObject("SWITCH RIGHT", Auto.TURNRIGHT);//on right
         autoChooser.addObject("SWITCH LEFT", Auto.TURNLEFT);//on left
@@ -108,34 +117,34 @@ public class Robot extends IterativeRobot {
             case SWITCH:
                 if (autoSide == Position.LEFT && gameData.charAt(0) == 'L') {
                     new AutoDriveSwitch().start();
-                    //System.out.println("LEFT SIDE AND THE GAMEDATA IS LEFT, SHOULD BE SHOOTING");
+                    //System.out.println("LEFT SIDE AND THE GAMEDATA IS LEFT, SHOULD BE SHOOTING");//Outputs what the robot SHOULD be doing
                 } else if (autoSide == Position.RIGHT && gameData.charAt(0) == 'R') {
                     new AutoDriveSwitch().start();
-                    //System.out.println("RIGHT SIDE AND THE GAMEDATA IS RIGHT, SHOULD BE SHOOTING");
+                    //System.out.println("RIGHT SIDE AND THE GAMEDATA IS RIGHT, SHOULD BE SHOOTING");//Outputs what the robot SHOULD be doing
                 } else {
                     //Just drive forward then since its on the wrong side
                     new AutoDriveBackwardsStop().start();
-                    //System.out.println("Rest in peace. SWITCH failed or you selected the wrong one");
+                    //System.out.println("SWITCH failed or you selected the wrong one");//Console output when the command fails
                 }
                 break;
             case TURNLEFT:
                 if (autoSide == Position.LEFT && gameData.charAt(0) == 'L') {
                     new AutoDriveTurnSwitchLeft().start();//TODO LEFT/RIGHT
-                    // System.out.println("LEFT SIDE AND THE GAMEDATA IS LEFT, SHOULD BE TURNING AND SHOOTING");
+                    // System.out.println("LEFT SIDE AND THE GAMEDATA IS LEFT, SHOULD BE TURNING AND SHOOTING");//Outputs what the robot SHOULD be doing
                 } else {
                     //Just drive forward then since its on the wrong side
                     new AutoDriveBackwardsStop().start();
-                    // System.out.println("Rest in peace. TURNLEFT failed or you selected the wrong one");
+                    // System.out.println("TURNLEFT failed or you selected the wrong one");//Console output when the command fails
                 }
                 break;
             case TURNRIGHT:
                 if (autoSide == Position.RIGHT && gameData.charAt(0) == 'R') {
                     new AutoDriveTurnSwitchRight().start();//TODO LEFT/RIGHTv
-                    //System.out.println("RIGHT SIDE AND THE GAMEDATA IS RIGHT, SHOULD BE TURNING AND SHOOTING");
+                    //System.out.println("RIGHT SIDE AND THE GAMEDATA IS RIGHT, SHOULD BE TURNING AND SHOOTING");//Outputs what the robot SHOULD be doing
                 } else {
                     //Just drive forward then since its on the wrong side
                     new AutoDriveBackwardsStop().start();
-                    // System.out.println("Rest in peace. TURNRIGHT failed or you selected the wrong one");
+                    // System.out.println("TURNRIGHT failed or you selected the wrong one");//Console output when the command fails
                 }
                 break;
             case STRAFEMID:
@@ -157,6 +166,7 @@ public class Robot extends IterativeRobot {
     public void teleopInit() {
         SmartDashboard.putString(RMap.robotMode, "Teleop");
         Scheduler.getInstance().removeAll(); //TODO Test that this clears them
+        //This should clear them, don't think we had an issue, will consult with Brian to see if this TO-DO can be removed.
     }
 
     @Override
@@ -266,7 +276,7 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void disabledInit() {
-        SmartDashboard.putString(RMap.robotMode, "Disabled");
+        SmartDashboard.putString(RMap.robotMode, "Disabled");//Disabled State for robot
     }
 
 
@@ -276,7 +286,7 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void testInit() {
-        SmartDashboard.putString(RMap.robotMode, "Test");
+        SmartDashboard.putString(RMap.robotMode, "Test");//Testing initialization
     }
 
     @Override

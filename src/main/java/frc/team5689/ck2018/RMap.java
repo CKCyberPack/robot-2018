@@ -58,8 +58,9 @@ public class RMap {
     public static final double armPOW = 0.4;
     public static final double armKP = 10;//SmartDashboard.getNumber("kP", 0);
     public static final double armKI = 0;
-    public static final double armKD = 0.01;
+    public static final double armKD = 0.01;//TODO adjust these values to stop arm wiggling.
     public static final double armKF = 0;
+
     //Shooter Motors
     public static final double shootKP = 0.01;//SmartDashboard.getNumber("kP", 0);
     public static final double shootKI = 0.001;
