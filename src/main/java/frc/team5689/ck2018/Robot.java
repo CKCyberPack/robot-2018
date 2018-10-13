@@ -160,7 +160,7 @@ public class Robot extends IterativeRobot {
 
         //Reset Encoder
         if (ckController.getStartButtonPressed()) {
-            InArm.getInstance().resetAngle();
+         //   InArm.getInstance().resetAngle();
         }
 
         /////////////////
@@ -211,10 +211,12 @@ public class Robot extends IterativeRobot {
 
         }
         if (ckController.getBackButtonPressed()) {//Switches between drive moves
-            driveRobot++;
-            if (driveRobot >= 2) {
-                driveRobot = 0;
-            }
+
+
+//            driveRobot++;
+//            if (driveRobot >= 2) {
+//                driveRobot = 0;
+//            }
         }
     }
 
