@@ -60,6 +60,11 @@ public class DriveTrain extends Subsystem {
         return ckAccel.getY();
     }
 
+    public double getAngle() {
+        return ckGyro.getAngle();
+    }
+
+
     public void resetGyro() {
         ckGyro.reset();
     }
@@ -70,6 +75,20 @@ public class DriveTrain extends Subsystem {
 
     public void driveStraight(double speed) {
         teleDriveCartesian(speed, ckGyro.getAngle() * RMap.gyroStraightKP, 0);
+    }
+
+    public void autoTurnRight(double speed) { //todo
+        teleDriveCartesian(0,speed, 0);
+    }
+
+    public void autoTurnLeft(double speed) { //todo
+        teleDriveCartesian(0,-speed, 0);
+    }
+    public void autoStrafeLeft(double speed){
+        teleDriveCartesian(0,0,-speed);
+    }
+    public void autoStrafeRight(double speed){
+        teleDriveCartesian(0,0,speed);
     }
 
     public void stopMotor() {
