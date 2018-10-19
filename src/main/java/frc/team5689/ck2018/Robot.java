@@ -233,11 +233,16 @@ public class Robot extends IterativeRobot {
     @Override
     public void testInit() {
         SmartDashboard.putString(RMap.robotMode, "Test");
+        Scheduler.getInstance().removeAll(); //TODO Test that this clears them
     }
 
     @Override
     public void testPeriodic() {
-        //Scheduler.getInstance().run(); //Scheduler won't run in test
+
+
+
+        //Run Teleop Periodic?
+        teleopPeriodic();
     }
 
 }
