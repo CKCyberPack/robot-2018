@@ -57,9 +57,9 @@ public class RMap {
     //-------------//
     //Intake Arm Angle
     public static final double armPOW = 0.4;
-    public static final double armKP = 10;//SmartDashboard.getNumber("kP", 0);
+    public static final double armKP = 3;//SmartDashboard.getNumber("kP", 0);
     public static final double armKI = 0;
-    public static final double armKD = 0.01;//TODO adjust these values to stop arm wiggling.
+    public static final double armKD = 0;//TODO adjust these values to stop arm wiggling.
     public static final double armKF = 0;
 
     //Shooter Motors
@@ -79,9 +79,9 @@ public class RMap {
     public static final double gyroTurnSpeed = 0.2;
     //Intake angles
     public static final int intakeAngle = 2000;
-    public static final int intakeAngleStop = 2700;
+    public static final int intakeAngleStop = 2500;
     public static final int getIntakeAngleStopFling = 300;
-    public static final int intakeAngleMax = 3000;
+    public static final int intakeAngleMax = 2900;
     public static final int intakeAngleSpeed = 30;
     public static final int intakeReset = 200;
     //Intake speeds

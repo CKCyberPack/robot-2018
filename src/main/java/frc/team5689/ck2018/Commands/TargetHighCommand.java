@@ -34,7 +34,7 @@ public class TargetHighCommand extends Command {
     protected void execute() {
         BPiston.getInstance().setPosition(High);
 
-        InArm.getInstance().setAngle(RMap.intakeAngleStop);
+        InArm.getInstance().setAngle(RMap.intakeAngle);
 
         if (System.currentTimeMillis() - timer >= RMap.timerAim) {
             finished = true;
